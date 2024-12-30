@@ -11,6 +11,9 @@ class User < ApplicationRecord
 
   before_save :downcase_username
 
+  def to_param
+    username
+  end
   private
 
   def downcase_username
