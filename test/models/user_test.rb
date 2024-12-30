@@ -18,7 +18,14 @@ class UserTest < ActiveSupport::TestCase
   test "should be invalid with a duplicate username" do
     duplicate_user = @user.dup
     duplicate_user.email = "other@example.com"
-    @user.save
+    duplicate_user.save
+    assert_not duplicate_user.valid?
+  end
+
+  test "should be invalid with a duplicate email" do
+    duplicate_user = @user.dup
+    duplicate_user.username = "@other"
+    duplicate_user.save
     assert_not duplicate_user.valid?
   end
 
