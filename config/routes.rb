@@ -16,4 +16,7 @@ Rails.application.routes.draw do
 
   # Custom routes for users
   resources :users, param: :username, only: %i[show edit update]
+
+  # Letter opener for development
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

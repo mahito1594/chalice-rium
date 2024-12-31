@@ -45,6 +45,9 @@ gem "thruster", require: false
 # Use devise for user authentication
 gem "devise", "~> 4.9", ">= 4.9.4"
 
+# Send emails via resend.com
+gem "resend", "~> 0.16.0"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -62,6 +65,9 @@ group :development do
 
   # Pretty printed test output
   gem "minitest-reporters", "~> 1.7", ">= 1.7.1"
+
+  # Interface for browsing sent emails
+  gem "letter_opener_web", "~> 3.0"
 end
 
 group :test do

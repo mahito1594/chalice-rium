@@ -1,6 +1,10 @@
 require "test_helper"
 
 class SignUpTest < ActionDispatch::IntegrationTest
+  def setup
+    ActionMailer::Base.deliveries.clear
+  end
+
   test "user can sign up with valid information" do
     get new_user_registration_path
     assert_response :success
@@ -13,6 +17,7 @@ class SignUpTest < ActionDispatch::IntegrationTest
                                                      password_confirmation: "password" } }
     end
 
+    assert_equal 1, ActionMailer::Base.deliveries.size
     follow_redirect!
     assert_response :success
   end
@@ -29,6 +34,7 @@ class SignUpTest < ActionDispatch::IntegrationTest
                                                      password_confirmation: "short" } }
     end
 
+    assert_equal 0, ActionMailer::Base.deliveries.size
     assert_response :unprocessable_entity
   end
 end
