@@ -46,7 +46,7 @@ gem "thruster", require: false
 gem "devise", "~> 4.9", ">= 4.9.4"
 
 # Send emails via resend.com
-gem "resend", "~> 0.16.0"
+gem "resend", "~> 0.17.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
