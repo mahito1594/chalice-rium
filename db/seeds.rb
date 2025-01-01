@@ -1,4 +1,9 @@
-# Example users
+# Crate Rites at first
+Rite.names.each do |name, _value|
+  Rite.create!(name: name)
+end
+
+# Create example users
 User.create!(username: "@willem",
              display_name: "Master Willem",
              email: "willem@example.com",
@@ -13,7 +18,40 @@ User.create!(username: "@laurence",
              password_confirmation: "foobar",
              confirmed_at: Time.new(2015, 3, 26))
 
-# Rites
-Rite.names.each do |name, _value|
-  Rite.create!(name: name)
+# Samples for bosses
+BOSS_NAMES = [
+  'Watchdog of the Old Lords',
+  'Keeper of the Old Lords',
+  'Pthumerian Elder',
+  'Pthumerian Descendant',
+  'Bloodletting Beast',
+  'Abhorrent Beast',
+  'Celestial Emissary',
+  'Ebrietas',
+  'Merciless Watchers'
+]
+
+# Create sample chalices
+User.all.each do |user|
+  3.times do
+    layer_count = rand(3..4)
+    layers_attributes = []
+    layer_count.times do |i|
+      layers_attributes << { level: i + 1, boss_name: BOSS_NAMES.sample }
+    end
+
+    dungeon = user.dungeons.create!(glyph: SecureRandom.alphanumeric(8).downcase,
+                                    area: Dungeon.areas.keys.sample,
+                                    depth: 5,
+                                    is_open: [ true, false ].sample,
+                                    comment: [
+                                      "",
+                                      "May the good blood guide your way.",
+                                      "Fear the old blood.",
+                                      "Seek the paleblood." ].sample,
+                                    layers_attributes: layers_attributes)
+
+    selected_rites = Rite.all.filter { |x| x.name != "sinister" }
+    dungeon.rites << selected_rites
+  end
 end

@@ -39,7 +39,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_114152) do
 
   create_table "layers", force: :cascade do |t|
     t.bigint "dungeon_id", null: false
-    t.integer "level"
+    t.integer "level", null: false
     t.string "boss_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
