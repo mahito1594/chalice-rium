@@ -17,7 +17,8 @@
       <div class="mt-4">
         <div class="flex items-center justify-between">
           <%= f.label :password, class: "block text-sm text-gray-800 dark:text-gray-200" %>
-          <%= link_to "Forgot password?", "#", class: "text-xs text-gray-600 dark:text-gray-400 hover:underline" %>
+          <%= link_to("Forgot password?", new_user_password_path,
+                      class: "text-xs text-gray-600 dark:text-gray-400 hover:underline") %>
         </div>
         <%= f.password_field(:password, autofocus: true,
                              class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40",
