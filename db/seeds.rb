@@ -12,3 +12,8 @@ User.create!(username: "@laurence",
              password: "foobar",
              password_confirmation: "foobar",
              confirmed_at: Time.new(2015, 3, 26))
+
+# Rites
+Rite.names.each do |name, _value|
+  Rite.create!(name: name)
+end

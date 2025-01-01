@@ -10,9 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_31_113035) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_01_114152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "dungeon_rites", force: :cascade do |t|
+    t.bigint "dungeon_id", null: false
+    t.bigint "rite_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dungeon_id", "rite_id"], name: "index_dungeon_rites_on_dungeon_id_and_rite_id", unique: true
+    t.index ["dungeon_id"], name: "index_dungeon_rites_on_dungeon_id"
+    t.index ["rite_id"], name: "index_dungeon_rites_on_rite_id"
+  end
+
+  create_table "dungeons", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "glyph", limit: 8, null: false
+    t.integer "depth", null: false
+    t.integer "area", null: false
+    t.boolean "is_open"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["glyph"], name: "index_dungeons_on_glyph", unique: true
+    t.index ["user_id"], name: "index_dungeons_on_user_id"
+  end
+
+  create_table "layers", force: :cascade do |t|
+    t.bigint "dungeon_id", null: false
+    t.integer "level"
+    t.string "boss_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dungeon_id", "level"], name: "index_layers_on_dungeon_id_and_level", unique: true
+    t.index ["dungeon_id"], name: "index_layers_on_dungeon_id"
+  end
+
+  create_table "rites", force: :cascade do |t|
+    t.integer "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -33,4 +72,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_113035) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
+
+  add_foreign_key "dungeon_rites", "dungeons"
+  add_foreign_key "dungeon_rites", "rites"
+  add_foreign_key "dungeons", "users"
+  add_foreign_key "layers", "dungeons"
 end

@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
+  has_many :dungeons, dependent: :destroy
+
   validates :username, presence: true, uniqueness: { case_sensitive: false },
             format: { with: /\A@[a-zA-Z0-9_]+\z/, message: "は@から始まる半角英数字とアンダースコアのみ使用できます" },
             length: { minimum: 3, maximum: 32 }
