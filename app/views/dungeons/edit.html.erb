@@ -1,0 +1,78 @@
+<% provide(:title, "Edit dungeon") %>
+<div class="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
+  <h3 class="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
+    Edit dungeon
+  </h3>
+
+  <%= form_with(model: @dungeon, url: dungeon_path(@dungeon), method: :put, class: "mt-6") do |f| %>
+    <%= render "dungeons/error_messages" %>
+    <%# glyph %>
+    <div>
+      <%= f.label :glyph, class: "block text-sm text-gray-800 dark:text-gray-200" %>
+      <div class="block w-full px-4 py-2 mt-2 text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-400">
+        <%= @dungeon.glyph %>
+      </div>
+    </div>
+
+    <%# area %>
+    <div class="mt-4">
+      <%= f.label :area, class: "block text-sm text-gray-800 dark:text-gray-200" %>
+      <div class="block w-full px-4 py-2 mt-2 text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-400">
+        <%= @dungeon.area.titleize %>
+      </div>
+    </div>
+
+    <%# depth %>
+    <div class="mt-4">
+      <%= f.label :depth, class: "block text-sm text-gray-800 dark:text-gray-200" %>
+      <div class="block w-full px-4 py-2 mt-2 text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-400">
+        <%= @dungeon.depth %>
+      </div>
+    </div>
+
+    <%# additional rites %>
+    <fieldset class="mt-4">
+      <p class="block text-sm text-gray-800 dark:text-gray-200">Additional Rites</p>
+      <div class="flex flex-row">
+        <%= f.collection_checkboxes :rite_ids, @rites, :id, :name,
+                                    { checked: @dungeon.rite_ids } do |b| %>
+          <div class="basis-1/4">
+            <%= b.checkbox(class: "size-4 border rounded bg-gray-100 dark:bg-gray-700 dark:border-gray-600 cursor-not-allowed",
+                           disabled: true) %>
+            <%= b.label(class: "text-sm text-gray-500 dark:text-gray-400") %>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+
+    <%# layers %>
+    <%= f.fields_for :layers do |layer_form| %>
+      <div class="mt-4">
+        <%= layer_form.hidden_field :level %>
+        <%= layer_form.label :boss_name,
+                             "#{layer_form.object.level}-th Floor's Boss",
+                             class: "block text-sm text-gray-800 dark:text-gray-200" %>
+        <%= layer_form.text_field(:boss_name, autofocus: true,
+                                  class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40",) %>
+      </div>
+    <% end %>
+
+    <%# is_open %>
+    <div class="mt-4">
+      <%= f.check_box :is_open, checked: true, disabled: true, class: "size-4 border rounded bg-white dark:bg-gray-800 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" %>
+      <%= f.label :is_open, class: "text-sm text-gray-500 dark:text-gray-400" %>
+    </div>
+
+    <%# comment %>
+    <div class="mt-4">
+      <%= f.label :comment, class: "block text-sm text-gray-800 dark:text-gray-200" %>
+      <%= f.text_area(:comment, autofocus: true,
+                      class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40",) %>
+    </div>
+
+    <div class="mt-6">
+      <%= f.submit("Update",
+                   class: "w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50") %>
+    </div>
+  <% end %>
+</div>

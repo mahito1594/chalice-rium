@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+9kv8xiyi_1st:
+  dungeon: 9kv8xiyi
+  level: 1
+  boss_name: Merciless Watchers
+
+9kv8xiyi_2nd:
+  dungeon: 9kv8xiyi
+  level: 2
+  boss_name: Blood-Possessed Beast
+
+9kv8xiyi_3rd:
+  dungeon: 9kv8xiyi
+  level: 3
+  boss_name: Bloodletting Beast
+
+2r8ghidm_1st:
+  dungeon: 2r8ghidm
+  level: 1
+
+2r8ghidm_2nd:
+  dungeon: 2r8ghidm
+  level: 2
+
+2r8ghidm_3rd:
+  dungeon: 2r8ghidm
+  level: 3
