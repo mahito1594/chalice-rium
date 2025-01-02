@@ -2,5 +2,6 @@ class Layer < ApplicationRecord
   belongs_to :dungeon
 
   validates :level, presence: true,
-            numericality: { only_integer: true, greater_than: 0, less_than: 5 }
+            uniqueness: { scope: :dungeon_id },
+            inclusion: { in: 1..4 }
 end
