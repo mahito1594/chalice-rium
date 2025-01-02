@@ -49,8 +49,8 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test "should be invalid with a display_name longer than 32 characters" do
-    @user.display_name = "a" * 33
+  test "should be invalid with a display_name longer than 64 characters" do
+    @user.display_name = "a" * 65
     assert_not @user.valid?
   end
 

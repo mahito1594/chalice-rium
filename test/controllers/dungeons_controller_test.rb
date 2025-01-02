@@ -85,7 +85,7 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy dungeon" do
     delete dungeon_path(@dungeon)
-    assert_response :unprocessable_entity
+    assert_redirected_to new_user_session_path
 
     sign_in @other_user
     delete dungeon_path(@dungeon)
