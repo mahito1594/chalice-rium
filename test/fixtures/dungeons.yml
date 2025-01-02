@@ -1,8 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 9kv8xiyi:
   user: willem
   glyph: 9kv8xiyi
   depth: 5
   area: 0 # pthumeru
+  is_open: true
+
+2r8ghidm:
+  user: laurence
+  glyph: 2r8ghidm
+  depth: 3
+  area: 4 # hintertomb
   is_open: true

@@ -1,1 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+9kv8kiyi_fetid:
+  dungeon: 9kv8xiyi
+  rite: fetid
+
+9kv8kiyi_rotted:
+  dungeon: 9kv8xiyi
+  rite: rotted
+
+9kv8kiyi_cursed:
+  dungeon: 9kv8xiyi
+  rite: cursed
+
+2r8ghidm_sinister:
+  dungeon: 2r8ghidm
+  rite: sinister

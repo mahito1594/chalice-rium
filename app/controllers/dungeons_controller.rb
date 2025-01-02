@@ -15,10 +15,10 @@ class DungeonsController < ApplicationController
 
   def create
     @dungeon = current_user.dungeons.build(dungeon_params)
+    # add additional rites
+    @dungeon.rites = Rite.where(id: params[:dungeon][:rite_ids])
 
     if @dungeon.save
-      # add additional rites
-      @dungeon.rites = Rite.where(id: params[:dungeon][:rite_ids])
       redirect_to @dungeon, notice: "Successfully created."
     else
       render :new, status: :unprocessable_entity

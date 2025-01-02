@@ -13,6 +13,8 @@ class Dungeon < ApplicationRecord
   validates :comment, length: { maximum: 255 }
   validates :layers, length: { minimum: 3, maximum: 4,
                                message: "must have 3 or 4 layers" }
+  validate :validate_rite_combination
+  validate :validate_area_depth_combination
 
   after_initialize :ensure_required_layers, if: :new_record?
 
@@ -51,5 +53,29 @@ class Dungeon < ApplicationRecord
 
   def ensure_forth_layer
     layers.build(level: 4) unless layers.any? { |l| l.level == 4 }
+  end
+
+  def validate_rite_combination
+    rite_names = rites&.map(&:name)
+    if rite_names&.include?("sinister") && rite_names&.size > 1
+      errors.add(:rites, "sinister rite cannot be combined with other rites")
+    end
+  end
+
+  def validate_area_depth_combination
+    case area
+    when "loran"
+      unless [ 4, 5 ].include?(depth)
+        errors.add(:depth, "Loran dungeons must be depth 4 or 5")
+      end
+    when "isz"
+      unless depth == 5
+        errors.add(:depth, "Isz dungeons must be depth 5")
+      end
+    when "hintertomb"
+      unless [ 2, 3 ].include?(depth)
+        errors.add(:depth, "Hintertomb dungeons must be depth 2 or 3")
+      end
+    end
   end
 end
