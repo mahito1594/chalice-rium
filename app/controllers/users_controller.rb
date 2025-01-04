@@ -21,7 +21,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    # TODO
+    @user.destroy
+    redirect_to root_path, status: :see_other, notice: "Account deleted."
   end
 
   private

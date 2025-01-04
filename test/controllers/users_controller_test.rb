@@ -44,4 +44,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     patch user_path(@user), params: { user: { display_name: "Provost Willem" } }
     assert_redirected_to root_path
   end
+
+  test "should destroy user self" do
+    delete user_path(@user)
+    assert_redirected_to new_user_session_path
+
+    sign_in @other_user
+    assert_no_difference "User.count" do
+      delete user_path(@user)
+    end
+    assert_redirected_to root_path
+
+    sign_in @user
+    assert_difference "User.count", -1 do
+      delete user_path(@user)
+    end
+    assert_redirected_to root_path
+  end
 end
