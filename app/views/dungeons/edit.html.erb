@@ -5,7 +5,7 @@
   </h3>
 
   <%= form_with(model: @dungeon, url: dungeon_path(@dungeon), method: :put, class: "mt-6") do |f| %>
-    <%= render "dungeons/error_messages" %>
+    <%= render "shared/error_messages", resource: @dungeon %>
     <%# glyph %>
     <div>
       <%= f.label :glyph, class: "block text-sm text-gray-800 dark:text-gray-200" %>
