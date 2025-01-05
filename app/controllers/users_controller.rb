@@ -25,6 +25,12 @@ class UsersController < ApplicationController
     redirect_to root_path, status: :see_other, notice: "Account deleted."
   end
 
+  def dungeons
+    @user = User.find_by!(username: params[:username])
+    @dungeons = @user.dungeons.includes(:layers, :rites)
+    render :dungeons
+  end
+
   private
 
   def update_user_params
