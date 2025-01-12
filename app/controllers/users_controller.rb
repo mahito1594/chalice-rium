@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by!(username: params[:username])
-    @dungeons = @user.dungeons.includes(:layers, :rites)
+    @dungeons = @user.dungeons.includes(:rites)
   end
 
   def edit; end
