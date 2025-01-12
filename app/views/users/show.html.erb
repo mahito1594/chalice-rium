@@ -1,9 +1,9 @@
 <% provide(:title, @user.username) %>
 <div class="w-full max-w-7xl p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
   <%# 2 columns when width >= md %>
-  <div class="flex flex-col md:flex-row md:gap-4">
+  <div class="flex flex-col lg:flex-row lg:gap-4">
     <%# User Profile %>
-    <div class="mb-4 w-full md:w-80 md:flex-none">
+    <div class="mb-4 w-full lg:w-80 md:flex-none">
       <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-200">
         <%= @user.display_name %>
       </h3>
@@ -21,20 +21,63 @@
 
     <%# List of user's dungeons %>
     <div class="w-full md:flex-1">
-      <div class="container px-4 mx-auto min-h-80 bg-gray-50">
-        <h2 class="text-lg font-medium text-gray-800 dark:text-white">Dungeons</h2>
-        <% if @dungeons.any? %>
-          <ul>
-            <% @dungeons.each do |dungeon| %>
-              <li class="py-2">
-                <%= link_to dungeon.glyph, dungeon_path(dungeon), class: "text-blue-600 dark:text-blue-400 hover:underline" %>
-                <span class="text-gray-600 dark:text-gray-400">- <%= dungeon.area.titleize %> (Depth: <%= dungeon.depth %>)</span>
-              </li>
-            <% end %>
-          </ul>
-        <% else %>
-          <p class="text-gray-600 dark:text-gray-400">No dungeons found.</p>
-        <% end %>
+      <h2 class="text-lg font-medium text-gray-800 dark:text-white">Dungeons</h2>
+
+      <%# REFACTOR: divide into a partial %>
+      <div class="flex flex-col">
+        <div class="overflow-x-auto">
+          <div class="inline-block min-w-full py-2 align-middle">
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 rounded-md md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th scope="col" class="py-3.5 px-4 text-sm font-normal text-center text-gray-500 dark:text-gray-400">
+                    Glyph
+                  </th>
+                  <th scope="col" class="px-12 py-3.5 text-sm font-normal text-center text-gray-500 dark:text-gray-400">
+                    Area
+                  </th>
+                  <th scope="col" class="px-12 py-3.5 text-sm font-normal text-center text-gray-500 dark:text-gray-400">
+                    Depth
+                  </th>
+                  <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">
+                    Additional rites
+                  </th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                <% @dungeons.each do |dungeon| %>
+                  <tr>
+                    <td class="px-4 py-4 text-sm font-medium text-center whitespace-nowrap">
+                      <h2 class="font-medium text-gray-800 dark:text-white">
+                        <%= link_to(dungeon.glyph, dungeon, class: "hover:underline") %>
+                      </h2>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-center whitespace-nowrap">
+                      <h4 class="text-gray-700 dark:text-gray-200">
+                        <%= dungeon.area.titleize %>
+                      </h4>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-center whitespace-nowrap">
+                      <h4 class="text-gray-700 dark:text-gray-200">
+                        <%= dungeon.depth %>
+                      </h4>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-left whitespace-nowrap">
+                      <div class="flex flex-wrap gap-2">
+                        <% dungeon.rites.each do |rite| %>
+                            <span class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full dark:bg-gray-700 dark:text-gray-200">
+                              <%= rite.name %>
+                            </span>
+                        <% end %>
+                      </div>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
