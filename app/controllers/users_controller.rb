@@ -3,11 +3,8 @@ class UsersController < ApplicationController
   before_action :correct_user, only: %i[edit update destroy]
 
   def show
-    @user = User.find_by(username: params[:username])
-    if @user.nil?
-      # Todo: should return 404 not found
-      redirect_to root_path
-    end
+    @user = User.find_by!(username: params[:username])
+    @dungeons = @user.dungeons.includes(:layers, :rites)
   end
 
   def edit; end
@@ -23,12 +20,6 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     redirect_to root_path, status: :see_other, notice: "Account deleted."
-  end
-
-  def dungeons
-    @user = User.find_by!(username: params[:username])
-    @dungeons = @user.dungeons.includes(:layers, :rites)
-    render :dungeons
   end
 
   private

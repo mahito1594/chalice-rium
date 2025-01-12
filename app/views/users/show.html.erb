@@ -23,9 +23,9 @@
     <div class="w-full md:flex-1">
       <div class="container px-4 mx-auto min-h-80 bg-gray-50">
         <h2 class="text-lg font-medium text-gray-800 dark:text-white">Dungeons</h2>
-        <% if @user.dungeons.any? %>
+        <% if @dungeons.any? %>
           <ul>
-            <% @user.dungeons.each do |dungeon| %>
+            <% @dungeons.each do |dungeon| %>
               <li class="py-2">
                 <%= link_to dungeon.glyph, dungeon_path(dungeon), class: "text-blue-600 dark:text-blue-400 hover:underline" %>
                 <span class="text-gray-600 dark:text-gray-400">- <%= dungeon.area.titleize %> (Depth: <%= dungeon.depth %>)</span>
