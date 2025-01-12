@@ -15,11 +15,7 @@ Rails.application.routes.draw do
   root to: "static_pages#home"
 
   # Custom routes for users
-  resources :users, param: :username, only: %i[show edit update destroy] do
-    member do
-      get :dungeons
-    end
-  end
+  resources :users, param: :username, only: %i[show edit update destroy]
 
   # Todo: users の member として扱う
   resources :dungeons
