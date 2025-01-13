@@ -1,9 +1,9 @@
 <% provide(:title, @user.username) %>
 <div class="w-full max-w-7xl p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
   <%# 2 columns when width >= md %>
-  <div class="flex flex-col md:flex-row md:gap-4">
+  <div class="flex flex-col lg:flex-row lg:gap-4">
     <%# User Profile %>
-    <div class="mb-4 w-full md:w-80 md:flex-none">
+    <div class="mb-4 w-full lg:w-80 md:flex-none">
       <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-200">
         <%= @user.display_name %>
       </h3>
@@ -19,11 +19,21 @@
       <% end %>
     </div>
 
-    <%# mock: here we show list of his/her own dungeons %>
+    <%# List of user's dungeons %>
     <div class="w-full md:flex-1">
-      <div class="container px-4 mx-auto min-h-80 bg-gray-50">
-        <h2 class="text-lg font-medium text-gray-800 dark:text-white">Mock Table</h2>
+      <div class="mt-6 lg:mt-0 mb-4 flex items-center justify-between">
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white">Dungeons</h2>
+        <% if current_user == @user %>
+          <%= link_to("New", new_dungeon_path,
+                      class: "px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-gray-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80") %>
+        <% end %>
       </div>
+
+      <%# TODO: create the endpoint GET /users/:username/dungeons and use eager-loading %>
+      <%= turbo_frame_tag "users-dungeons-list", autoscroll: true,
+                          data: { turbo_action: :advance, autoscroll_block: "start" } do %>
+        <%= render partial: "dungeons/table", locals: { dungeons: @dungeons } %>
+      <% end %>
     </div>
   </div>
 </div>

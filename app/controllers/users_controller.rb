@@ -3,11 +3,11 @@ class UsersController < ApplicationController
   before_action :correct_user, only: %i[edit update destroy]
 
   def show
-    @user = User.find_by(username: params[:username])
-    if @user.nil?
-      # Todo: should return 404 not found
-      redirect_to root_path
-    end
+    @user = User.find_by!(username: params[:username])
+    @dungeons = @user.dungeons
+                     .includes(:rites)
+                     .order(created_at: :desc)
+                     .page(params[:page])
   end
 
   def edit; end

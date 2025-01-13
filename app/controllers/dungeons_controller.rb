@@ -5,6 +5,13 @@ class DungeonsController < ApplicationController
 
   @@rites = Rite.all
 
+  def index
+    @dungeons = Dungeon.all
+                       .includes(:rites)
+                       .order(created_at: :desc)
+                       .page(params[:page])
+  end
+
   def show
     @dungeon = Dungeon.find(params[:id])
   end

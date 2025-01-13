@@ -3,7 +3,7 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
-  setup do
+  def setup
     @user = users(:willem)
     @other_user = users(:laurence)
   end
@@ -60,5 +60,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       delete user_path(@user)
     end
     assert_redirected_to root_path
+  end
+
+  test "should show new button to register dungeon if his/her own profile" do
+    sign_in @user
+    get user_path(@user)
+    assert_select "a[href=?]", new_dungeon_path
+
+    get user_path(@other_user)
+    assert_select "a[href=?]", new_dungeon_path, count: 0
   end
 end
