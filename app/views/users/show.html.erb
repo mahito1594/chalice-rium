@@ -21,7 +21,11 @@
 
     <%# List of user's dungeons %>
     <div class="w-full md:flex-1">
-      <h2 class="text-lg font-medium text-gray-800 dark:text-white">Dungeons</h2>
+      <div class="mt-6 lg:mt-0 mb-4 flex items-center justify-between">
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white">Dungeons</h2>
+        <%= link_to("New", new_dungeon_path,
+                    class: "px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-gray-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80") %>
+      </div>
 
       <%# TODO: create the endpoint GET /users/:username/dungeons and use eager-loading %>
       <%= turbo_frame_tag "users-dungeons-list", autoscroll: true,
