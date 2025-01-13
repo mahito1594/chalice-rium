@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "static_pages/home"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -13,6 +12,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root to: "dungeons#index"
+
+  # Routes for the static resources
+  get "about" => "static_pages#about", as: :about
+  get "terms" => "static_pages#terms", as: :terms
 
   # Custom routes for users
   resources :users, param: :username, only: %i[show edit update destroy]
