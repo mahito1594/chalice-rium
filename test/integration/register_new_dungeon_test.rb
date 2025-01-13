@@ -11,7 +11,7 @@ class RegisterNewDungeonTest < ActionDispatch::IntegrationTest
   test "redirects to login when accessing new dungeon page without login" do
     get root_path
     assert_response :success
-    assert_select "a[href=?]", new_dungeon_path, count: 1
+    assert_select "a[href=?]", new_dungeon_path, count: 0
 
     get new_dungeon_path
     assert_redirected_to new_user_session_path
