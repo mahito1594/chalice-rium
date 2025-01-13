@@ -4,7 +4,10 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by!(username: params[:username])
-    @dungeons = @user.dungeons.includes(:rites).order(:created_at).page(params[:page])
+    @dungeons = @user.dungeons
+                     .includes(:rites)
+                     .order(created_at: :desc)
+                     .page(params[:page])
   end
 
   def edit; end

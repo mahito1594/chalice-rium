@@ -12,12 +12,12 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root to: "static_pages#home"
+  root to: "dungeons#index"
 
   # Custom routes for users
   resources :users, param: :username, only: %i[show edit update destroy]
 
-  # Todo: users の member として扱う
+  # TODO: treat this as a member route of users
   resources :dungeons
 
   # Letter opener for development
