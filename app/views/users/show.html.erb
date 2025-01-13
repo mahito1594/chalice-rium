@@ -23,8 +23,11 @@
     <div class="w-full md:flex-1">
       <h2 class="text-lg font-medium text-gray-800 dark:text-white">Dungeons</h2>
 
-      <%# REFACTOR: divide into a partial %>
-      <%= render partial: "dungeons/table", locals: { dungeons: @dungeons } %>
+      <%# TODO: create the endpoint GET /users/:username/dungeons and use eager-loading %>
+      <%= turbo_frame_tag "users-dungeons-list", autoscroll: true,
+                          data: { turbo_action: :advance, autoscroll_block: "start" } do %>
+        <%= render partial: "dungeons/table", locals: { dungeons: @dungeons } %>
+      <% end %>
     </div>
   </div>
 </div>
