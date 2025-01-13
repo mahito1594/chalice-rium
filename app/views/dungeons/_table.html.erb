@@ -25,7 +25,9 @@
             <tr>
               <td class="px-4 py-4 text-sm font-medium text-center whitespace-nowrap">
                 <h2 class="font-medium text-gray-800 dark:text-white">
-                  <%= link_to(dungeon.glyph, dungeon, class: "hover:underline") %>
+                  <%= link_to(dungeon.glyph, dungeon,
+                              class: "hover:underline",
+                              data: { turbo_frame: "_top" }) %>
                 </h2>
               </td>
               <td class="px-4 py-4 text-sm text-center whitespace-nowrap">
