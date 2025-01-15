@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(update_user_params)
-      redirect_to user_path(@user), notice: "Profile was successfully updated."
+      redirect_to user_path(@user), notice: "プロフィールが更新されました。"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to root_path, status: :see_other, notice: "Account deleted."
+    redirect_to root_path, status: :see_other, notice: "アカウントが削除されました。"
   end
 
   private
