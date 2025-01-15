@@ -34,6 +34,10 @@ class Dungeon < ApplicationRecord
     self
   end
 
+  def translated_area
+    I18n.t("enums.dungeon.area.#{area}")
+  end
+
   private
 
   def downcase_glyph
