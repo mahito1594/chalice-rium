@@ -57,7 +57,7 @@
             <%= t("label.dungeon.attributes.boss_name", level: layer.level) %>
           </p>
           <p class="mt-1 text-gray-600 dark:text-gray-300">
-            <%= layer.boss_name.presence %>
+            <%= layer.boss_name.presence || "?" %>
           </p>
         </div>
       <% end %>
