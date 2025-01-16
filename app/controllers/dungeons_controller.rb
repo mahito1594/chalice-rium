@@ -3,7 +3,7 @@ class DungeonsController < ApplicationController
   before_action :set_own_dungeon, only: %i[edit update destroy]
   before_action :set_rites, only: %i[new create edit update]
 
-  @@rites = Rite.all
+  @@rites = Rite.all.order(id: :asc)
 
   def index
     @dungeons = Dungeon.all
@@ -26,7 +26,7 @@ class DungeonsController < ApplicationController
     @dungeon.rites = Rite.where(id: params[:dungeon][:rite_ids])
 
     if @dungeon.save
-      redirect_to @dungeon, notice: "Successfully created."
+      redirect_to @dungeon, notice: "聖杯ダンジョンが登録されました。" # TODO: Use I18n
     else
       render :new, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class DungeonsController < ApplicationController
   def update
     if @dungeon.update(update_dungeon_params)
       # disallow to update rites
-      redirect_to @dungeon, notice: "Successfully updated."
+      redirect_to @dungeon, notice: "聖杯ダンジョンが更新されました。" # TODO: Use I18n
     else
       render :edit, status: :unprocessable_entity
     end
@@ -47,7 +47,7 @@ class DungeonsController < ApplicationController
 
   def destroy
     @dungeon.destroy!
-    redirect_to root_path, notice: "Successfully deleted."
+    redirect_to root_path, notice: "聖杯ダンジョンが削除されました。" # TODO: Use I18n
   end
 
   private

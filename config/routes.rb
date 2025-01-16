@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :users, param: :username, only: %i[show edit update destroy]
 
   # TODO: treat this as a member route of users
-  resources :dungeons
+  resources :dungeons, only: %i[show new create edit update destroy]
 
   # Letter opener for development
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

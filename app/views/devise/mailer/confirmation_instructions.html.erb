@@ -5,10 +5,10 @@
     </h2>
 
     <p class="mt-2 leading-loose text-gray-600 dark:text-gray-300">
-      You can confirm your account email through the link below:
+      以下のリンクからアカウントの登録情報を確認できます:
     </p>
 
-    <%= link_to("Confirm my account",
+    <%= link_to("アカウントを確認する",
                 confirmation_url(@resource, confirmation_token: @token),
                 class: "px-6 py-2 mt-4 text-sm font-medium tracking-wider text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80") %>
 
@@ -20,8 +20,7 @@
 
   <footer class="mt-8">
     <p class="text-gray-500 dark:text-gray-400">
-      If you didn't request this, please ignore this email. Your account won't be activated until you access the link
-      above
+      もしこのリクエストをしていない場合は、このメールを無視してください。上記のリンクにアクセスするまでアカウントは有効化されません。
     </p>
   </footer>
 </section>

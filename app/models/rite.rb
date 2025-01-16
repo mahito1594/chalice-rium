@@ -10,4 +10,8 @@ class Rite < ApplicationRecord
     cursed: 2,
     sinister: 3
   }
+
+  def translated_name
+    I18n.t("enums.rite.name.#{name}")
+  end
 end

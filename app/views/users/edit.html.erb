@@ -1,9 +1,9 @@
-<% provide(:title, "Edit profile") %>
+<% provide(:title, t("label.user.profile_edit")) %>
 <div class="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
   <div class="px-6 py-4">
     <%# Title %>
     <h3 class="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
-      Edit Profile
+      <%= t("label.user.profile_edit") %>
     </h3>
 
     <%= form_with(model: @user) do |f| %>
@@ -26,7 +26,7 @@
 
       <%# Submit button %>
       <div class="mt-6">
-        <%= f.submit("Update",
+        <%= f.submit(t("label.general.update"),
                      class: "w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-gray-500 focus:outline-none focus:ring focus:ring-ring-300 focus:ring-opacity-80") %>
       </div>
     <% end %>
@@ -34,7 +34,7 @@
     <div class="mt-4 flex justify-center">
       <%= link_to edit_user_registration_path, class: "w-full" do %>
         <button class="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-gray-500 focus:outline-none focus:ring focus:ring-ring-300 focus:ring-opacity-80">
-          Change Email/Password
+          <%= t("label.user.email_password_update") %>
         </button>
       <% end %>
     </div>
@@ -43,10 +43,10 @@
 
     <div class="mt-4 flex justify-center">
       <%= link_to @user,
-                  data: { "turbo-method": :delete, turbo_confirm: "You sure?" },
+                  data: { "turbo-method": :delete, turbo_confirm: t("label.general.sure") },
                   class: "w-full" do %>
         <button class="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-          Delete account
+          <%= t("label.user.delete") %>
         </button>
       <% end %>
     </div>
