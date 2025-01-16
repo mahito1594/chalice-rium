@@ -46,7 +46,7 @@ gem "thruster", require: false
 gem "devise", "~> 4.9", ">= 4.9.4"
 
 # Send emails via resend.com
-gem "resend", "~> 0.17.1"
+gem "resend", "~> 0.17.2"
 
 # Use kaminari for pagination
 gem "kaminari", "~> 1.2", ">= 1.2.2"
