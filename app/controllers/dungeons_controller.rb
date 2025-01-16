@@ -26,7 +26,7 @@ class DungeonsController < ApplicationController
     @dungeon.rites = Rite.where(id: params[:dungeon][:rite_ids])
 
     if @dungeon.save
-      redirect_to @dungeon, notice: "聖杯ダンジョンが登録されました。"
+      redirect_to @dungeon, notice: "聖杯ダンジョンが登録されました。" # TODO: Use I18n
     else
       render :new, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class DungeonsController < ApplicationController
   def update
     if @dungeon.update(update_dungeon_params)
       # disallow to update rites
-      redirect_to @dungeon, notice: "聖杯ダンジョンが更新されました。"
+      redirect_to @dungeon, notice: "聖杯ダンジョンが更新されました。" # TODO: Use I18n
     else
       render :edit, status: :unprocessable_entity
     end
@@ -47,7 +47,7 @@ class DungeonsController < ApplicationController
 
   def destroy
     @dungeon.destroy!
-    redirect_to root_path, notice: "聖杯ダンジョンが削除されました。"
+    redirect_to root_path, notice: "聖杯ダンジョンが削除されました。" # TODO: Use I18n
   end
 
   private

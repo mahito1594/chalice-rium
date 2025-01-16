@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(update_user_params)
-      redirect_to user_path(@user), notice: "プロフィールが更新されました。"
+      redirect_to user_path(@user), notice: "プロフィールが更新されました。" # TODO: Use I18n
     else
       render :edit, status: :unprocessable_entity
     end
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to root_path, status: :see_other, notice: "アカウントが削除されました。"
+    redirect_to root_path, status: :see_other, notice: "アカウントが削除されました。" # TODO: Use I18n
   end
 
   private
