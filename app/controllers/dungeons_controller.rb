@@ -3,7 +3,7 @@ class DungeonsController < ApplicationController
   before_action :set_own_dungeon, only: %i[edit update destroy]
   before_action :set_rites, only: %i[new create edit update]
 
-  @@rites = Rite.all
+  @@rites = Rite.all.order(id: :asc)
 
   def index
     @dungeons = Dungeon.all

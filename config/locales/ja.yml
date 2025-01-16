@@ -22,6 +22,12 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード（確認）"
         current_password: "現在のパスワード"
+      dungeon:
+        glyph: "聖杯文字"
+        area: "区画"
+        depth: "深度"
+        is_open: "オープン"
+        comment: "コメント"
     errors:
       models:
         user:
@@ -62,8 +68,10 @@ ja:
       delete: "アカウント削除"
     dungeon:
       register: "聖杯ダンジョン登録"
+      edit: "聖杯ダンジョン編集"
       attributes:
-        glyph: "聖杯文字"
-        area: "区画"
-        depth: "深度"
         additional_rites: "追加儀法"
+        boss_name: "%{level}層ボス"
+      value:
+        open: "オープン"
+        close: "クローズ"

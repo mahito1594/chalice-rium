@@ -1,7 +1,7 @@
-<% provide(:title, "New dungeon") %>
+<% provide(:title, t("label.dungeon.register")) %>
 <div class="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
   <h3 class="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
-    New dungeon
+    <%= t("label.dungeon.register") %>
   </h3>
 
   <%= form_with(model: @dungeon, class: "mt-6") do |f| %>
@@ -18,7 +18,7 @@
     <%# area %>
     <div class="mt-4">
       <%= f.label :area, class: "block text-sm text-gray-800 dark:text-gray-200" %>
-      <%= f.select(:area, Dungeon.areas.keys.map { |area| [area.titleize, area] }, { selected: "pthumeru" },
+      <%= f.select(:area, Dungeon.areas.keys.map { |area| [t("enums.dungeon.area.#{area}"), area] }, { selected: "pthumeru" },
                    autofocus: true,
                    class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40",
                    required: true) %>
@@ -35,9 +35,11 @@
 
     <%# additional rites %>
     <fieldset class="mt-4">
-      <p class="block text-sm text-gray-800 dark:text-gray-200">Additional Rites</p>
+      <p class="block text-sm text-gray-800 dark:text-gray-200">
+        <%= t("label.dungeon.attributes.additional_rites") %>
+      </p>
       <div class="flex flex-row">
-        <%= f.collection_checkboxes :rite_ids, @rites, :id, :name,
+        <%= f.collection_checkboxes :rite_ids, @rites, :id, :translated_name,
                                     { checked: @rites.filter{ |x| x.name != "sinister" }.map(&:id) } do |b| %>
           <div class="basis-1/4">
             <%= b.checkbox class: "size-4 border rounded bg-white dark:bg-gray-800 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" %>
@@ -52,7 +54,7 @@
       <div class="mt-4">
         <%= layer_form.hidden_field :level %>
         <%= layer_form.label :boss_name,
-                             "#{layer_form.object.level}-th Floor's Boss",
+                             t("label.dungeon.attributes.boss_name", level: layer_form.object.level),
                              class: "block text-sm text-gray-800 dark:text-gray-200" %>
         <%= layer_form.text_field(:boss_name, autofocus: true,
                          class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40",) %>
@@ -73,7 +75,7 @@
     </div>
 
     <div class="mt-6">
-      <%= f.submit("Create",
+      <%= f.submit(t("label.general.register"),
                    class: "w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50") %>
     </div>
   <% end %>
