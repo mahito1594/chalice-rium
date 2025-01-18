@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   private
 
   def update_user_params
-    params.require(:user).permit(:display_name)
+    params.require(:user).permit(:display_name, :bio, :twitter_link)
   end
 
   def correct_user

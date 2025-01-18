@@ -59,4 +59,9 @@ class UserTest < ActiveSupport::TestCase
     @user.save
     assert_equal "@testuser", @user.reload.username
   end
+
+  test "should be invalid with a bio longer than 500 characters" do
+    @user.bio = "a" * 501
+    assert_not @user.valid?
+  end
 end
