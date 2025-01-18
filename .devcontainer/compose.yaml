@@ -1,4 +1,4 @@
-name: "chalice_dungeon_hub"
+name: "chalice_rium"
 
 services:
   rails-app:
