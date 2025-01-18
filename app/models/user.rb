@@ -11,6 +11,9 @@ class User < ApplicationRecord
             format: { with: /\A@[a-zA-Z0-9_]+\z/, message: "は@から始まる半角英数字とアンダースコアのみ使用できます" },
             length: { minimum: 3, maximum: 32 }
   validates :display_name, presence: true, length: { maximum: 64 }
+  validates :bio, length: { maximum: 500 }
+  validates :twitter_link,  allow_blank: true,
+            format: { with: /\A[a-zA-Z0-9_]+\z/, message: "は有効な値を入力して下さい" }
 
   before_save :downcase_username
 

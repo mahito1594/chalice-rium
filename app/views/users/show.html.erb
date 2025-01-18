@@ -8,6 +8,18 @@
         <%= @user.display_name %>
       </h3>
       <p class="text-gray-600 dark:text-gray-200"><%= @user.username %></p>
+      <% if @user.bio.present? %>
+        <div class="mt-4 p-4 bg-gray-50 rounded-lg dark:bg-gray-700">
+          <p class="p-3 text-sm text-gray-600 dark:text-gray-300 whitespace-no-wrap leading-relaxed">
+            <%= @user.bio %>
+          </p>
+        </div>
+      <% end %>
+
+      <%# Social links %>
+      <%= render partial: "users/social", locals: { user: @user } %>
+
+      <%# Link to /users/:username/edit %>
       <% if current_user == @user %>
         <div class="mt-6 flex justify-center">
           <%= link_to edit_user_path(@user), class: "w-full" do %>
