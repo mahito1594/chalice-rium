@@ -7,10 +7,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  scan:
+  secretlint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Scan secrets
-        run: docker run -v "$(pwd):$(pwd)" -w "$(pwd)" --rm secretlint/secretlint --maskSecrets '**/*'
+        run: docker run -v "$(pwd):$(pwd)" -w "$(pwd)" --rm secretlint/secretlint secretlint --maskSecrets '**/*'
