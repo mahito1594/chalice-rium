@@ -1,0 +1,29 @@
+name: Auto merge
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  merge:
+    if: ${{ github.actor == 'dependabot[bot]' }} # only for PRs created by dependabot
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Fetch metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2
+      # Need following settings in repo:
+      #     - `Allow GitHub Actions to create and approve pull requests` enabled
+      #     - `Allow auto-merge` enabled
+      - if: ${{ steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch' }}
+        name: Approve and merge after workflows passed
+        run: |
+          gh pr review "${GITHUB_HEAD_REF}" --approve
+          gh pr merge "${GITHUB_HEAD_REF}" --merge --auto
