@@ -24,15 +24,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-50 dark:bg-gray-900">
+  <body class="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
     <header>
       <%= render "layouts/header" %>
     </header>
     <%= render "layouts/flash" %>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <main class="container mx-auto mt-28 mb-28 px-5 flex">
       <%= yield %>
     </main>
-    <footer class="mt-28 bg-white dark:bg-gray-900">
+    <footer class="mt-auto bg-white dark:bg-gray-900">
       <%= render "layouts/footer" %>
     </footer>
   </body>
