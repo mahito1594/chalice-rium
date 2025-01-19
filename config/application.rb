@@ -26,5 +26,9 @@ module ChaliceRium
 
     # Set default locale to Japanese
     config.i18n.default_locale = :ja
+
+    # Set TimeZone to Tokyo, but use UTC for db connection
+    config.time_zone = "Tokyo"
+    config.active_record.default_timezone = :utc
   end
 end
