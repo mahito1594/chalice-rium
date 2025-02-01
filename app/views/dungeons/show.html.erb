@@ -4,9 +4,19 @@
 <div class="w-full max-w-2xl p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
   <%# Header section %>
   <div class="h-14 flex items-center justify-between">
-    <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-200">
-      <%= @dungeon.glyph %>
-    </h3>
+    <div class="flex">
+      <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-200">
+        <%= @dungeon.glyph %>
+      </h3>
+      <button data-controller="url-copy"
+              data-action="click->url-copy#copy"
+              data-url-copy-text-value="<%= @dungeon.glyph %>"
+              data-url-copy-url-value="<%= dungeon_url(@dungeon) %>"
+              data-url-copy-copied-icon-value="<%= asset_path "clipboard-check.svg" %>"
+              class="pl-2">
+        <%= image_tag "clipboard.svg", data: { "url-copy-target": "icon" } %>
+      </button>
+    </div>
     <% if current_user == @dungeon.user %>
       <div class="flex space-x-2">
         <%= link_to t("label.general.update"), edit_dungeon_path(@dungeon),
