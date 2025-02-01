@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: https://ogp.me/ns#">
   <head>
     <title><%= full_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -16,6 +16,13 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:url" content="<%= request.original_url %>" />
     <meta property="og:description" content="<%= ogp_description(yield(:og_description)) %>" />
+
+    <%# meta tags for Twitter Cards %>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="<%= asset_url("twitter.png") %>" />
+    <meta name="twitter:image:type" content="image/png" />
+    <meta name="twitter:image:width" content="192" />
+    <meta name="twitter:image:height" content="192" />
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
