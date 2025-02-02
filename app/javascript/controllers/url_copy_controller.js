@@ -9,11 +9,9 @@ export default class extends Controller {
   }
 
   copy() {
-    const plainText = `${this.textValue} | ${this.urlValue}`
-    const htmlText = `<a href="${this.urlValue}">${this.textValue}</a>`
+    const plainText = `${this.textValue} ${this.urlValue}`
     const clipboardItem = new ClipboardItem({
-      "text/plain": new Blob([plainText], { type: "text/plain" }),
-      "text/html": new Blob([htmlText], { type: "text/html" })
+      "text/plain": new Blob([plainText], { type: "text/plain" })
     })
 
     navigator.clipboard
