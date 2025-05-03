@@ -9,6 +9,10 @@
     <% end %>
   </div>
 
+  <div>
+    <%= render "filter_form" %>
+  </div>
+
   <%= turbo_frame_tag "dungeons-list", autoscroll: true,
                       data: { turbo_action: :advance, autoscroll_block: "start" } do %>
     <%= render partial: "dungeons/table", locals: { dungeons: @dungeons } %>

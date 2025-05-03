@@ -1,0 +1,43 @@
+<%= form_for_filterrific @filterrific do |f| %>
+  <div>
+    <%# area %>
+    <div>
+      <%= f.label :with_area, t("activerecord.attributes.dungeon.area") %>
+      <%= f.select :with_area,
+                   @filterrific.select_options[:with_area],
+                   { include_blank: true },
+                   class: "form-select" %>
+    </div>
+
+    <%# depth %>
+    <div>
+      <%= f.label :with_depth, t("activerecord.attributes.dungeon.depth") %>
+      <%= f.select :with_depth,
+                   @filterrific.select_options[:with_depth],
+                   { include_blank: true },
+                   class: "form-select" %>
+    </div>
+
+    <%# additional rites %>
+    <div>
+      <%= f.label :with_additional_rites, t("label.dungeon.attributes.additional_rites") %>
+      <div>
+        <% @filterrific.select_options[:with_rites_ids].each do |rite_name, rite_id| %>
+          <div>
+            <%= checkbox_tag "filterrific[with_rites_ids][]", rite_id,
+                             @filterrific.with_rites_ids&.include?(rite_id),
+                             id: "rites_#{rite_id}" %>
+            <%= label_tag "rite_#{rite_id}", rite_name %>
+          </div>
+        <% end %>
+        <%= hidden_field_tag "filterrific[with_rites_ids[]", "" %>
+      </div>
+    </div>
+
+    <%# submit search %>
+    <div>
+      <%= f.submit "検索" %>
+      <%= link_to "リセット", reset_filterrific_url %>
+    </div>
+  </div>
+<% end %>

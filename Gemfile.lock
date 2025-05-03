@@ -120,6 +120,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    filterrific (5.2.7)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -428,6 +429,7 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 4.9, >= 4.9.4)
+  filterrific (~> 5.2, >= 5.2.7)
   importmap-rails
   jbuilder
   kamal
