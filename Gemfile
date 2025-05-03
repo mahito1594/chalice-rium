@@ -53,6 +53,9 @@ gem "resend", "~> 1.0.0"
 # Use kaminari for pagination
 gem "kaminari", "~> 1.2", ">= 1.2.2"
 
+# Use filterrific for filtering and sorting dungeons
+gem "filterrific", "~> 5.2", ">= 5.2.7"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

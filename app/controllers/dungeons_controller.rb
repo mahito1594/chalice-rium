@@ -6,10 +6,20 @@ class DungeonsController < ApplicationController
   @@rites = Rite.all.order(id: :asc)
 
   def index
-    @dungeons = Dungeon.all
-                       .includes(:rites)
-                       .order(created_at: :desc)
-                       .page(params[:page])
+    @filterrific = initialize_filterrific(
+      Dungeon,
+      params[:filterrific],
+      select_options: {
+        with_area: Dungeon.areas.keys.map { |area| [ t("enums.dungeon.area.#{area}"), area ] },
+        with_depth: (1..5).to_a.reverse,
+        with_rites_ids: @@rites.all.map { |rite| [ rite.translated_name, rite.id ] }
+      }
+    ) or return
+
+    @dungeons = @filterrific.find
+                            .includes(:rites)
+                            .order(created_at: :desc)
+                            .page(params[:page])
   end
 
   def show
@@ -74,4 +84,8 @@ class DungeonsController < ApplicationController
     params.require(:dungeon).permit(:comment,
                                     layers_attributes: [ :level, :boss_name, :id ])
   end
+
+rescue ActiveRecord::RecordNotFound => e
+  puts "Had to rest filterrific: #{e.message}"
+  redirect_to(reset_filterrific_url(format: :html)) && return
 end
