@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Scan secrets
         run: docker run -v "$(pwd):$(pwd)" -w "$(pwd)" --rm secretlint/secretlint secretlint --maskSecrets '**/*'
