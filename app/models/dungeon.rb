@@ -28,6 +28,36 @@ class Dungeon < ApplicationRecord
     hintertomb: 3
   }
 
+  filterrific(
+    available_filters: [
+      :with_area,
+      :with_depth,
+      :with_rites_ids
+    ]
+  )
+
+  # scopes for filterrific
+  scope :with_area, ->(area) {
+    return nil if area.blank?
+    where(area: area)
+  }
+
+  scope :with_depth, ->(depth) {
+    return nil if depth.blank?
+    where(depth: depth)
+  }
+
+  scope :with_rites_ids, ->(rite_ids) {
+    return nil if rite_ids.blank?
+    if rite_ids.is_a?(String)
+      rite_ids = rite_ids.split(",")
+    end
+    rite_ids = rite_ids.reject(&:blank?)
+    return nil if rite_ids.empty?
+
+    joins(:rites).where(rites: { id: rite_ids }).distinct
+  }
+
   def prepare_for_form
     ensure_forth_layer
     self.rite_ids = rites.map(&:id)
