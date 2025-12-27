@@ -38,3 +38,6 @@
 
 # Ignore IDE/editor settings
 .idea/
+
+# macOS
+.DS_Store
