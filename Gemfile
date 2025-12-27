@@ -17,7 +17,7 @@ gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
-gem "tailwindcss-rails", "~> 4.3"
+gem "tailwindcss-rails", "~> 4.4"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
@@ -56,6 +56,10 @@ gem "kaminari", "~> 1.2", ">= 1.2.2"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
+  # Pin minitest to 5.x due to compatibility issues with Rails 8.0 and minitest 6.0
+  # See: https://github.com/rails/rails/issues/54267
+  gem "minitest", "~> 5.0"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
