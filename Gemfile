@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby file: ".ruby-version"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.3"
+gem "rails", "~> 8.1.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgresql as the database for Active Record
@@ -48,7 +48,7 @@ gem "thruster", require: false
 gem "devise", "~> 4.9", ">= 4.9.4"
 
 # Send emails via resend.com
-gem "resend", "~> 0.25.0"
+gem "resend", "~> 1.0.0"
 
 # Use kaminari for pagination
 gem "kaminari", "~> 1.2", ">= 1.2.2"
