@@ -98,4 +98,20 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_path
   end
+
+  # Filter tests
+  test "should get index with filter params" do
+    get root_path, params: { filter: { area: "pthumeru", depth: 5 } }
+    assert_response :success
+  end
+
+  test "should get index with rite filter" do
+    get root_path, params: { filter: { rite_ids: [ rites(:fetid).id.to_s ] } }
+    assert_response :success
+  end
+
+  test "should get index without filter params" do
+    get root_path
+    assert_response :success
+  end
 end

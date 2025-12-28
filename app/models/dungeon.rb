@@ -28,6 +28,31 @@ class Dungeon < ApplicationRecord
     hintertomb: 3
   }
 
+  # Filter scopes
+  scope :with_area, ->(area) {
+    return all if area.blank?
+    where(area: area)
+  }
+
+  scope :with_depth, ->(depth) {
+    return all if depth.blank?
+    where(depth: depth)
+  }
+
+  # AND logic: dungeon must have ALL selected rites
+  scope :with_all_rites, ->(rite_ids) {
+    return all if rite_ids.blank?
+
+    rite_ids = rite_ids.reject(&:blank?).map(&:to_i)
+    return all if rite_ids.empty?
+
+    # Use HAVING to ensure dungeon has all selected rites
+    joins(:rites)
+      .where(rites: { id: rite_ids })
+      .group("dungeons.id")
+      .having("COUNT(DISTINCT rites.id) = ?", rite_ids.length)
+  }
+
   def prepare_for_form
     ensure_forth_layer
     self.rite_ids = rites.map(&:id)

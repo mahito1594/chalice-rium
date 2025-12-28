@@ -69,6 +69,11 @@ ja:
     dungeon:
       register: "聖杯ダンジョン登録"
       edit: "聖杯ダンジョン編集"
+      filter: "フィルター"
+      filter_all: "すべて"
+      filter_reset: "リセット"
+      filter_rites_hint: "※ 選択した儀法をすべて持つダンジョンを検索します（AND検索）"
+      search: "検索"
       attributes:
         additional_rites: "追加儀法"
         boss_name: "%{level}層ボス"
