@@ -28,34 +28,29 @@ class Dungeon < ApplicationRecord
     hintertomb: 3
   }
 
-  filterrific(
-    available_filters: [
-      :with_area,
-      :with_depth,
-      :with_rites_ids
-    ]
-  )
-
-  # scopes for filterrific
+  # Filter scopes
   scope :with_area, ->(area) {
-    return nil if area.blank?
+    return all if area.blank?
     where(area: area)
   }
 
   scope :with_depth, ->(depth) {
-    return nil if depth.blank?
+    return all if depth.blank?
     where(depth: depth)
   }
 
-  scope :with_rites_ids, ->(rite_ids) {
-    return nil if rite_ids.blank?
-    if rite_ids.is_a?(String)
-      rite_ids = rite_ids.split(",")
-    end
-    rite_ids = rite_ids.reject(&:blank?)
-    return nil if rite_ids.empty?
+  # AND logic: dungeon must have ALL selected rites
+  scope :with_all_rites, ->(rite_ids) {
+    return all if rite_ids.blank?
 
-    joins(:rites).where(rites: { id: rite_ids }).distinct
+    rite_ids = rite_ids.reject(&:blank?).map(&:to_i)
+    return all if rite_ids.empty?
+
+    # Use HAVING to ensure dungeon has all selected rites
+    joins(:rites)
+      .where(rites: { id: rite_ids })
+      .group("dungeons.id")
+      .having("COUNT(DISTINCT rites.id) = ?", rite_ids.length)
   }
 
   def prepare_for_form

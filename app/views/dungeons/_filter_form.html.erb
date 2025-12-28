@@ -1,43 +1,79 @@
-<%= form_for_filterrific @filterrific do |f| %>
-  <div>
-    <%# area %>
-    <div>
-      <%= f.label :with_area, t("activerecord.attributes.dungeon.area") %>
-      <%= f.select :with_area,
-                   @filterrific.select_options[:with_area],
-                   { include_blank: true },
-                   class: "form-select" %>
-    </div>
+<div data-controller="filter" class="mb-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <%# Collapsible Header %>
+  <button type="button"
+          data-action="click->filter#toggle"
+          data-filter-target="toggleButton"
+          class="w-full px-4 py-3 flex items-center justify-between text-left text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          aria-expanded="false"
+          aria-controls="filter-content">
+    <span class="font-medium"><%= t("label.dungeon.filter") %></span>
+    <%# Expand Icon (chevron down) %>
+    <svg data-filter-target="expandIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+    <%# Collapse Icon (chevron up) %>
+    <svg data-filter-target="collapseIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
 
-    <%# depth %>
-    <div>
-      <%= f.label :with_depth, t("activerecord.attributes.dungeon.depth") %>
-      <%= f.select :with_depth,
-                   @filterrific.select_options[:with_depth],
-                   { include_blank: true },
-                   class: "form-select" %>
-    </div>
+  <%# Filter Form (Hidden by default) %>
+  <div id="filter-content" data-filter-target="content" class="hidden px-4 pb-4">
+    <%= form_with url: root_path, method: :get, data: { turbo_frame: "dungeons-list" } do |f| %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <%# Area Filter %>
+        <div>
+          <%= label_tag :filter_area, t("activerecord.attributes.dungeon.area"),
+                        class: "block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2" %>
+          <%= select_tag "filter[area]",
+                         options_for_select(@area_options, params.dig(:filter, :area)),
+                         include_blank: t("label.dungeon.filter_all"),
+                         class: "block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3" %>
+        </div>
 
-    <%# additional rites %>
-    <div>
-      <%= f.label :with_additional_rites, t("label.dungeon.attributes.additional_rites") %>
-      <div>
-        <% @filterrific.select_options[:with_rites_ids].each do |rite_name, rite_id| %>
-          <div>
-            <%= checkbox_tag "filterrific[with_rites_ids][]", rite_id,
-                             @filterrific.with_rites_ids&.include?(rite_id),
-                             id: "rites_#{rite_id}" %>
-            <%= label_tag "rite_#{rite_id}", rite_name %>
-          </div>
-        <% end %>
-        <%= hidden_field_tag "filterrific[with_rites_ids[]", "" %>
+        <%# Depth Filter %>
+        <div>
+          <%= label_tag :filter_depth, t("activerecord.attributes.dungeon.depth"),
+                        class: "block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2" %>
+          <%= select_tag "filter[depth]",
+                         options_for_select(@depth_options, params.dig(:filter, :depth)&.to_i),
+                         include_blank: t("label.dungeon.filter_all"),
+                         class: "block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3" %>
+        </div>
       </div>
-    </div>
 
-    <%# submit search %>
-    <div>
-      <%= f.submit "検索" %>
-      <%= link_to "リセット", reset_filterrific_url %>
-    </div>
+      <%# Rites Filter (Checkboxes) %>
+      <div class="mt-4">
+        <label class="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
+          <%= t("label.dungeon.attributes.additional_rites") %>
+        </label>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <% @rites.each do |rite| %>
+            <div class="flex items-center">
+              <%= check_box_tag "filter[rite_ids][]",
+                                rite.id,
+                                params.dig(:filter, :rite_ids)&.include?(rite.id.to_s),
+                                id: "rite_#{rite.id}",
+                                class: "size-4 border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3 text-blue-600" %>
+              <%= label_tag "rite_#{rite.id}", rite.translated_name,
+                            class: "ml-2 text-sm text-gray-800 dark:text-gray-200" %>
+            </div>
+          <% end %>
+        </div>
+        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <%= t("label.dungeon.filter_rites_hint") %>
+        </p>
+      </div>
+
+      <%# Action Buttons %>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <%= submit_tag t("label.dungeon.search"),
+                       class: "px-6 py-2 font-medium tracking-wide text-white bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-300/80 transition-colors cursor-pointer" %>
+        <%= link_to t("label.dungeon.filter_reset"),
+                    root_path,
+                    data: { turbo_frame: "dungeons-list" },
+                    class: "px-6 py-2 font-medium tracking-wide text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 focus:outline-hidden focus:ring-3 focus:ring-gray-300/50 transition-colors" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

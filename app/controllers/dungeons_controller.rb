@@ -1,25 +1,20 @@
 class DungeonsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update destroy]
   before_action :set_own_dungeon, only: %i[edit update destroy]
-  before_action :set_rites, only: %i[new create edit update]
-
-  @@rites = Rite.all.order(id: :asc)
+  before_action :set_rites, only: %i[new create edit update index]
 
   def index
-    @filterrific = initialize_filterrific(
-      Dungeon,
-      params[:filterrific],
-      select_options: {
-        with_area: Dungeon.areas.keys.map { |area| [ t("enums.dungeon.area.#{area}"), area ] },
-        with_depth: (1..5).to_a.reverse,
-        with_rites_ids: @@rites.all.map { |rite| [ rite.translated_name, rite.id ] }
-      }
-    ) or return
+    @dungeons = Dungeon.all
+                       .with_area(filter_params[:area])
+                       .with_depth(filter_params[:depth])
+                       .with_all_rites(filter_params[:rite_ids])
+                       .preload(:rites)
+                       .order(created_at: :desc)
+                       .page(params[:page])
 
-    @dungeons = @filterrific.find
-                            .includes(:rites)
-                            .order(created_at: :desc)
-                            .page(params[:page])
+    # Filter form options
+    @area_options = Dungeon.areas.keys.map { |area| [ t("enums.dungeon.area.#{area}"), area ] }
+    @depth_options = (1..5).to_a.reverse
   end
 
   def show
@@ -67,7 +62,11 @@ class DungeonsController < ApplicationController
   end
 
   def set_rites
-    @rites = @@rites
+    @rites = Rite.all.order(id: :asc)
+  end
+
+  def filter_params
+    params.fetch(:filter, {}).permit(:area, :depth, rite_ids: [])
   end
 
   def dungeon_params
@@ -84,8 +83,4 @@ class DungeonsController < ApplicationController
     params.require(:dungeon).permit(:comment,
                                     layers_attributes: [ :level, :boss_name, :id ])
   end
-
-rescue ActiveRecord::RecordNotFound => e
-  puts "Had to rest filterrific: #{e.message}"
-  redirect_to(reset_filterrific_url(format: :html)) && return
 end
