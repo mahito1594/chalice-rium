@@ -19,7 +19,7 @@
 
   <%# Filter Form (Hidden by default) %>
   <div id="filter-content" data-filter-target="content" class="hidden px-4 pb-4">
-    <%= form_with url: root_path, method: :get, data: { turbo_frame: "dungeons-list" } do |f| %>
+    <%= form_with url: root_path, method: :get, data: { turbo_frame: "dungeons-list", filter_target: "form" } do |f| %>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
         <%# Area Filter %>
         <div>
@@ -60,9 +60,6 @@
             </div>
           <% end %>
         </div>
-        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-          <%= t("label.dungeon.filter_rites_hint") %>
-        </p>
       </div>
 
       <%# Action Buttons %>
@@ -71,7 +68,7 @@
                        class: "px-6 py-2 font-medium tracking-wide text-white bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-300/80 transition-colors cursor-pointer" %>
         <%= link_to t("label.dungeon.filter_reset"),
                     root_path,
-                    data: { turbo_frame: "dungeons-list" },
+                    data: { turbo_frame: "dungeons-list", action: "click->filter#reset" },
                     class: "px-6 py-2 font-medium tracking-wide text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 focus:outline-hidden focus:ring-3 focus:ring-gray-300/50 transition-colors" %>
       </div>
     <% end %>
