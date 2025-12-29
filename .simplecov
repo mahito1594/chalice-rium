@@ -10,6 +10,9 @@ SimpleCov.start "rails" do
   # Primary coverage criterion (used for overall percentage)
   primary_coverage :branch
 
+  # Minimum coverage thresholds (fail if coverage drops below)
+  minimum_coverage line: 80, branch: 75
+
   # Exclude non-application code from coverage
   add_filter "/test/"
   add_filter "/config/"
