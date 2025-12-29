@@ -67,6 +67,9 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
 
     timeout-minutes: 5
 
@@ -113,3 +116,7 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
+
+      - name: Run octocov
+        uses: k1LoW/octocov-action@v1
+        if: ${{ !cancelled() }}
