@@ -21,4 +21,7 @@ SimpleCov.start "rails" do
 
   # Exclude files with no meaningful logic to test
   add_filter "app/controllers/static_pages_controller.rb"
+
+  # Custom groups for ViewComponents
+  add_group "ViewComponents", "app/components"
 end
