@@ -195,7 +195,8 @@ GEM
     marcel (1.1.0)
     matrix (0.4.3)
     mini_mime (1.1.5)
-    minitest (5.27.0)
+    minitest (6.0.1)
+      prism (~> 1.5)
     minitest-reporters (1.7.1)
       ansi
       builder
@@ -458,7 +459,7 @@ DEPENDENCIES
   kamal
   kaminari (~> 1.2, >= 1.2.2)
   letter_opener_web (~> 3.0)
-  minitest (~> 5.0)
+  minitest (~> 6.0)
   minitest-reporters (~> 1.7, >= 1.7.1)
   pg (~> 1.6)
   propshaft
