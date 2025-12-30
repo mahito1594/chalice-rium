@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     if @user.update(update_user_params)
       redirect_to user_path(@user), notice: "プロフィールが更新されました。" # TODO: Use I18n
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

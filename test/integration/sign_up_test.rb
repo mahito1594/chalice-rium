@@ -35,6 +35,6 @@ class SignUpTest < ActionDispatch::IntegrationTest
     end
 
     assert_equal 0, ActionMailer::Base.deliveries.size
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
   end
 end

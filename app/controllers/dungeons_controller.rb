@@ -33,7 +33,7 @@ class DungeonsController < ApplicationController
     if @dungeon.save
       redirect_to @dungeon, notice: "聖杯ダンジョンが登録されました。" # TODO: Use I18n
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -46,7 +46,7 @@ class DungeonsController < ApplicationController
       # disallow to update rites
       redirect_to @dungeon, notice: "聖杯ダンジョンが更新されました。" # TODO: Use I18n
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
