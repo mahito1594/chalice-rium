@@ -32,7 +32,7 @@ module Ui
     end
 
     def centered_class
-      @centered ? "m-auto mx-auto" : nil
+      @centered ? "mx-auto" : nil
     end
 
     def html_attributes

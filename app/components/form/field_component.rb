@@ -43,7 +43,7 @@ module Form
     private
 
     def input_classes
-      base = INPUT_CLASSES.dup
+      base = INPUT_CLASSES
       base += " border-red-500" if has_errors?
       custom = @input_options[:class]
       custom ? "#{base} #{custom}" : base

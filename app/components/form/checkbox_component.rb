@@ -30,18 +30,19 @@ module Form
     private
 
     def checkbox_classes
-      base = CHECKBOX_CLASSES.dup
+      base = CHECKBOX_CLASSES
       base += " cursor-not-allowed" if @disabled
       custom = @input_options[:class]
       custom ? "#{base} #{custom}" : base
     end
 
     def checkbox_html_options
-      @input_options.except(:class, :wrapper_class).merge(
+      opts = @input_options.except(:class, :wrapper_class).merge(
         class: checkbox_classes,
-        checked: @checked,
         disabled: @disabled
       )
+      opts[:checked] = @checked if @checked
+      opts
     end
   end
 end

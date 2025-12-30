@@ -31,13 +31,13 @@ module Ui
     test "renders centered card by default" do
       render_inline(CardComponent.new) { "Centered" }
 
-      assert_selector "div.m-auto.mx-auto"
+      assert_selector "div.mx-auto"
     end
 
     test "renders non-centered card when specified" do
       render_inline(CardComponent.new(centered: false)) { "Not centered" }
 
-      assert_no_selector "div.m-auto"
+      assert_no_selector "div.mx-auto"
     end
 
     test "renders with header slot" do
