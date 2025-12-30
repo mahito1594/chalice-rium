@@ -79,8 +79,10 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not update dungeon with invalid params" do
     sign_in @user
-    patch dungeon_path(@dungeon), params: { dungeon: { glyph: nil } }
-    assert_redirected_to @dungeon
+    # glyph is not permitted in update_dungeon_params, so it won't cause validation error
+    # Test with comment that exceeds 255 characters
+    patch dungeon_path(@dungeon), params: { dungeon: { comment: "x" * 256 } }
+    assert_response :unprocessable_content
   end
 
   test "should destroy dungeon" do

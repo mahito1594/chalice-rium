@@ -93,6 +93,57 @@ module Form
       end
     end
 
+    test "renders number field" do
+      with_controller_class(DungeonsController) do
+        @dungeon = Dungeon.new
+        render_inline(FieldComponent.new(form: form_for(@dungeon), attribute: :depth, type: :number))
+
+        assert_selector "input[type='number'][name='dungeon[depth]']"
+      end
+    end
+
+    test "renders telephone field" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username, type: :tel))
+
+        assert_selector "input[type='tel'][name='user[username]']"
+      end
+    end
+
+    test "renders url field" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :twitter_link, type: :url))
+
+        assert_selector "input[type='url'][name='user[twitter_link]']"
+      end
+    end
+
+    test "renders select field" do
+      with_controller_class(DungeonsController) do
+        @dungeon = Dungeon.new
+        render_inline(FieldComponent.new(
+          form: form_for(@dungeon),
+          attribute: :area,
+          type: :select,
+          choices: [ [ "Pthumeru", "pthumeru" ], [ "Loran", "loran" ] ]
+        ))
+
+        assert_selector "select[name='dungeon[area]']"
+      end
+    end
+
+    test "applies custom class to input" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(
+          form: form_for(@user),
+          attribute: :username,
+          class: "custom-class"
+        ))
+
+        assert_includes rendered_content, "custom-class"
+      end
+    end
+
     private
 
     def form_for(object)

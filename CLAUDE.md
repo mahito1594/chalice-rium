@@ -18,6 +18,7 @@ bin/dev  # foreman で Rails サーバー + Tailwind CSS watch を同時起動
 bin/rails test                              # 全テスト実行
 bin/rails test test/models/user_test.rb     # 単一ファイル実行
 bin/rails test test/models/user_test.rb:10  # 特定行のテスト実行
+RAILS_ENV=test COVERAGE=1 bin/rails test    # カバレッジ取得（coverage/index.html に出力）
 ```
 
 ### Lint とセキュリティチェック
