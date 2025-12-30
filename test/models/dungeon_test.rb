@@ -25,6 +25,18 @@ class DungeonTest < ActiveSupport::TestCase
     assert_nil @dungeon.layers.find_by(level: 4)
   end
 
+  test "should keep fourth layer with boss_name" do
+    @dungeon.layers.build(level: 4, boss_name: "Ebrietas")
+    @dungeon.save
+    assert_equal "Ebrietas", @dungeon.layers.find_by(level: 4).boss_name
+  end
+
+  test "should be valid when rites is empty" do
+    # Test validate_rite_combination when rites is empty (safe navigation edge case)
+    @dungeon.rites = []
+    assert @dungeon.valid?
+  end
+
   test "should not allow sinister rite with other rites" do
     fetid_rite = rites(:fetid)
     sinister_rite = rites(:sinister)

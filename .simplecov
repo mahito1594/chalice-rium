@@ -18,4 +18,7 @@ SimpleCov.start "rails" do
   add_filter "/config/"
   add_filter "/db/"
   add_filter "/vendor/"
+
+  # Exclude files with no meaningful logic to test
+  add_filter "app/controllers/static_pages_controller.rb"
 end

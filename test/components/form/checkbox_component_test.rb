@@ -74,6 +74,32 @@ module Form
       end
     end
 
+    test "applies custom class to checkbox" do
+      with_controller_class(DungeonsController) do
+        render_inline(CheckboxComponent.new(
+          form: form_for(@dungeon),
+          attribute: :is_open,
+          class: "custom-checkbox-class"
+        ))
+
+        assert_includes rendered_content, "custom-checkbox-class"
+      end
+    end
+
+    test "does not set checked attribute when checked is nil" do
+      with_controller_class(DungeonsController) do
+        render_inline(CheckboxComponent.new(
+          form: form_for(@dungeon),
+          attribute: :is_open,
+          checked: nil
+        ))
+
+        # When checked is nil, the checked attribute should not be explicitly set
+        assert_selector "input[type='checkbox']"
+        assert_no_selector "input[checked]"
+      end
+    end
+
     private
 
     def form_for(object)

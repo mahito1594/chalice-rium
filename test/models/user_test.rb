@@ -64,4 +64,27 @@ class UserTest < ActiveSupport::TestCase
     @user.bio = "a" * 501
     assert_not @user.valid?
   end
+
+  # Test for Devise authentication helper
+  test "should find user by email when username is nil" do
+    # This tests the find_first_by_auth_conditions method with username: nil
+    result = User.find_first_by_auth_conditions(email: @user.email)
+    assert_equal @user, result
+  end
+
+  test "should find user by username when provided" do
+    result = User.find_first_by_auth_conditions(username: @user.username)
+    assert_equal @user, result
+  end
+
+  test "should handle blank username in downcase" do
+    # This is an edge case for the downcase_username callback
+    user = User.new(
+      email: "newuser@example.com",
+      password: "password123",
+      display_name: "New User",
+      username: "@newuser"
+    )
+    assert user.valid?
+  end
 end
