@@ -32,7 +32,7 @@ module Form
       end
     end
 
-    def has_errors?
+    def errors?
       @form.object.errors[@attribute].any?
     end
 
@@ -44,7 +44,7 @@ module Form
 
     def input_classes
       base = INPUT_CLASSES
-      base += " border-red-500" if has_errors?
+      base += " border-red-500" if errors?
       custom = @input_options[:class]
       custom ? "#{base} #{custom}" : base
     end

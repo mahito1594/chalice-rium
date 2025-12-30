@@ -19,7 +19,7 @@ module Form
       @label || @form.object.class.human_attribute_name(@attribute)
     end
 
-    def has_errors?
+    def errors?
       @form.object.errors[@attribute].any?
     end
 
@@ -41,7 +41,7 @@ module Form
         class: checkbox_classes,
         disabled: @disabled
       )
-      opts[:checked] = @checked if @checked
+      opts[:checked] = @checked unless @checked.nil?
       opts
     end
   end

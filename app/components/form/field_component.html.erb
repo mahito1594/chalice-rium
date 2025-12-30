@@ -9,7 +9,7 @@
     <%= @form.send(input_method, @attribute, input_html_options) %>
   <% end %>
 
-  <% if has_errors? %>
+  <% if errors? %>
     <% error_messages.each do |message| %>
       <p class="<%= ERROR_CLASSES %>"><%= message %></p>
     <% end %>

@@ -2,7 +2,7 @@
   <%= @form.check_box @attribute, checkbox_html_options %>
   <%= @form.label @attribute, label_text, class: LABEL_CLASSES %>
 
-  <% if has_errors? %>
+  <% if errors? %>
     <% error_messages.each do |message| %>
       <p class="<%= ERROR_CLASSES %>"><%= message %></p>
     <% end %>
