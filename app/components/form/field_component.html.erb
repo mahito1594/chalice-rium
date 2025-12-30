@@ -1,5 +1,8 @@
 <div class="<%= @input_options[:wrapper_class] %>">
   <%= @form.label @attribute, label_text, class: LABEL_CLASSES %>
+  <% if @hint %>
+    <p class="<%= HINT_CLASSES %>"><%= @hint %></p>
+  <% end %>
 
   <% if @type == :textarea %>
     <%= @form.text_area @attribute, input_html_options %>

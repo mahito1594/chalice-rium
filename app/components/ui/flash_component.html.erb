@@ -1,0 +1,18 @@
+<div class="<%= flash_classes %>" data-controller="flash" <%= tag.attributes(html_attributes) %>>
+  <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+    <div class="flex">
+      <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+        <path d="<%= icon_path %>"></path>
+      </svg>
+
+      <p class="mx-3"><%= @message %></p>
+    </div>
+
+    <button class="p-1 transition-colors duration-300 transform rounded-md hover:bg-gray-600/25 focus:outline-hidden"
+            data-action="click->flash#delete">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
