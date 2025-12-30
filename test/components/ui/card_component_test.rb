@@ -68,5 +68,34 @@ module Ui
       assert_selector "div#my-card"
       assert_selector "div[data-controller='card']"
     end
+
+    test "renders with footer slot" do
+      render_inline(CardComponent.new) do |component|
+        component.with_footer { "<div class='footer-content'>Footer</div>".html_safe }
+        "Card body"
+      end
+
+      assert_text "Card body"
+      assert_selector ".footer-content", text: "Footer"
+    end
+
+    test "renders without footer when not provided" do
+      render_inline(CardComponent.new) { "Just body" }
+
+      assert_text "Just body"
+      assert_no_selector ".footer-content"
+    end
+
+    test "content is wrapped with padding" do
+      render_inline(CardComponent.new) { "Padded content" }
+
+      assert_selector "div.p-6", text: "Padded content"
+    end
+
+    test "has overflow-hidden for proper rounded corners" do
+      render_inline(CardComponent.new) { "Content" }
+
+      assert_selector "div.overflow-hidden"
+    end
   end
 end

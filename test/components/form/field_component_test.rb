@@ -144,6 +144,27 @@ module Form
       end
     end
 
+    test "renders hint text when provided" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(
+          form: form_for(@user),
+          attribute: :password,
+          type: :password,
+          hint: "※6文字以上"
+        ))
+
+        assert_selector "p.text-gray-600", text: "※6文字以上"
+      end
+    end
+
+    test "does not render hint when not provided" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))
+
+        assert_no_selector "p.text-gray-600"
+      end
+    end
+
     private
 
     def form_for(object)

@@ -26,7 +26,7 @@ module Ui
 
     def call
       if @href
-        link_to @href, class: button_classes, **link_options do
+        link_to @href, class: link_classes, **link_options do
           content
         end
       else
@@ -56,6 +56,12 @@ module Ui
 
     def link_options
       @html_options.except(:class)
+    end
+
+    def link_classes
+      classes = [ button_classes ]
+      classes << "block text-center" if @full_width
+      classes.join(" ")
     end
   end
 end
