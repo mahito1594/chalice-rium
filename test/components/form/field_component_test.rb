@@ -125,7 +125,7 @@ module Form
           form: form_for(@dungeon),
           attribute: :area,
           type: :select,
-          choices: [["Pthumeru", "pthumeru"], ["Loran", "loran"]]
+          choices: [ [ "Pthumeru", "pthumeru" ], [ "Loran", "loran" ] ]
         ))
 
         assert_selector "select[name='dungeon[area]']"
