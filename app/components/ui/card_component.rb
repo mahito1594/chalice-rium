@@ -3,6 +3,7 @@
 module Ui
   class CardComponent < ApplicationComponent
     renders_one :header
+    renders_one :footer
 
     SIZE_CLASSES = {
       sm: "max-w-sm",
@@ -28,7 +29,11 @@ module Ui
     end
 
     def base_classes
-      "w-full p-6 bg-white rounded-lg shadow-md dark:bg-gray-800"
+      "w-full bg-white rounded-lg shadow-md dark:bg-gray-800 overflow-hidden"
+    end
+
+    def content_classes
+      "p-6"
     end
 
     def centered_class
