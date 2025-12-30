@@ -1,0 +1,6 @@
+<%= tag.div(class: card_classes, **html_attributes) do %>
+  <% if header? %>
+    <%= header %>
+  <% end %>
+  <%= content %>
+<% end %>
