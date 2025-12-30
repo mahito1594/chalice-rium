@@ -51,3 +51,6 @@ Metrics/MethodLength:
 Metrics/ClassLength:
   Enabled: true
   Max: 200
+
+Naming/PredicatePrefix:
+  Enabled: true

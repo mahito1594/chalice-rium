@@ -56,7 +56,7 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
   test "should not create dungeon with invalid params" do
     sign_in @user
     post dungeons_url, params: { dungeon: { glyph: nil } }
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
   end
 
   test "should update dungeon with valid params" do

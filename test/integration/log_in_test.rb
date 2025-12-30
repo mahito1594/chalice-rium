@@ -17,6 +17,6 @@ class LoginTest < LogIn
 
   test "login with invalid information" do
     post user_session_path, params: { user: { username: @user.username, password: "wrongpassword" } }
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
   end
 end

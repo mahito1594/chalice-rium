@@ -30,7 +30,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
 
     patch user_path(@user), params: { user: { display_name: nil } }
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
 
     patch user_path(@user), params: { user: { display_name: "Provost Willem" } }
     assert_redirected_to user_path(@user)

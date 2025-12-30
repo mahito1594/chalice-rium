@@ -1,0 +1,17 @@
+<div class="<%= @input_options[:wrapper_class] %>">
+  <%= @form.label @attribute, label_text, class: LABEL_CLASSES %>
+
+  <% if @type == :textarea %>
+    <%= @form.text_area @attribute, input_html_options %>
+  <% elsif @type == :select %>
+    <%= @form.select @attribute, @input_options[:choices], @input_options[:options] || {}, input_html_options %>
+  <% else %>
+    <%= @form.send(input_method, @attribute, input_html_options) %>
+  <% end %>
+
+  <% if errors? %>
+    <% error_messages.each do |message| %>
+      <p class="<%= ERROR_CLASSES %>"><%= message %></p>
+    <% end %>
+  <% end %>
+</div>
