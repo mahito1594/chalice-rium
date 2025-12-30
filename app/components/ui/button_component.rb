@@ -59,7 +59,7 @@ module Ui
     end
 
     def link_classes
-      classes = [button_classes]
+      classes = [ button_classes ]
       classes << "block text-center" if @full_width
       classes.join(" ")
     end
