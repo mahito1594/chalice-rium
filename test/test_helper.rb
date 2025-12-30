@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/reporters"
+require "view_component/test_helpers"
 Minitest::Reporters.use!
 
 module ActiveSupport
