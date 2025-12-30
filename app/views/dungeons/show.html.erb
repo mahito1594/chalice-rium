@@ -1,7 +1,7 @@
 <% provide(:title, @dungeon.glyph) %>
 <% provide(:og_type, 'article') %>
 <% provide(:og_description, @dungeon.comment) %>
-<div class="w-full max-w-2xl p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
+<%= render Ui::CardComponent.new(size: :md) do %>
   <%# Header section %>
   <div class="h-14 flex items-center justify-between">
     <div class="flex">
@@ -19,11 +19,16 @@
     </div>
     <% if current_user == @dungeon.user %>
       <div class="flex space-x-2">
-        <%= link_to t("label.general.update"), edit_dungeon_path(@dungeon),
-                    class: "px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-300/80" %>
-        <%= link_to t("label.general.delete"), dungeon_path(@dungeon),
-                    class: "px-6 py-2 font-medium tracking-wide text-gray-500 dark:text-gray-200 capitalize transition-colors duration-300 transform bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-hidden focus:ring-3 focus:ring-gray-300/50",
-                    data: { "turbo-method": :delete, turbo_confirm: t("label.general.sure") } %>
+        <%= render Ui::ButtonComponent.new(variant: :secondary, href: edit_dungeon_path(@dungeon)) do %>
+          <%= t("label.general.update") %>
+        <% end %>
+        <%= render Ui::ButtonComponent.new(
+          variant: :outline,
+          href: dungeon_path(@dungeon),
+          data: { "turbo-method": :delete, turbo_confirm: t("label.general.sure") }
+        ) do %>
+          <%= t("label.general.delete") %>
+        <% end %>
       </div>
     <% end %>
   </div>
@@ -51,9 +56,9 @@
     </p>
     <div class="mt-2 flex flex-wrap gap-2">
       <% @dungeon.rites.each do |rite| %>
-        <span class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full dark:bg-gray-700 dark:text-gray-200">
+        <%= render Ui::BadgeComponent.new do %>
           <%= rite.translated_name %>
-        </span>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -80,9 +85,9 @@
   <div class="mt-6">
     <div class="flex items-center">
       <div class="flex items-center">
-        <span class="<%= @dungeon.is_open? ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %> px-3 py-1 text-sm rounded-full">
+        <%= render Ui::BadgeComponent.new(variant: @dungeon.is_open? ? :success : :danger) do %>
           <%= @dungeon.is_open? ? t("label.dungeon.value.open") : t("label.dungeon.value.close") %>
-        </span>
+        <% end %>
       </div>
       <p class="ml-4 text-sm text-gray-500 dark:text-gray-400">
         &laquo;
@@ -106,4 +111,4 @@
       </div>
     <% end %>
   </div>
-</div>
+<% end %>
