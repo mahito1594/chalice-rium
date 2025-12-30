@@ -62,6 +62,9 @@ Dungeon has_many Rites through DungeonRites
 ### フロントエンド
 - Tailwind CSS 4.x + Hotwire (Turbo/Stimulus)
 - ビューテンプレートは ERB
+- ViewComponent でフォーム・UI要素をコンポーネント化
+  - `Form::FieldComponent`, `Form::CheckboxComponent`
+  - `Ui::CardComponent`, `Ui::BadgeComponent`, `Ui::ButtonComponent`
 
 ### 開発環境
 - devcontainer を使用（Docker Compose: rails-app + postgres + selenium）
