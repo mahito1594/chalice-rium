@@ -45,7 +45,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 # Use devise for user authentication
-gem "devise", "~> 4.9", ">= 4.9.4"
+gem "devise", "~> 5.0"
 
 # Send emails via resend.com
 gem "resend", "~> 1.0.0"
