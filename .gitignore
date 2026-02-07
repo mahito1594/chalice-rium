@@ -9,6 +9,7 @@
 
 # Ignore all environment files.
 /.env*
+!.envrc
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -44,3 +45,9 @@
 
 # Code coverage reports
 /coverage/
+
+# Nix
+/result
+
+# direnv
+.direnv/

@@ -37,8 +37,19 @@
 - minitest
 
 ## 開発
-開発には [devcontainer](https://containers.dev/) を利用します。
-詳細は各エディタ・IDE のマニュアルを参照してください
+
+### Nix Flake
+
+[Nix](https://nixos.org/) がインストールされている環境で以下を実行します。
+
+```bash
+nix develop              # 開発シェルに入る（PostgreSQL も自動起動）
+bin/setup --skip-server  # 初回のみ: gem インストール + DB セットアップ
+bin/dev                  # Rails サーバー + Tailwind CSS watch を起動
+```
+
+PostgreSQL はプロジェクトローカル（`tmp/postgres/`）で動作し、Unix ソケットで接続します。
+停止するには `pg_ctl stop` を実行してください。
 
 ## その他
 - [Favicon.io](https://favicon.io/)
