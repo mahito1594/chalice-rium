@@ -68,5 +68,7 @@ Dungeon has_many Rites through DungeonRites
   - `Ui::CardComponent`, `Ui::BadgeComponent`, `Ui::ButtonComponent`
 
 ### 開発環境
-- devcontainer を使用（Docker Compose: rails-app + postgres + selenium）
-- ポート 3000 が Rails サーバー、5432 が PostgreSQL
+- mise でツールバージョン管理（Ruby は `.ruby-version` を参照）
+- PostgreSQL は Docker Compose（`compose.yaml`）で起動（ポート 5432）
+- `mise run setup` でセットアップ、`mise run dev` で開発サーバー起動
+- ポート 3000 が Rails サーバー

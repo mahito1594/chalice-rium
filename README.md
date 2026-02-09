@@ -37,8 +37,25 @@
 - minitest
 
 ## 開発
-開発には [devcontainer](https://containers.dev/) を利用します。
-詳細は各エディタ・IDE のマニュアルを参照してください
+
+### 前提条件
+- [mise](https://mise.jdx.dev/)
+- [Docker](https://www.docker.com/)（PostgreSQL コンテナ用）
+
+### セットアップ
+```bash
+mise run setup   # DB コンテナ起動 + 依存関係インストール + DB 準備
+```
+
+### 開発サーバーの起動
+```bash
+mise run dev     # DB コンテナ起動 + Rails サーバー + Tailwind CSS watch
+```
+
+### テスト
+```bash
+mise run test    # DB コンテナ起動 + テスト実行（カバレッジ付き）
+```
 
 ## その他
 - [Favicon.io](https://favicon.io/)

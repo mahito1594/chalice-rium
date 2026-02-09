@@ -1,0 +1,32 @@
+[settings]
+idiomatic_version_file_enable_tools = ["ruby"]
+
+[tools]
+"gem:ruby-lsp" = "latest"
+
+[env]
+DB_HOST = "localhost"
+
+[tasks."db:up"]
+description = "Start the PostgreSQL container"
+run = "docker compose up -d"
+
+[tasks."db:down"]
+description = "Stop the PostgreSQL container"
+run = "docker compose down"
+
+[tasks.setup]
+description = "Install dependencies and prepare the database"
+depends = ["db:up"]
+run = "bin/setup --skip-server"
+
+[tasks.dev]
+description = "Start the development server with Tailwind CSS watcher"
+depends = ["db:up"]
+run = "bin/dev"
+
+[tasks.test]
+description = "Run the test suite with coverage"
+depends = ["db:up"]
+env = { RAILS_ENV = "test", COVERAGE = 1 }
+run = "bin/rails test"
