@@ -22,6 +22,10 @@ default: &default
   host: <%= ENV["DB_HOST"] %>
   username: postgres # secretlint-disable-line
   password: postgres # secretlint-disable-line
+  # Disable GSSAPI encryption to avoid SEGFAULT on macOS.
+  # macOS's Kerberos (Heimdal) is not fork-safe, causing crashes
+  # in parallel test workers. See: https://github.com/ged/ruby-pg/issues/538
+  gssencmode: disable
   <% end %>
 
 
