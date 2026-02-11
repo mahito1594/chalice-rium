@@ -54,5 +54,11 @@
     <footer class="mt-auto bg-white dark:bg-gray-900">
       <%= render "layouts/footer" %>
     </footer>
+    <div data-controller="toast"
+         data-action="url-copy:success@window->toast#show url-copy:error@window->toast#show">
+      <div data-toast-target="container"
+           class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2">
+      </div>
+    </div>
   </body>
 </html>

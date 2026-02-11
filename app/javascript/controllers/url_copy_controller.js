@@ -6,6 +6,11 @@ export default class extends Controller {
     text: String,
     url: String,
     copiedIcon: String,
+    defaultIcon: String,
+  }
+
+  disconnect() {
+    clearTimeout(this.resetTimer)
   }
 
   copy() {
@@ -16,7 +21,22 @@ export default class extends Controller {
 
     navigator.clipboard
       .write([clipboardItem])
-      .then(() => this.iconTarget.src = this.copiedIconValue)
-      .catch((err) => console.error(err))
+      .then(() => {
+        this.iconTarget.src = this.copiedIconValue
+        this.#dispatchToast("コピーしました", "success")
+        clearTimeout(this.resetTimer)
+        this.resetTimer = setTimeout(() => {
+          this.iconTarget.src = this.defaultIconValue
+        }, 3000)
+      })
+      .catch(() => {
+        this.#dispatchToast("コピーに失敗しました", "error")
+      })
+  }
+
+  #dispatchToast(message, type) {
+    window.dispatchEvent(
+      new CustomEvent(`url-copy:${type}`, { detail: { message, type } })
+    )
   }
 }
