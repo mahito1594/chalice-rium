@@ -13,8 +13,10 @@
               data-url-copy-text-value="<%= @dungeon.glyph %>"
               data-url-copy-url-value="<%= dungeon_url(@dungeon) %>"
               data-url-copy-copied-icon-value="<%= asset_path "clipboard-check.svg" %>"
+              data-url-copy-default-icon-value="<%= asset_path "clipboard.svg" %>"
+              aria-label="<%= t("label.dungeon.copy_glyph") %>"
               class="pl-2">
-        <%= image_tag "clipboard.svg", data: { "url-copy-target": "icon" } %>
+        <%= image_tag "clipboard.svg", alt: "", data: { "url-copy-target": "icon" } %>
       </button>
     </div>
     <% if current_user == @dungeon.user %>
