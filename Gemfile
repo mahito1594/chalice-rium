@@ -72,6 +72,9 @@ group :development, :test do
 end
 
 group :development do
+  # Process manager for Procfile-based applications
+  gem "foreman"
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
