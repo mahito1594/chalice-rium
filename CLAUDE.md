@@ -72,3 +72,4 @@ Dungeon has_many Rites through DungeonRites
 - PostgreSQL は Docker Compose（`compose.yaml`）で起動（ポート 5432）
 - `mise run setup` でセットアップ、`mise run dev` で開発サーバー起動
 - ポート 3000 が Rails サーバー
+- `mise.local.toml`（gitignored）でマシン固有の環境変数を管理（例: macOS での `PGGSSENCMODE=disable`）
