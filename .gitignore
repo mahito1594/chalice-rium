@@ -44,3 +44,6 @@
 
 # Code coverage reports
 /coverage/
+
+# Local mise config
+mise.local.toml

@@ -57,6 +57,15 @@ mise run dev     # DB コンテナ起動 + Rails サーバー + Tailwind CSS wat
 mise run test    # DB コンテナ起動 + テスト実行（カバレッジ付き）
 ```
 
+### macOS での注意事項
+macOS arm64 環境では、PostgreSQL への TCP 接続時に GSSAPI (Kerberos) の初期化が並列テストの fork と干渉し、SEGFAULT が発生する場合があります。以下の環境変数を設定してください:
+
+```bash
+export PGGSSENCMODE=disable
+```
+
+参考: https://github.com/ged/ruby-pg/issues/538
+
 ## その他
 - [Favicon.io](https://favicon.io/)
     - ファビコンの作成に利用しました
