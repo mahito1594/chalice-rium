@@ -63,9 +63,7 @@ Dungeon has_many Rites through DungeonRites
 ### フロントエンド
 - Tailwind CSS 4.x + Hotwire (Turbo/Stimulus)
 - ビューテンプレートは ERB
-- ViewComponent でフォーム・UI要素をコンポーネント化
-  - `Form::FieldComponent`, `Form::CheckboxComponent`
-  - `Ui::CardComponent`, `Ui::BadgeComponent`, `Ui::ButtonComponent`
+- ViewComponent でフォーム・UI要素をコンポーネント化（詳細は `app/components/` を参照）
 
 ### 開発環境
 - mise でツールバージョン管理（Ruby は `.ruby-version` を参照）
@@ -73,3 +71,4 @@ Dungeon has_many Rites through DungeonRites
 - `mise run setup` でセットアップ、`mise run dev` で開発サーバー起動
 - ポート 3000 が Rails サーバー
 - `mise.local.toml`（gitignored）でマシン固有の環境変数を管理（例: macOS での `PGGSSENCMODE=disable`）
+- Devise の `:confirmable` が有効なため、登録後にメール確認が必要。開発環境では http://localhost:3000/letter_opener で確認メールを閲覧できる
