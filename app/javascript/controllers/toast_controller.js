@@ -27,7 +27,10 @@ export default class extends Controller {
   }
 
   #classesForType(type) {
-    const base = "px-4 py-2 rounded-lg shadow-lg text-white text-sm transition-opacity duration-300"
-    return type === "error" ? `${base} bg-red-600` : `${base} bg-green-600`
+    const base = "px-4 py-2 rounded-full shadow-lg text-sm transition-opacity duration-300"
+    if (type === "error") {
+      return `${base} bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200`
+    }
+    return `${base} bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200`
   }
 }
