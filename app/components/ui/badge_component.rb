@@ -4,9 +4,9 @@ module Ui
   class BadgeComponent < ApplicationComponent
     VARIANT_CLASSES = {
       default: "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200",
-      success: "bg-green-100 text-green-700",
-      danger: "bg-red-100 text-red-700",
-      warning: "bg-yellow-100 text-yellow-700"
+      success: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200",
+      danger: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200",
+      warning: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200"
     }.freeze
 
     def initialize(variant: :default, **html_options)
