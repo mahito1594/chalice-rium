@@ -7,13 +7,18 @@ module Form
     HINT_CLASSES = "text-sm text-gray-600 dark:text-gray-400"
     ERROR_CLASSES = "mt-1 text-sm text-red-600 dark:text-red-400"
 
-    def initialize(form:, attribute:, type: :text, label: nil, required: false, hint: nil, **input_options)
+    TOOLTIP_BUTTON_CLASSES = "text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 focus:outline-hidden"
+    TOOLTIP_BODY_CLASSES = "absolute z-10 bottom-full left-0 mb-2 px-3 py-2 text-sm text-white bg-gray-800 dark:bg-gray-600 rounded-lg w-fit max-w-full opacity-0 invisible transition-opacity duration-200 pointer-events-none"
+    TOOLTIP_ARROW_CLASSES = "absolute top-full border-4 border-transparent border-t-gray-800 dark:border-t-gray-600"
+
+    def initialize(form:, attribute:, type: :text, label: nil, required: false, hint: nil, tooltip: nil, **input_options)
       @form = form
       @attribute = attribute
       @type = type
       @label = label
       @required = required
       @hint = hint
+      @tooltip = tooltip
       @input_options = input_options
     end
 
@@ -34,6 +39,14 @@ module Form
       end
     end
 
+    def tooltip?
+      @tooltip.present?
+    end
+
+    def tooltip_id
+      "tooltip-#{@attribute}"
+    end
+
     def errors?
       @form.object.errors[@attribute].any?
     end
@@ -52,10 +65,12 @@ module Form
     end
 
     def input_html_options
-      @input_options.except(:class, :wrapper_class, :choices, :options).merge(
+      opts = @input_options.except(:class, :wrapper_class, :choices, :options).merge(
         class: input_classes,
         required: @required
       )
+      opts[:aria] = { describedby: tooltip_id } if tooltip?
+      opts
     end
   end
 end

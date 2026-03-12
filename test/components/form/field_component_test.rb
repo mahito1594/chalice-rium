@@ -157,6 +157,46 @@ module Form
       end
     end
 
+    test "renders tooltip with info icon when provided" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(
+          form: form_for(@user),
+          attribute: :username,
+          tooltip: "tooltip text here"
+        ))
+
+        assert_selector "button[aria-label='tooltip text here'][tabindex='0']"
+        assert_selector "svg"
+        assert_selector "[role='tooltip']#tooltip-username", text: "tooltip text here"
+        assert_selector "input[aria-describedby='tooltip-username']"
+        assert_includes rendered_content, "click->tooltip#show"
+      end
+    end
+
+    test "does not render tooltip when not provided" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))
+
+        assert_no_selector "[role='tooltip']"
+        assert_no_selector "button[aria-label]"
+      end
+    end
+
+    test "renders tooltip and hint together" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(
+          form: form_for(@user),
+          attribute: :password,
+          type: :password,
+          hint: "hint text",
+          tooltip: "tooltip text"
+        ))
+
+        assert_selector "[role='tooltip']", text: "tooltip text"
+        assert_selector "p", text: "hint text"
+      end
+    end
+
     test "does not render hint when not provided" do
       with_controller_class(UsersController) do
         render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))

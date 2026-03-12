@@ -14,6 +14,7 @@
       autofocus: true,
       placeholder: "@willem",
       pattern: "@[a-zA-Z0-9_]+",
+      tooltip: t("tooltips.user.username"),
       wrapper_class: "w-full mt-4"
     ) %>
 
@@ -39,7 +40,7 @@
       form: f,
       attribute: :password,
       type: :password,
-      hint: @minimum_password_length ? "※#{@minimum_password_length}文字以上" : nil,
+      tooltip: t("tooltips.user.password", count: @minimum_password_length || Devise.password_length.min),
       minlength: @minimum_password_length,
       autocomplete: "new-password",
       wrapper_class: "mt-4"

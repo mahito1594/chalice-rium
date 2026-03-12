@@ -49,6 +49,10 @@ ja:
         rotted: "腐臭"
         cursed: "呪い"
         sinister: "不吉"
+  tooltips:
+    user:
+      username: "@から始まる半角英数字とアンダースコア、3〜32文字"
+      password: "%{count}文字以上"
   label:
     general:
       delete: "削除"
