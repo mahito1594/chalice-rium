@@ -13,12 +13,14 @@ export default class extends Controller {
   }
 
   show() {
+    if (!this.hasBodyTarget) return
     this.position()
     this.bodyTarget.classList.remove("opacity-0", "invisible")
     this.bodyTarget.classList.add("opacity-100", "visible")
   }
 
   hide() {
+    if (!this.hasBodyTarget) return
     this.bodyTarget.classList.add("opacity-0", "invisible")
     this.bodyTarget.classList.remove("opacity-100", "visible")
   }

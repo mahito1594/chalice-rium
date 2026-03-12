@@ -165,9 +165,11 @@ module Form
           tooltip: "tooltip text here"
         ))
 
-        assert_selector "button[aria-label='tooltip text here']"
+        assert_selector "button[aria-label='tooltip text here'][tabindex='0']"
         assert_selector "svg"
-        assert_selector "[role='tooltip']", text: "tooltip text here"
+        assert_selector "[role='tooltip']#tooltip-username", text: "tooltip text here"
+        assert_selector "input[aria-describedby='tooltip-username']"
+        assert_includes rendered_content, "click->tooltip#show"
       end
     end
 

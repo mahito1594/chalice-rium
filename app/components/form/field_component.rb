@@ -43,6 +43,10 @@ module Form
       @tooltip.present?
     end
 
+    def tooltip_id
+      "tooltip-#{@attribute}"
+    end
+
     def errors?
       @form.object.errors[@attribute].any?
     end
@@ -61,10 +65,12 @@ module Form
     end
 
     def input_html_options
-      @input_options.except(:class, :wrapper_class, :choices, :options).merge(
+      opts = @input_options.except(:class, :wrapper_class, :choices, :options).merge(
         class: input_classes,
         required: @required
       )
+      opts[:aria] = { describedby: tooltip_id } if tooltip?
+      opts
     end
   end
 end

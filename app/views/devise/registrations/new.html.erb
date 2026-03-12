@@ -40,7 +40,7 @@
       form: f,
       attribute: :password,
       type: :password,
-      tooltip: @minimum_password_length ? t("tooltips.user.password", count: @minimum_password_length) : nil,
+      tooltip: t("tooltips.user.password", count: @minimum_password_length || Devise.password_length.min),
       minlength: @minimum_password_length,
       autocomplete: "new-password",
       wrapper_class: "mt-4"
