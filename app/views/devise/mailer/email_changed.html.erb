@@ -1,7 +1,21 @@
-<p>Hello <%= @email %>!</p>
+<section class="email-card">
+  <p class="email-brand">Chalice-rium</p>
 
-<% if @resource.try(:unconfirmed_email?) %>
-  <p>We're contacting you to notify you that your email is being changed to <%= @resource.unconfirmed_email %>.</p>
-<% else %>
-  <p>We're contacting you to notify you that your email has been changed to <%= @resource.email %>.</p>
-<% end %>
+  <h1 class="email-title">Hello <%= @resource.username %>!</h1>
+
+  <% if @resource.try(:unconfirmed_email?) %>
+    <p class="email-text">
+      メールアドレスの変更がリクエストされました。新しいメールアドレスは <%= @resource.unconfirmed_email %> です。
+    </p>
+  <% else %>
+    <p class="email-text">
+      メールアドレスが <%= @resource.email %> に変更されました。
+    </p>
+  <% end %>
+
+  <footer class="email-footer">
+    <p class="email-muted">
+      この変更に心当たりがない場合は、アカウント設定を確認してください。
+    </p>
+  </footer>
+</section>
