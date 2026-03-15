@@ -1,0 +1,5 @@
+<div class="<%= @html_options[:wrapper_class] %>">
+  <%= @form.hidden_field :level %>
+  <%= @form.label :boss_name, label_text, class: LABEL_CLASSES %>
+  <%= @form.text_field(:boss_name, class: INPUT_CLASSES) %>
+</div>

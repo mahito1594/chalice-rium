@@ -1,0 +1,9 @@
+<div class="<%= wrapper_class %>">
+  <% if @label %>
+    <%= label_tag @label_id, @label, class: LABEL_CLASSES %>
+  <% end %>
+  <%= select_tag @name,
+                 options_for_select(@options, @selected),
+                 include_blank: @include_blank,
+                 **select_html_options %>
+</div>
