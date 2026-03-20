@@ -1,0 +1,12 @@
+<fieldset class="<%= @html_options[:wrapper_class] %>">
+  <legend class="<%= LABEL_CLASSES %>"><%= @label %></legend>
+  <div class="flex flex-row">
+    <%= @form.collection_checkboxes @attribute, @collection, @value_method, @text_method,
+                                    checked_options do |b| %>
+      <div class="basis-1/4">
+        <%= b.checkbox(class: checkbox_classes, disabled: @disabled) %>
+        <%= b.label(class: checkbox_label_classes) %>
+      </div>
+    <% end %>
+  </div>
+</fieldset>

@@ -87,7 +87,7 @@ class Dungeon < ApplicationRecord
   def validate_rite_combination
     rite_names = rites&.map(&:name)
     if rite_names&.include?("sinister") && rite_names&.size > 1
-      errors.add(:rites, "sinister rite cannot be combined with other rites")
+      errors.add(:rites, :sinister_cannot_combine)
     end
   end
 

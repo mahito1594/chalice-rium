@@ -1,0 +1,18 @@
+<div class="<%= alert_classes %>" <%= tag.attributes(html_attributes) %>>
+  <div class="<%= ICON_WRAPPER_CLASSES %>">
+    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <path d="<%= ICON_PATH %>" />
+    </svg>
+  </div>
+
+  <div class="px-4 py-2 -mx-3">
+    <div class="mx-3">
+      <span class="<%= TITLE_CLASSES %>"><%= t("label.general.error") %></span>
+      <ul class="list-disc ml-4">
+        <% error_messages.each do |message| %>
+          <li class="<%= MESSAGE_CLASSES %>"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -22,24 +22,24 @@
     <%= form_with url: root_path, method: :get, data: { turbo_frame: "dungeons-list", filter_target: "form" } do |f| %>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
         <%# Area Filter %>
-        <div>
-          <%= label_tag :filter_area, t("activerecord.attributes.dungeon.area"),
-                        class: "block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2" %>
-          <%= select_tag "filter[area]",
-                         options_for_select(@area_options, params.dig(:filter, :area)),
-                         include_blank: t("label.dungeon.filter_all"),
-                         class: "block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3" %>
-        </div>
+        <%= render Form::SelectComponent.new(
+          name: "filter[area]",
+          options: @area_options,
+          selected: params.dig(:filter, :area),
+          label: t("activerecord.attributes.dungeon.area"),
+          label_id: :filter_area,
+          include_blank: t("label.dungeon.filter_all")
+        ) %>
 
         <%# Depth Filter %>
-        <div>
-          <%= label_tag :filter_depth, t("activerecord.attributes.dungeon.depth"),
-                        class: "block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2" %>
-          <%= select_tag "filter[depth]",
-                         options_for_select(@depth_options, params.dig(:filter, :depth)&.to_i),
-                         include_blank: t("label.dungeon.filter_all"),
-                         class: "block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3" %>
-        </div>
+        <%= render Form::SelectComponent.new(
+          name: "filter[depth]",
+          options: @depth_options,
+          selected: params.dig(:filter, :depth)&.to_i,
+          label: t("activerecord.attributes.dungeon.depth"),
+          label_id: :filter_depth,
+          include_blank: t("label.dungeon.filter_all")
+        ) %>
       </div>
 
       <%# Rites Filter (Checkboxes) %>

@@ -12,7 +12,7 @@
       <p class="text-gray-600 dark:text-gray-200"><%= @user.username %></p>
       <% if @user.bio.present? %>
         <div class="mt-4 p-4 bg-gray-50 rounded-lg dark:bg-gray-700">
-          <p class="p-3 text-sm text-gray-600 dark:text-gray-300 whitespace-no-wrap leading-relaxed">
+          <p class="p-3 text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
             <%= @user.bio %>
           </p>
         </div>
@@ -33,16 +33,15 @@
 
     <%# List of user's dungeons %>
     <div class="w-full md:flex-1">
-      <div class="mt-6 lg:mt-0 mb-4 flex items-center justify-between">
-        <h2 class="text-lg font-medium text-gray-800 dark:text-white">
-          聖杯ダンジョン一覧
-        </h2>
+      <%= render Ui::SectionHeaderComponent.new(title: "聖杯ダンジョン一覧", class: "mt-6 lg:mt-0") do |header| %>
         <% if current_user == @user %>
-          <%= render Ui::ButtonComponent.new(variant: :secondary, href: new_dungeon_path) do %>
-            <%= t("label.general.register") %>
+          <% header.with_action do %>
+            <%= render Ui::ButtonComponent.new(variant: :secondary, href: new_dungeon_path) do %>
+              <%= t("label.general.register") %>
+            <% end %>
           <% end %>
         <% end %>
-      </div>
+      <% end %>
 
       <%# TODO: create the endpoint GET /users/:username/dungeons and use eager-loading %>
       <%= turbo_frame_tag "users-dungeons-list", autoscroll: true,

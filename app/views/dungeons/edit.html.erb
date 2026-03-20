@@ -5,59 +5,30 @@
   </h3>
 
   <%= form_with(model: @dungeon, url: dungeon_path(@dungeon), method: :put, class: "mt-6") do |f| %>
-    <%= render "shared/error_messages", resource: @dungeon %>
+    <%= render Ui::AlertComponent.new(resource: @dungeon, inline_error_attributes: [:comment]) %>
 
-    <%# glyph - read only %>
-    <div>
-      <%= f.label :glyph, class: "block text-sm text-gray-800 dark:text-gray-200" %>
-      <div class="block w-full px-4 py-2 mt-2 text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-400">
-        <%= @dungeon.glyph %>
-      </div>
-    </div>
+    <%= render Form::ReadOnlyFieldComponent.new(
+      form: f, attribute: :glyph, value: @dungeon.glyph
+    ) %>
 
-    <%# area - read only %>
-    <div class="mt-4">
-      <%= f.label :area, class: "block text-sm text-gray-800 dark:text-gray-200" %>
-      <div class="block w-full px-4 py-2 mt-2 text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-400">
-        <%= @dungeon.translated_area %>
-      </div>
-    </div>
+    <%= render Form::ReadOnlyFieldComponent.new(
+      form: f, attribute: :area, value: @dungeon.translated_area, wrapper_class: "mt-4"
+    ) %>
 
-    <%# depth - read only %>
-    <div class="mt-4">
-      <%= f.label :depth, class: "block text-sm text-gray-800 dark:text-gray-200" %>
-      <div class="block w-full px-4 py-2 mt-2 text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-400">
-        <%= @dungeon.depth %>
-      </div>
-    </div>
+    <%= render Form::ReadOnlyFieldComponent.new(
+      form: f, attribute: :depth, value: @dungeon.depth, wrapper_class: "mt-4"
+    ) %>
 
-    <%# additional rites - disabled collection checkboxes %>
-    <fieldset class="mt-4">
-      <p class="block text-sm text-gray-800 dark:text-gray-200">
-        <%= t("label.dungeon.attributes.additional_rites") %>
-      </p>
-      <div class="flex flex-row">
-        <%= f.collection_checkboxes :rite_ids, @rites, :id, :translated_name,
-                                    { checked: @dungeon.rite_ids } do |b| %>
-          <div class="basis-1/4">
-            <%= b.checkbox(class: "size-4 border rounded-sm bg-gray-100 dark:bg-gray-700 dark:border-gray-600 cursor-not-allowed",
-                           disabled: true) %>
-            <%= b.label(class: "text-sm text-gray-500 dark:text-gray-400") %>
-          </div>
-        <% end %>
-      </div>
-    </fieldset>
+    <%= render Form::CollectionCheckboxesComponent.new(
+      form: f, attribute: :rite_ids, collection: @rites,
+      value_method: :id, text_method: :translated_name,
+      label: t("label.dungeon.attributes.additional_rites"),
+      checked: @dungeon.rite_ids, disabled: true,
+      wrapper_class: "mt-4"
+    ) %>
 
-    <%# layers - keeping fields_for as-is due to dynamic label %>
     <%= f.fields_for :layers do |layer_form| %>
-      <div class="mt-4">
-        <%= layer_form.hidden_field :level %>
-        <%= layer_form.label :boss_name,
-                             t("label.dungeon.attributes.boss_name", level: layer_form.object.level),
-                             class: "block text-sm text-gray-800 dark:text-gray-200" %>
-        <%= layer_form.text_field(:boss_name,
-                                  class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3") %>
-      </div>
+      <%= render Form::LayerFieldComponent.new(form: layer_form, wrapper_class: "mt-4") %>
     <% end %>
 
     <%= render Form::CheckboxComponent.new(

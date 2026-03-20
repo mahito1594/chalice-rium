@@ -5,15 +5,11 @@
   </h3>
 
   <%= form_with(model: @user) do |f| %>
-    <%= render "shared/error_messages", resource: @user %>
+    <%= render Ui::AlertComponent.new(resource: @user, inline_error_attributes: [:display_name, :bio]) %>
 
-    <%# Username (not editable) %>
-    <div class="w-full mt-4">
-      <%= f.label :username, class: "block text-sm text-gray-800 dark:text-gray-200" %>
-      <div class="block w-full px-4 py-2 mt-2 rounded-lg text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700">
-        <%= @user.username %>
-      </div>
-    </div>
+    <%= render Form::ReadOnlyFieldComponent.new(
+      form: f, attribute: :username, value: @user.username, wrapper_class: "w-full mt-4"
+    ) %>
 
     <%= render Form::FieldComponent.new(
       form: f,

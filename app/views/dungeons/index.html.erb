@@ -1,13 +1,14 @@
 <%= render Ui::CardComponent.new(size: :lg) do %>
-  <div class="mt-6 lg:mt-0 mb-4 flex items-center justify-between">
-    <%# TODO: I18n %>
-    <h2 class="text-lg font-medium text-gray-800 dark:text-white">聖杯ダンジョン一覧</h2>
+  <%# TODO: I18n %>
+  <%= render Ui::SectionHeaderComponent.new(title: "聖杯ダンジョン一覧", class: "mt-6 lg:mt-0") do |header| %>
     <% if user_signed_in? %>
-      <%= render Ui::ButtonComponent.new(variant: :secondary, href: new_dungeon_path) do %>
-        <%= t("label.general.register") %>
+      <% header.with_action do %>
+        <%= render Ui::ButtonComponent.new(variant: :secondary, href: new_dungeon_path) do %>
+          <%= t("label.general.register") %>
+        <% end %>
       <% end %>
     <% end %>
-  </div>
+  <% end %>
 
   <div>
     <%= render "filter_form" %>

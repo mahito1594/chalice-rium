@@ -37,18 +37,12 @@
 
   <%# Basic Info section %>
   <div class="mt-6 grid grid-cols-2 gap-4">
-    <div>
-      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-        <%= t("activerecord.attributes.dungeon.area") %>
-      </p>
-      <p class="mt-1 text-lg text-gray-700 dark:text-gray-200"><%= @dungeon.translated_area %></p>
-    </div>
-    <div>
-      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-        <%= t("activerecord.attributes.dungeon.depth") %>
-      </p>
-      <p class="mt-1 text-lg text-gray-700 dark:text-gray-200"><%= @dungeon.depth %></p>
-    </div>
+    <%= render Ui::DescriptionItemComponent.new(
+      label: t("activerecord.attributes.dungeon.area"), value: @dungeon.translated_area
+    ) %>
+    <%= render Ui::DescriptionItemComponent.new(
+      label: t("activerecord.attributes.dungeon.depth"), value: @dungeon.depth
+    ) %>
   </div>
 
   <%# Additional Rites section %>
