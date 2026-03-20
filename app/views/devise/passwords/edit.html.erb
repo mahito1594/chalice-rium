@@ -5,7 +5,7 @@
   </h3>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render Ui::AlertComponent.new(resource: resource) %>
+    <%= render Ui::AlertComponent.new(resource: resource, inline_error_attributes: [:password, :password_confirmation]) %>
     <%= f.hidden_field :reset_password_token %>
 
     <%= render Form::FieldComponent.new(

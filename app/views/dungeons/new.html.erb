@@ -5,7 +5,7 @@
   </h3>
 
   <%= form_with(model: @dungeon, class: "mt-6") do |f| %>
-    <%= render Ui::AlertComponent.new(resource: @dungeon) %>
+    <%= render Ui::AlertComponent.new(resource: @dungeon, inline_error_attributes: [:glyph, :area, :depth, :is_open, :comment]) %>
 
     <%= render Form::FieldComponent.new(
       form: f,

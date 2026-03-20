@@ -12,7 +12,7 @@
       <p class="text-gray-600 dark:text-gray-200"><%= @user.username %></p>
       <% if @user.bio.present? %>
         <div class="mt-4 p-4 bg-gray-50 rounded-lg dark:bg-gray-700">
-          <p class="p-3 text-sm text-gray-600 dark:text-gray-300 whitespace-no-wrap leading-relaxed">
+          <p class="p-3 text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
             <%= @user.bio %>
           </p>
         </div>

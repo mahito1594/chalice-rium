@@ -15,7 +15,7 @@ module Form
           form: form_for(@user), attribute: :username, value: @user.username
         ))
 
-        assert_selector "label", text: I18n.t("activerecord.attributes.user.username")
+        assert_selector "p", text: I18n.t("activerecord.attributes.user.username")
         assert_text "@willem"
       end
     end
@@ -26,7 +26,7 @@ module Form
           form: form_for(@user), attribute: :username, value: @user.username, label: "Custom Label"
         ))
 
-        assert_selector "label", text: "Custom Label"
+        assert_selector "p", text: "Custom Label"
       end
     end
 

@@ -11,7 +11,7 @@ module Ui
       render_inline(AlertComponent.new(resource: user))
 
       assert_selector "#error_explanation"
-      assert_selector "span", text: "Error"
+      assert_selector "span", text: I18n.t("label.general.error")
       assert_selector "li", text: /can't be blank/
     end
 
@@ -68,6 +68,26 @@ module Ui
       render_inline(AlertComponent.new(resource: user, class: "mt-4"))
 
       assert_includes rendered_content, "mt-4"
+    end
+
+    def test_excludes_inline_error_attributes
+      user = User.new
+      user.errors.add(:username, "can't be blank")
+      user.errors.add(:base, "something went wrong")
+
+      render_inline(AlertComponent.new(resource: user, inline_error_attributes: [ :username ]))
+
+      assert_no_selector "li", text: /can't be blank/
+      assert_selector "li", text: /something went wrong/
+    end
+
+    def test_does_not_render_when_only_inline_errors
+      user = User.new
+      user.errors.add(:username, "can't be blank")
+
+      render_inline(AlertComponent.new(resource: user, inline_error_attributes: [ :username ]))
+
+      assert_no_selector "div"
     end
   end
 end

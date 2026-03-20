@@ -38,7 +38,9 @@ module Form
     end
 
     def checked_options
-      @checked ? { checked: @checked } : {}
+      opts = @checked ? { checked: @checked } : {}
+      opts[:include_hidden] = false if @disabled
+      opts
     end
   end
 end

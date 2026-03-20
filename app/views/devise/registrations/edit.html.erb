@@ -5,7 +5,7 @@
   </h3>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render Ui::AlertComponent.new(resource: resource) %>
+    <%= render Ui::AlertComponent.new(resource: resource, inline_error_attributes: [:email, :password_confirmation, :current_password]) %>
 
     <%= render Form::FieldComponent.new(
       form: f,

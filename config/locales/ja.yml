@@ -8,6 +8,7 @@ ja:
       taken: "は既に使用されています"
       too_short: "は%{count}文字以上で入力してください"
       too_long: "は%{count}文字以内で入力してください"
+      wrong_length: "は%{count}文字で入力してください"
       invalid: "は不正な値です"
       confirmation: "が一致しません"
       not_a_number: "は数値で入力してください"
@@ -28,6 +29,7 @@ ja:
         depth: "深度"
         is_open: "オープン"
         comment: "コメント"
+        rites: "追加儀法"
     errors:
       models:
         user:
@@ -36,6 +38,10 @@ ja:
               taken: "は既に使用されています"
             email:
               taken: "は既に使用されています"
+        dungeon:
+          attributes:
+            rites:
+              sinister_cannot_combine: "不吉の儀法は他の儀法と同時に使用できません"
   enums:
     dungeon:
       area:
@@ -56,6 +62,7 @@ ja:
   label:
     general:
       delete: "削除"
+      error: "エラー"
       register: "登録"
       send: "送信"
       sure: "本当によろしいですか？"

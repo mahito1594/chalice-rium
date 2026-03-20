@@ -21,12 +21,16 @@ module Form
       @html_options[:wrapper_class]
     end
 
+    def derived_label_id
+      @html_options[:id] || @label_id || @name.to_s.delete("]").gsub(/[^-a-zA-Z0-9:.]/, "_")
+    end
+
     def select_classes
       [ SELECT_CLASSES, @html_options[:class] ].compact.join(" ")
     end
 
     def select_html_options
-      @html_options.except(:class, :wrapper_class).merge(class: select_classes)
+      @html_options.except(:class, :wrapper_class, :id).merge(class: select_classes, id: derived_label_id)
     end
   end
 end

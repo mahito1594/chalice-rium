@@ -5,7 +5,7 @@
   </h3>
 
   <%= form_with(model: @user) do |f| %>
-    <%= render Ui::AlertComponent.new(resource: @user) %>
+    <%= render Ui::AlertComponent.new(resource: @user, inline_error_attributes: [:display_name, :bio]) %>
 
     <%= render Form::ReadOnlyFieldComponent.new(
       form: f, attribute: :username, value: @user.username, wrapper_class: "w-full mt-4"
