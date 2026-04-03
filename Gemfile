@@ -79,7 +79,7 @@ group :development do
   gem "web-console"
 
   # Pretty printed test output
-  gem "minitest-reporters", "~> 1.7", ">= 1.7.1"
+  gem "minitest-reporters", "~> 1.8"
 
   # Interface for browsing sent emails
   gem "letter_opener_web", "~> 3.0"
