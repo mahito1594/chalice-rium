@@ -65,6 +65,18 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "should strip leading and trailing whitespace from bio before validation" do
+    @user.bio = "  いろはにほへと  "
+    @user.valid?
+    assert_equal "いろはにほへと", @user.bio
+  end
+
+  test "should preserve internal whitespace in bio" do
+    @user.bio = "いろは\nにほへと"
+    @user.valid?
+    assert_equal "いろは\nにほへと", @user.bio
+  end
+
   # Test for Devise authentication helper
   test "should find user by email when username is nil" do
     # This tests the find_first_by_auth_conditions method with username: nil

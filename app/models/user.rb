@@ -15,6 +15,7 @@ class User < ApplicationRecord
   validates :twitter_link,  allow_blank: true,
             format: { with: /\A[a-zA-Z0-9_]+\z/, message: "は有効な値を入力して下さい" }
 
+  before_validation { self.bio = bio&.strip }
   before_save :downcase_username
 
   def to_param
