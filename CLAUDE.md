@@ -21,6 +21,13 @@ bin/rails test test/models/user_test.rb:10  # 特定行のテスト実行
 RAILS_ENV=test COVERAGE=1 bin/rails test    # カバレッジ取得（coverage/index.html に出力）
 ```
 
+### バグ修正の方針
+バグ修正の際は TDD の流儀に従うこと：
+1. バグを再現するリグレッションテストを書く
+2. **修正を適用する前に** テストが失敗（red）することを確認
+3. 修正を適用してテストが通る（green）ことを確認
+4. テストと修正を同一コミットに含める
+
 ### Lint とセキュリティチェック
 ```bash
 bin/rubocop           # RuboCop（rubocop-rails-omakase スタイル）
