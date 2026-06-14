@@ -1,6 +1,20 @@
 require "test_helper"
 
 class DeviseMailerTest < ActionMailer::TestCase
+  test "all devise mails are sent from the authorized domain" do
+    user = users(:willem)
+
+    [
+      Devise::Mailer.confirmation_instructions(user, "token"),
+      Devise::Mailer.reset_password_instructions(user, "token"),
+      Devise::Mailer.password_change(user),
+      Devise::Mailer.email_changed(user)
+    ].each do |mail|
+      assert_equal [ "noreply@byrgenwerth.college" ], mail.from,
+        "#{mail.subject.inspect} must be sent from the Resend-authorized domain"
+    end
+  end
+
   test "confirmation instructions renders styled html email" do
     user = users(:willem)
 
