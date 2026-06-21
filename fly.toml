@@ -33,7 +33,7 @@ console_command = '/rails/bin/rails console'
 
   [[http_service.checks]]
     interval = '10s'
-    timeout = '2s'
+    timeout = '5s'
     grace_period = '30s'
     method = 'GET'
     path = '/up'
@@ -47,4 +47,3 @@ console_command = '/rails/bin/rails console'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 1024

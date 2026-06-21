@@ -67,7 +67,7 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
 
   if ENV["MAINTENANCE_AUTH"]
-    user, pass = ENV["MAINTENANCE_AUTH"].split(":")
+    user, pass = ENV["MAINTENANCE_AUTH"].split(":", 2)
     config.middleware.use(
       Class.new do
         def initialize(app, user, pass)
