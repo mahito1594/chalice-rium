@@ -25,6 +25,12 @@
 /storage/*
 !/storage/.keep
 /tmp/storage/*
+
+# Ignore SQLite databases and WAL files.
+/db/*.sqlite3
+/db/*.sqlite3-shm
+/db/*.sqlite3-wal
+/db/*.sqlite3_*
 !/tmp/storage/
 !/tmp/storage/.keep
 

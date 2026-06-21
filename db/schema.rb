@@ -11,9 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_01_18_050524) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
-
   create_table "dungeon_rites", force: :cascade do |t|
     t.bigint "dungeon_id", null: false
     t.bigint "rite_id", null: false
