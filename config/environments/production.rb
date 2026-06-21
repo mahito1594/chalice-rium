@@ -68,10 +68,22 @@ Rails.application.configure do
 
   if ENV["MAINTENANCE_AUTH"]
     user, pass = ENV["MAINTENANCE_AUTH"].split(":")
-    config.middleware.use Rack::Auth::Basic, "Maintenance" do |u, p|
-      ActiveSupport::SecurityUtils.secure_compare(u, user) &
-        ActiveSupport::SecurityUtils.secure_compare(p, pass)
-    end
+    config.middleware.use(
+      Class.new do
+        def initialize(app, user, pass)
+          @bypass = app
+          @auth = Rack::Auth::Basic.new(app, "Maintenance") { |u, p|
+            ActiveSupport::SecurityUtils.secure_compare(u, user) &&
+              ActiveSupport::SecurityUtils.secure_compare(p, pass)
+          }
+        end
+
+        def call(env)
+          env["PATH_INFO"] == "/up" ? @bypass.call(env) : @auth.call(env)
+        end
+      end,
+      user, pass
+    )
   end
 
   # Enable DNS rebinding protection and other `Host` header attacks.
