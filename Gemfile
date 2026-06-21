@@ -78,6 +78,9 @@ group :development do
 
   # Interface for browsing sent emails
   gem "letter_opener_web", "~> 3.0"
+
+  # Generates and manages Dockerfile for fly.io deployments
+  gem "dockerfile-rails", ">= 1.7"
 end
 
 group :test do
