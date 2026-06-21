@@ -46,13 +46,6 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
-
-  # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
-
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
@@ -72,6 +65,14 @@ Rails.application.configure do
 
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
+
+  if ENV["MAINTENANCE_AUTH"]
+    user, pass = ENV["MAINTENANCE_AUTH"].split(":")
+    config.middleware.use Rack::Auth::Basic, "Maintenance" do |u, p|
+      ActiveSupport::SecurityUtils.secure_compare(u, user) &
+        ActiveSupport::SecurityUtils.secure_compare(p, pass)
+    end
+  end
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
