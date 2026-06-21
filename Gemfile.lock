@@ -115,6 +115,8 @@ GEM
       responders
       warden (~> 1.2.3)
     docile (1.4.1)
+    dockerfile-rails (1.7.10)
+      rails (>= 3.0.0)
     dotenv (3.2.0)
     drb (2.2.3)
     ed25519 (1.4.0)
@@ -437,6 +439,7 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 5.0)
+  dockerfile-rails (>= 1.7)
   foreman
   importmap-rails
   jbuilder
