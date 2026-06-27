@@ -6,13 +6,13 @@
   <div class="flex flex-col lg:flex-row lg:gap-4">
     <%# User Profile %>
     <div class="mb-4 w-full lg:w-80 md:flex-none">
-      <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-200">
+      <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-200">
         <%= @user.display_name %>
       </h3>
-      <p class="text-gray-600 dark:text-gray-200"><%= @user.username %></p>
+      <p class="text-slate-600 dark:text-slate-200"><%= @user.username %></p>
       <% if @user.bio.present? %>
-        <div class="mt-4 p-3 bg-gray-50 rounded-lg dark:bg-gray-700">
-          <p class="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap leading-relaxed"><%= @user.bio %></p>
+        <div class="mt-4 p-3 bg-slate-50 rounded-lg dark:bg-slate-700">
+          <p class="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap leading-relaxed"><%= @user.bio %></p>
         </div>
       <% end %>
 

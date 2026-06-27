@@ -70,7 +70,7 @@ module Form
 
         assert_includes rendered_content, "size-4"
         assert_includes rendered_content, "rounded-sm"
-        assert_includes rendered_content, "dark:bg-gray-800"
+        assert_includes rendered_content, "dark:bg-slate-800"
       end
     end
 

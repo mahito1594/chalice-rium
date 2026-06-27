@@ -46,9 +46,9 @@ module Form
           form: form_for(@user), attribute: :username, value: @user.username
         ))
 
-        assert_includes rendered_content, "bg-gray-100"
-        assert_includes rendered_content, "text-gray-500"
-        assert_includes rendered_content, "dark:bg-gray-700"
+        assert_includes rendered_content, "bg-slate-100"
+        assert_includes rendered_content, "text-slate-600"
+        assert_includes rendered_content, "dark:bg-slate-700"
       end
     end
 

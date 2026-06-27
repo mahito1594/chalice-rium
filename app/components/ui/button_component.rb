@@ -3,10 +3,10 @@
 module Ui
   class ButtonComponent < ApplicationComponent
     VARIANT_CLASSES = {
-      primary: "bg-gray-800 hover:bg-gray-700 text-white focus:ring-gray-300/50",
-      secondary: "bg-blue-600 hover:bg-blue-500 text-white focus:ring-blue-300/80",
-      danger: "bg-red-600 hover:bg-red-500 text-white focus:ring-red-300/80",
-      outline: "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-gray-300/50"
+      primary:   "bg-slate-800 hover:bg-slate-700 text-white focus:ring-blue-300/40",
+      secondary: "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-300/40",
+      danger:    "bg-red-600 hover:bg-red-700 text-white focus:ring-blue-300/40",
+      outline:   "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 focus:ring-blue-300/40"
     }.freeze
 
     SIZE_CLASSES = {

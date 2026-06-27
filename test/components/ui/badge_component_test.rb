@@ -7,7 +7,7 @@ module Ui
     test "renders default badge" do
       render_inline(BadgeComponent.new) { "Default" }
 
-      assert_selector "span.bg-gray-100.text-gray-700", text: "Default"
+      assert_selector "span.bg-slate-100.text-slate-700", text: "Default"
       assert_selector "span.rounded-full"
     end
 
@@ -26,7 +26,7 @@ module Ui
     test "renders warning badge" do
       render_inline(BadgeComponent.new(variant: :warning)) { "Pending" }
 
-      assert_selector "span.bg-yellow-100.text-yellow-700", text: "Pending"
+      assert_selector "span.bg-amber-100.text-amber-700", text: "Pending"
     end
 
     test "applies custom HTML options" do
@@ -46,8 +46,8 @@ module Ui
     test "includes dark mode classes for default variant" do
       render_inline(BadgeComponent.new) { "Dark" }
 
-      assert_includes rendered_content, "dark:bg-gray-700"
-      assert_includes rendered_content, "dark:text-gray-200"
+      assert_includes rendered_content, "dark:bg-slate-700"
+      assert_includes rendered_content, "dark:text-slate-200"
     end
   end
 end

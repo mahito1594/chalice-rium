@@ -1,14 +1,14 @@
 <% provide(:title, t("label.user.login")) %>
 <%= render Ui::CardComponent.new(size: :sm) do |card| %>
   <% card.with_footer do %>
-    <div class="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
-      <span class="text-sm text-gray-600 dark:text-gray-200">アカウント未登録ですか？</span>
+    <div class="flex items-center justify-center py-4 text-center bg-slate-50 dark:bg-slate-700">
+      <span class="text-sm text-slate-600 dark:text-slate-200">アカウント未登録ですか？</span>
       <%= link_to(t("label.user.signup"), new_user_registration_path,
-                  class: "mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline") %>
+                  class: "mx-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline") %>
     </div>
   <% end %>
 
-  <h3 class="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
+  <h3 class="mt-3 text-xl font-medium text-center text-slate-800 dark:text-slate-200">
     <%= t("label.user.login") %>
   </h3>
 
@@ -27,12 +27,12 @@
     <%# Password field with "Forgot password" link - keeping custom layout %>
     <div class="mt-4">
       <div class="flex items-center justify-between">
-        <%= f.label :password, class: "block text-sm text-gray-800 dark:text-gray-200" %>
+        <%= f.label :password, class: "block text-sm text-slate-800 dark:text-slate-200" %>
         <%= link_to("パスワードを忘れた", new_user_password_path,
-                    class: "text-xs text-gray-600 dark:text-gray-400 hover:underline") %>
+                    class: "text-xs text-slate-600 dark:text-slate-400 hover:underline") %>
       </div>
       <%= f.password_field(:password, autofocus: true,
-                           class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3",
+                           class: "block w-full px-4 py-2 mt-2 text-slate-700 bg-white border border-slate-300 rounded-lg dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3",
                            autocomplete: "current-password") %>
     </div>
 

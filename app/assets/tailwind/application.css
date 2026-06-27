@@ -3,9 +3,38 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  /* surfaces */
+  --color-surface:        #ffffff;
+  --color-surface-subtle: #f8fafc;   /* slate-50  */
+  --color-surface-muted:  #f1f5f9;   /* slate-100 */
+
+  /* borders */
+  --color-border:         #e2e8f0;   /* slate-200 */
+  --color-border-input:   #cbd5e1;   /* slate-300 */
+
+  /* text */
+  --color-text-heading:   #1e293b;   /* slate-800 */
+  --color-text-body:      #334155;   /* slate-700 */
+  --color-text-muted:     #64748b;   /* slate-500 */
+  --color-text-faint:     #94a3b8;   /* slate-400 */
+
+  /* accent / status */
+  --color-accent:         #2563eb;   /* blue-600 */
+  --color-accent-hover:   #3b82f6;   /* blue-500 */
+  --color-ink:            #1e293b;   /* primary button = slate-800 */
+  --color-ink-hover:      #334155;   /* slate-700 */
+  --color-danger:         #dc2626;   /* red-600 */
+  --color-danger-hover:   #ef4444;   /* red-500 */
+
+  /* radius */
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+}
+
 /* preserve the v3 behaviour */
 @layer base {
   *, ::after, ::before, ::backdrop, ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-slate-200, currentColor);
   }
 }

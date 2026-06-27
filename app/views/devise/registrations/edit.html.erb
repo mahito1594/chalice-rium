@@ -1,6 +1,6 @@
 <% provide(:title, t("label.user.email_password_update")) %>
 <%= render Ui::CardComponent.new(size: :sm) do %>
-  <h3 class="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
+  <h3 class="mt-3 text-xl font-medium text-center text-slate-800 dark:text-slate-200">
     <%= t("label.user.email_password_update") %>
   </h3>
 
@@ -18,20 +18,15 @@
       wrapper_class: "mt-4"
     ) %>
 
-    <%# Password field with multiple hint lines - keeping custom layout %>
-    <div class="mt-4">
-      <%= f.label :password, class: "block text-sm text-gray-800 dark:text-gray-200" %>
-      <% if @minimum_password_length %>
-        <p class="text-sm text-gray-600 dark:text-gray-400">※<%= @minimum_password_length %>文字以上</p>
-      <% end %>
-      <p class="text-sm text-gray-600 dark:text-gray-400">
-        (変更しない場合は空白のままにしてください)
-      </p>
-      <%= f.password_field(:password,
-                           class: "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3",
-                           minlength: @minimum_password_length,
-                           autocomplete: "new-password") %>
-    </div>
+    <%= render Form::FieldComponent.new(
+      form: f,
+      attribute: :password,
+      type: :password,
+      hint: @minimum_password_length ? "※#{@minimum_password_length}文字以上（変更しない場合は空白のままにしてください）" : "（変更しない場合は空白のままにしてください）",
+      minlength: @minimum_password_length,
+      autocomplete: "new-password",
+      wrapper_class: "mt-4"
+    ) %>
 
     <%= render Form::FieldComponent.new(
       form: f,
@@ -46,6 +41,7 @@
       form: f,
       attribute: :current_password,
       type: :password,
+      required: true,
       hint: "(変更するために現在のパスワードが必要です)",
       autocomplete: "current-password",
       wrapper_class: "mt-4"

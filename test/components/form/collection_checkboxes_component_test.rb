@@ -57,7 +57,7 @@ module Form
           label: "Rites", disabled: true
         ))
 
-        assert_includes rendered_content, "text-gray-500"
+        assert_includes rendered_content, "text-slate-500"
       end
     end
 

@@ -59,7 +59,7 @@ module Ui
     test "includes dark mode classes" do
       render_inline(CardComponent.new) { "Dark mode" }
 
-      assert_includes rendered_content, "dark:bg-gray-800"
+      assert_includes rendered_content, "dark:bg-slate-800"
     end
 
     test "applies custom HTML options" do

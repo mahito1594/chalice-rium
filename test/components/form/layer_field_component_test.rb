@@ -46,7 +46,7 @@ module Form
         render_inline(LayerFieldComponent.new(form: layer_form_for(layer)))
 
         assert_includes rendered_content, "rounded-lg"
-        assert_includes rendered_content, "dark:bg-gray-800"
+        assert_includes rendered_content, "dark:bg-slate-800"
       end
     end
 

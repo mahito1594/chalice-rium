@@ -55,8 +55,8 @@ module Form
       ))
 
       assert_includes rendered_content, "rounded-lg"
-      assert_includes rendered_content, "dark:bg-gray-800"
-      assert_includes rendered_content, "border-gray-300"
+      assert_includes rendered_content, "dark:bg-slate-800"
+      assert_includes rendered_content, "border-slate-300"
     end
 
     test "applies wrapper_class" do
