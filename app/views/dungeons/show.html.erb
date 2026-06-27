@@ -5,7 +5,7 @@
   <%# Header section %>
   <div class="h-14 flex items-center justify-between">
     <div class="flex">
-      <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-200">
+      <h3 class="text-2xl font-bold font-mono text-slate-800 dark:text-slate-200">
         <%= @dungeon.glyph %>
       </h3>
       <button data-controller="url-copy"
@@ -25,7 +25,7 @@
           <%= t("label.general.update") %>
         <% end %>
         <%= render Ui::ButtonComponent.new(
-          variant: :outline,
+          variant: :danger,
           href: dungeon_path(@dungeon),
           data: { "turbo-method": :delete, turbo_confirm: t("label.general.sure") }
         ) do %>
@@ -47,7 +47,7 @@
 
   <%# Additional Rites section %>
   <div class="mt-6">
-    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">
       <%= t("label.dungeon.attributes.additional_rites") %>
     </p>
     <div class="mt-2 flex flex-wrap gap-2">
@@ -62,14 +62,14 @@
   <%# Layers section %>
   <div class="mt-6">
     <%# TODO: I18n %>
-    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">各層</p>
+    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">各層</p>
     <div class="mt-2 space-y-3">
       <% @dungeon.layers.order(:level).each do |layer| %>
-        <div class="p-3 bg-gray-50 rounded-lg dark:bg-gray-700">
-          <p class="text-sm font-medium text-gray-700 dark:text-gray-200">
+        <div class="p-3 bg-slate-50 rounded-lg dark:bg-slate-700">
+          <p class="text-sm font-mono font-medium text-slate-700 dark:text-slate-200">
             <%= t("label.dungeon.attributes.boss_name", level: layer.level) %>
           </p>
-          <p class="mt-1 text-gray-600 dark:text-gray-300">
+          <p class="mt-1 text-slate-600 dark:text-slate-300">
             <%= layer.boss_name.presence || "?" %>
           </p>
         </div>
@@ -85,7 +85,7 @@
           <%= @dungeon.is_open? ? t("label.dungeon.value.open") : t("label.dungeon.value.close") %>
         <% end %>
       </div>
-      <p class="ml-4 text-sm text-gray-500 dark:text-gray-400">
+      <p class="ml-4 text-sm text-slate-500 dark:text-slate-400">
         &laquo;
         <%= link_to @dungeon.user.username,
                     user_path(@dungeon.user),
@@ -98,11 +98,11 @@
 
     <% if @dungeon.comment.present? %>
       <div class="mt-4">
-        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">
           <%= t("activerecord.attributes.dungeon.comment") %>
         </p>
-        <div class="mt-2 p-4 bg-gray-50 rounded-lg dark:bg-gray-700">
-          <p class="p-3 text-gray-600 dark:text-gray-300 whitespace-pre-wrap leading-relaxed"><%= @dungeon.comment %></p>
+        <div class="mt-2 p-4 bg-slate-50 rounded-lg dark:bg-slate-700">
+          <p class="p-3 text-slate-600 dark:text-slate-300 whitespace-pre-wrap leading-relaxed"><%= @dungeon.comment %></p>
         </div>
       </div>
     <% end %>

@@ -1,9 +1,9 @@
-<div data-controller="filter" class="mb-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+<div data-controller="filter" class="mb-6 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700">
   <%# Collapsible Header %>
   <button type="button"
           data-action="click->filter#toggle"
           data-filter-target="toggleButton"
-          class="w-full px-4 py-3 flex items-center justify-between text-left text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          class="w-full px-4 py-3 flex items-center justify-between text-left text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
           aria-expanded="false"
           aria-controls="filter-content">
     <span class="font-medium"><%= t("label.dungeon.filter") %></span>
@@ -44,7 +44,7 @@
 
       <%# Rites Filter (Checkboxes) %>
       <div class="mt-4">
-        <label class="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
+        <label class="block text-sm font-medium text-slate-800 dark:text-slate-200 mb-2">
           <%= t("label.dungeon.attributes.additional_rites") %>
         </label>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -54,9 +54,9 @@
                                 rite.id,
                                 params.dig(:filter, :rite_ids)&.include?(rite.id.to_s),
                                 id: "rite_#{rite.id}",
-                                class: "size-4 border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3 text-blue-600" %>
+                                class: "size-4 border border-slate-300 rounded dark:bg-slate-800 dark:border-slate-600 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3 text-blue-600" %>
               <%= label_tag "rite_#{rite.id}", rite.translated_name,
-                            class: "ml-2 text-sm text-gray-800 dark:text-gray-200" %>
+                            class: "ml-2 text-sm text-slate-800 dark:text-slate-200" %>
             </div>
           <% end %>
         </div>
@@ -64,12 +64,16 @@
 
       <%# Action Buttons %>
       <div class="flex flex-wrap gap-3 mt-6">
-        <%= submit_tag t("label.dungeon.search"),
-                       class: "px-6 py-2 font-medium tracking-wide text-white bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-300/80 transition-colors cursor-pointer" %>
-        <%= link_to t("label.dungeon.filter_reset"),
-                    root_path,
-                    data: { turbo_frame: "dungeons-list", action: "click->filter#reset" },
-                    class: "px-6 py-2 font-medium tracking-wide text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 focus:outline-hidden focus:ring-3 focus:ring-gray-300/50 transition-colors" %>
+        <%= render Ui::ButtonComponent.new(variant: :secondary, type: :submit) do %>
+          <%= t("label.dungeon.search") %>
+        <% end %>
+        <%= render Ui::ButtonComponent.new(
+          variant: :outline,
+          href: root_path,
+          data: { turbo_frame: "dungeons-list", action: "click->filter#reset" }
+        ) do %>
+          <%= t("label.dungeon.filter_reset") %>
+        <% end %>
       </div>
     <% end %>
   </div>
