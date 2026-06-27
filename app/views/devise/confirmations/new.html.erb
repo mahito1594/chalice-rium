@@ -1,16 +1,30 @@
-<h2>確認メールを再送信</h2>
+<% provide(:title, "確認メールを再送信") %>
+<%= render Ui::CardComponent.new(size: :sm) do %>
+  <h3 class="mt-3 text-xl font-medium text-center text-slate-800 dark:text-slate-200">
+    確認メールを再送信
+  </h3>
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render Ui::AlertComponent.new(resource: resource) %>
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render Ui::AlertComponent.new(resource: resource) %>
 
-  <div class="field">
-    <%= f.label :email, "メールアドレス" %><br>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
-  </div>
+    <%= render Form::FieldComponent.new(
+      form: f,
+      attribute: :email,
+      type: :email,
+      label: "メールアドレス",
+      autofocus: true,
+      autocomplete: "email",
+      wrapper_class: "w-full mt-4"
+    ) %>
 
-  <div class="actions">
-    <%= f.submit "確認メールを再送信" %>
-  </div>
+    <div class="mt-6">
+      <%= render Ui::ButtonComponent.new(variant: :primary, type: :submit, full_width: true) do %>
+        確認メールを再送信
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<div class="mt-4 text-center">
+  <%= render "devise/shared/links" %>
+</div>
