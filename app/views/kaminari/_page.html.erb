@@ -8,8 +8,7 @@
     remote:        data-remote
 -%>
 <% if page.current? %>
-  <%= link_to(page, "#", remote: remote, rel: page.rel,
-              class: "px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-slate-800 bg-blue-100/60") %>
+  <span aria-current="page" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-slate-800 bg-blue-100/60"><%= page %></span>
 <% else %>
   <%= link_to(page, url, remote: remote, rel: page.rel,
               class: "px-2 py-1 text-sm text-slate-500 rounded-md dark:hover:bg-slate-800 dark:text-slate-300 hover:bg-slate-100") %>

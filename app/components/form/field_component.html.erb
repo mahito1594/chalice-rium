@@ -16,7 +16,7 @@
     </span>
   <% end %>
   <% if @hint %>
-    <p class="<%= HINT_CLASSES %>"><%= @hint %></p>
+    <p id="<%= hint_id %>" class="<%= HINT_CLASSES %>"><%= @hint %></p>
   <% end %>
 
   <% if @type == :textarea %>
@@ -28,8 +28,10 @@
   <% end %>
 
   <% if errors? %>
-    <% error_messages.each do |message| %>
-      <p class="<%= ERROR_CLASSES %>"><%= message %></p>
-    <% end %>
+    <div id="<%= error_id %>">
+      <% error_messages.each do |message| %>
+        <p class="<%= ERROR_CLASSES %>"><%= message %></p>
+      <% end %>
+    </div>
   <% end %>
 </div>

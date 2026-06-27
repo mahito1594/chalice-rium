@@ -47,6 +47,14 @@ module Form
       "tooltip-#{@attribute}"
     end
 
+    def hint_id
+      "hint-#{@attribute}"
+    end
+
+    def error_id
+      "error-#{@attribute}"
+    end
+
     def errors?
       @form.object.errors[@attribute].any?
     end
@@ -69,7 +77,10 @@ module Form
         class: input_classes,
         required: @required
       )
-      opts[:aria] = { describedby: tooltip_id } if tooltip?
+      describedby = [ (tooltip_id if tooltip?), (@hint ? hint_id : nil), (error_id if errors?) ].compact
+      opts[:aria] = {}
+      opts[:aria][:describedby] = describedby.join(" ") if describedby.any?
+      opts[:aria][:invalid] = "true" if errors?
       opts
     end
   end

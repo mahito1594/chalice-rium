@@ -7,16 +7,16 @@
     remote:        data-remote
 -%>
 <% if current_page.first? %>
-  <%= link_to("#",
-              class: "flex items-center px-5 py-2 text-sm text-slate-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-800") do %>
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+  <span aria-disabled="true" class="flex items-center px-5 py-2 text-sm text-slate-400 capitalize bg-white border rounded-md gap-x-2 dark:bg-slate-900 dark:text-slate-600 dark:border-slate-700 cursor-not-allowed">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
     </svg>
-  <% end %>
+    <span class="sr-only">前のページ（無効）</span>
+  </span>
 <% else %>
-  <%= link_to(url, rel: "prev", remote: remote,
+  <%= link_to(url, rel: "prev", remote: remote, aria: { label: "前のページ" },
               class: "flex items-center px-5 py-2 text-sm text-slate-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-800") do %>
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
     </svg>
   <% end %>

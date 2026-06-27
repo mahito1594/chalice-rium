@@ -47,7 +47,7 @@ module Form
         ))
 
         assert_includes rendered_content, "bg-slate-100"
-        assert_includes rendered_content, "text-slate-500"
+        assert_includes rendered_content, "text-slate-600"
         assert_includes rendered_content, "dark:bg-slate-700"
       end
     end
