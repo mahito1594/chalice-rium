@@ -2,7 +2,7 @@
 
 module Ui
   class SectionHeaderComponent < ApplicationComponent
-    HEADING_CLASSES = "text-lg font-medium text-gray-800 dark:text-white"
+    HEADING_CLASSES = "text-lg font-medium text-slate-800 dark:text-white"
 
     renders_one :action
 

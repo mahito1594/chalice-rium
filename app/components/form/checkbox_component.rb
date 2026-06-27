@@ -2,8 +2,8 @@
 
 module Form
   class CheckboxComponent < ApplicationComponent
-    CHECKBOX_CLASSES = "size-4 border rounded-sm dark:bg-gray-800 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3"
-    LABEL_CLASSES = "text-sm text-gray-800 dark:text-gray-200"
+    CHECKBOX_CLASSES = "size-4 border rounded-sm dark:bg-slate-800 dark:border-slate-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3"
+    LABEL_CLASSES = "text-sm text-slate-800 dark:text-slate-200"
     ERROR_CLASSES = "mt-1 text-sm text-red-600 dark:text-red-400"
 
     def initialize(form:, attribute:, label: nil, checked: false, disabled: false, **input_options)

@@ -29,7 +29,7 @@ module Ui
     end
 
     def base_classes
-      "w-full bg-white rounded-lg shadow-md dark:bg-gray-800 overflow-hidden"
+      "w-full bg-white rounded-lg shadow-md dark:bg-slate-800 overflow-hidden"
     end
 
     def content_classes

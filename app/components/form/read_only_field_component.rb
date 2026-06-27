@@ -2,8 +2,8 @@
 
 module Form
   class ReadOnlyFieldComponent < ApplicationComponent
-    LABEL_CLASSES = "block text-sm text-gray-800 dark:text-gray-200"
-    VALUE_CLASSES = "block w-full px-4 py-2 mt-2 text-gray-500 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-400"
+    LABEL_CLASSES = "block text-sm text-slate-800 dark:text-slate-200"
+    VALUE_CLASSES = "block w-full px-4 py-2 mt-2 text-slate-500 bg-slate-100 rounded-lg dark:bg-slate-700 dark:text-slate-400"
 
     def initialize(form:, attribute:, value:, label: nil, **html_options)
       @form = form

@@ -16,14 +16,14 @@ module Ui
 
       assert_includes rendered_content, "text-sm"
       assert_includes rendered_content, "font-medium"
-      assert_includes rendered_content, "text-gray-500"
+      assert_includes rendered_content, "text-slate-500"
     end
 
     def test_includes_value_styling
       render_inline(DescriptionItemComponent.new(label: "Area", value: "Pthumeru"))
 
       assert_includes rendered_content, "text-lg"
-      assert_includes rendered_content, "text-gray-700"
+      assert_includes rendered_content, "text-slate-700"
     end
 
     def test_renders_numeric_value
