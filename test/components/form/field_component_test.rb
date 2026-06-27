@@ -89,7 +89,7 @@ module Form
 
         assert_includes rendered_content, "block w-full"
         assert_includes rendered_content, "rounded-lg"
-        assert_includes rendered_content, "dark:bg-gray-800"
+        assert_includes rendered_content, "dark:bg-slate-800"
       end
     end
 
@@ -153,7 +153,7 @@ module Form
           hint: "※6文字以上"
         ))
 
-        assert_selector "p.text-gray-600", text: "※6文字以上"
+        assert_selector "p.text-slate-600", text: "※6文字以上"
       end
     end
 
@@ -201,7 +201,7 @@ module Form
       with_controller_class(UsersController) do
         render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))
 
-        assert_no_selector "p.text-gray-600"
+        assert_no_selector "p.text-slate-600"
       end
     end
 
