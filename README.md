@@ -23,7 +23,7 @@
 
 ### バックエンド
 - Ruby on Rails
-- PostgreSQL
+- SQLite
 
 ### フロントエンド
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -40,11 +40,10 @@
 
 ### 前提条件
 - [mise](https://mise.jdx.dev/)
-- [Docker](https://www.docker.com/)（PostgreSQL コンテナ用）
 
 ### セットアップ
 ```bash
-mise run setup   # DB コンテナ起動 + 依存関係インストール + DB 準備
+mise run setup   # 依存関係インストール + DB 準備
 ```
 
 ### 開発サーバーの起動
@@ -56,15 +55,6 @@ mise run dev     # DB コンテナ起動 + Rails サーバー + Tailwind CSS wat
 ```bash
 mise run test    # DB コンテナ起動 + テスト実行（カバレッジ付き）
 ```
-
-### macOS での注意事項
-macOS arm64 環境では、PostgreSQL への TCP 接続時に GSSAPI (Kerberos) の初期化が並列テストの fork と干渉し、SEGFAULT が発生する場合があります。以下の環境変数を設定してください:
-
-```bash
-export PGGSSENCMODE=disable
-```
-
-参考: https://github.com/ged/ruby-pg/issues/538
 
 ## その他
 - [Favicon.io](https://favicon.io/)
