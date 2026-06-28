@@ -15,12 +15,13 @@ module Ui
       lg: "px-8 py-3 text-base"
     }.freeze
 
-    def initialize(variant: :primary, size: :md, full_width: false, href: nil, type: :button, **html_options)
+    def initialize(variant: :primary, size: :md, full_width: false, href: nil, type: :button, disabled: false, **html_options)
       @variant = variant
       @size = size
       @full_width = full_width
       @href = href
       @type = type
+      @disabled = disabled
       @html_options = html_options
     end
 
@@ -30,7 +31,7 @@ module Ui
           content
         end
       else
-        content_tag :button, content, type: @type, class: button_classes, **@html_options
+        content_tag :button, content, type: @type, class: button_classes, disabled: @disabled, **@html_options
       end
     end
 
@@ -42,6 +43,7 @@ module Ui
         VARIANT_CLASSES[@variant],
         SIZE_CLASSES[@size],
         width_class,
+        (@disabled ? "cursor-not-allowed opacity-60" : nil),
         @html_options[:class]
       ].compact.join(" ")
     end

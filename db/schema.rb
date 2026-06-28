@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_18_050524) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_000001) do
   create_table "dungeon_rites", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "dungeon_id", null: false
     t.bigint "rite_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["dungeon_id", "rite_id"], name: "index_dungeon_rites_on_dungeon_id_and_rite_id", unique: true
     t.index ["dungeon_id"], name: "index_dungeon_rites_on_dungeon_id"
@@ -22,54 +22,58 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_18_050524) do
   end
 
   create_table "dungeons", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "glyph", limit: 8, null: false
-    t.integer "depth", null: false
     t.integer "area", null: false
-    t.boolean "is_open"
     t.text "comment"
     t.datetime "created_at", null: false
+    t.integer "depth", null: false
+    t.string "glyph", limit: 8, null: false
+    t.boolean "is_open"
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["glyph"], name: "index_dungeons_on_glyph", unique: true
     t.index ["user_id"], name: "index_dungeons_on_user_id"
   end
 
   create_table "layers", force: :cascade do |t|
-    t.bigint "dungeon_id", null: false
-    t.integer "level", null: false
     t.string "boss_name"
     t.datetime "created_at", null: false
+    t.bigint "dungeon_id", null: false
+    t.integer "level", null: false
     t.datetime "updated_at", null: false
     t.index ["dungeon_id", "level"], name: "index_layers_on_dungeon_id_and_level", unique: true
     t.index ["dungeon_id"], name: "index_layers_on_dungeon_id"
   end
 
   create_table "rites", force: :cascade do |t|
-    t.integer "name", null: false
     t.datetime "created_at", null: false
+    t.integer "name", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "username", null: false
-    t.string "display_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text "bio"
+    t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.text "bio"
+    t.datetime "created_at", null: false
+    t.string "display_name", null: false
+    t.string "email"
+    t.string "encrypted_password", default: "", null: false
+    t.string "provider"
+    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
     t.string "twitter_link"
+    t.string "uid"
+    t.string "unconfirmed_email"
+    t.datetime "updated_at", null: false
+    t.string "username", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+    t.check_constraint "(provider IS NULL) = (uid IS NULL)", name: "check_provider_uid_consistency"
   end
 
   add_foreign_key "dungeon_rites", "dungeons"

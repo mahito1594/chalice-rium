@@ -46,6 +46,37 @@
     </div>
   <% end %>
 
+  <%# X 連携セクション %>
+  <div class="mt-6 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+    <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">X (Twitter) 連携</h4>
+
+    <% if @user.provider.present? %>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">X アカウントと連携済みです。</p>
+      <% if @user.can_unlink_x? %>
+        <%= form_tag settings_x_connection_path, method: :delete,
+            data: { turbo_confirm: t("label.general.sure") } do %>
+          <%= render Ui::ButtonComponent.new(variant: :outline, type: :submit, full_width: true) do %>
+            X 連携を解除する
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">
+          ※ メールアドレスとパスワードを設定すると解除できます
+        </p>
+        <%= render Ui::ButtonComponent.new(variant: :outline, type: :button, full_width: true, disabled: true) do %>
+          X 連携を解除する
+        <% end %>
+      <% end %>
+    <% else %>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">X アカウントと連携すると、X でログインできるようになります。</p>
+      <%= form_tag omniauth_authorize_path(:user, :twitter2), data: { turbo: false } do %>
+        <%= render Ui::ButtonComponent.new(variant: :primary, type: :submit, full_width: true) do %>
+          𝕏 と連携する
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
   <div class="mt-4 flex justify-center">
     <%= render Ui::ButtonComponent.new(variant: :secondary, href: edit_user_registration_path, full_width: true) do %>
       <%= t("label.user.email_password_update") %>

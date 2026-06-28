@@ -5,6 +5,8 @@ require "minitest/reporters"
 require "view_component/test_helpers"
 Minitest::Reporters.use!
 
+OmniAuth.config.test_mode = true
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers

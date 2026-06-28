@@ -51,4 +51,16 @@
       <% end %>
     </div>
   <% end %>
+
+  <div class="relative flex items-center my-4">
+    <div class="flex-grow border-t border-slate-200 dark:border-slate-600"></div>
+    <span class="mx-3 text-xs text-slate-500 dark:text-slate-400">または</span>
+    <div class="flex-grow border-t border-slate-200 dark:border-slate-600"></div>
+  </div>
+
+  <%= form_tag omniauth_authorize_path(resource_name, :twitter2), data: { turbo: false } do %>
+    <%= render Ui::ButtonComponent.new(variant: :primary, type: :submit, full_width: true) do %>
+      𝕏 でログイン
+    <% end %>
+  <% end %>
 <% end %>

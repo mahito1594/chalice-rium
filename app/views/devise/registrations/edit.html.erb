@@ -4,6 +4,12 @@
     <%= t("label.user.email_password_update") %>
   </h3>
 
+  <% if resource.x_only? %>
+    <p class="mt-2 text-sm text-center text-slate-600 dark:text-slate-400">
+      メールアドレスとパスワードを設定すると、X 以外でもログインできます。
+    </p>
+  <% end %>
+
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= render Ui::AlertComponent.new(resource: resource, inline_error_attributes: [:email, :password_confirmation, :current_password]) %>
 
@@ -11,7 +17,7 @@
       form: f,
       attribute: :email,
       type: :email,
-      required: true,
+      required: !resource.x_only?,
       autofocus: true,
       placeholder: "master.willem@byrgenwerth.college",
       autocomplete: "email",
@@ -37,15 +43,17 @@
       wrapper_class: "mt-4"
     ) %>
 
-    <%= render Form::FieldComponent.new(
-      form: f,
-      attribute: :current_password,
-      type: :password,
-      required: true,
-      hint: "(変更するために現在のパスワードが必要です)",
-      autocomplete: "current-password",
-      wrapper_class: "mt-4"
-    ) %>
+    <% unless resource.x_only? %>
+      <%= render Form::FieldComponent.new(
+        form: f,
+        attribute: :current_password,
+        type: :password,
+        required: true,
+        hint: "(変更するために現在のパスワードが必要です)",
+        autocomplete: "current-password",
+        wrapper_class: "mt-4"
+      ) %>
+    <% end %>
 
     <div class="mt-6">
       <%= render Ui::ButtonComponent.new(variant: :primary, type: :submit, full_width: true) do %>
