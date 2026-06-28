@@ -43,17 +43,18 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # UC2: ログイン済みユーザーへの X 連携
     existing = User.find_by(provider: auth.provider.to_s, uid: auth.uid.to_s)
 
-    if existing && existing != current_user
-      redirect_to edit_user_path(current_user),
-                  alert: "この X アカウントはすでに別のアカウントに連携されています。"
+    if existing
+      message = existing == current_user ? "この X アカウントはすでに連携済みです。" \
+                                         : "この X アカウントはすでに別のアカウントに連携されています。"
+      redirect_to edit_user_path(current_user), notice: message
       return
     end
 
-    if current_user.update(provider: auth.provider.to_s, uid: auth.uid.to_s)
-      redirect_to edit_user_path(current_user), notice: "X アカウントを連携しました。"
-    else
-      redirect_to edit_user_path(current_user), alert: "X 連携に失敗しました。"
-    end
+    current_user.update(provider: auth.provider.to_s, uid: auth.uid.to_s)
+    redirect_to edit_user_path(current_user), notice: "X アカウントを連携しました。"
+  rescue ActiveRecord::RecordNotUnique
+    redirect_to edit_user_path(current_user),
+                alert: "この X アカウントはすでに別のアカウントに連携されています。"
   end
 
   def store_omniauth_in_session(auth)

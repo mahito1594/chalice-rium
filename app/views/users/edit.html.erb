@@ -63,10 +63,9 @@
         <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">
           ※ メールアドレスとパスワードを設定すると解除できます
         </p>
-        <button type="button" disabled
-                class="w-full font-medium tracking-wide capitalize rounded-lg px-6 py-2.5 text-sm bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-60">
+        <%= render Ui::ButtonComponent.new(variant: :outline, type: :button, full_width: true, disabled: true) do %>
           X 連携を解除する
-        </button>
+        <% end %>
       <% end %>
     <% else %>
       <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">X アカウントと連携すると、X でログインできるようになります。</p>

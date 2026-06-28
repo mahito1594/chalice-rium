@@ -4,9 +4,10 @@
 OmniAuth.config.logger = Rails.logger if Rails.env.development?
 
 # 開発環境用の OmniAuth モック設定
-# credentials に x.client_id が設定されていない場合のみ有効になる
-# 実 OAuth フローを確認する場合は bin/rails credentials:edit で x.client_id / x.client_secret を設定する
-if Rails.env.development? && Rails.application.credentials.dig(:x, :client_id).nil?
+# credentials または環境変数に x.client_id が設定されていない場合のみ有効になる
+# 実 OAuth フローを確認する場合は bin/rails credentials:edit または X_CLIENT_ID 環境変数を設定する
+x_client_id = Rails.application.credentials.dig(:x, :client_id) || ENV["X_CLIENT_ID"]
+if Rails.env.development? && x_client_id.nil?
   OmniAuth.config.test_mode = true
 
   OmniAuth.config.mock_auth[:twitter2] = OmniAuth::AuthHash.new({

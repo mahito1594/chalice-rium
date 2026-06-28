@@ -43,8 +43,8 @@ gem "thruster", require: false
 gem "devise", "~> 5.0"
 
 # X (Twitter) OAuth 2.0 + PKCE social login
-gem "omniauth-twitter2"
 gem "omniauth-rails_csrf_protection"
+gem "omniauth-twitter2"
 
 # Send emails via resend.com
 gem "resend", "~> 1.5.0"

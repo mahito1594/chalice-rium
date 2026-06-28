@@ -25,6 +25,9 @@ class Users::OmniauthSetupsController < ApplicationController
     else
       render :new, status: :unprocessable_content
     end
+  rescue ActiveRecord::RecordNotUnique
+    @user.errors.add(:uid, :taken)
+    render :new, status: :unprocessable_content
   end
 
   private

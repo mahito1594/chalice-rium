@@ -148,6 +148,19 @@ class UserTest < ActiveSupport::TestCase
     assert @user.can_unlink_x?
   end
 
+  test "uid must be unique within the same provider" do
+    duplicate = User.new(
+      username: "@dup_x",
+      display_name: "Dup X User",
+      provider: "twitter2",
+      uid: users(:x_only_user).uid,
+      encrypted_password: ""
+    )
+    duplicate.skip_confirmation!
+    assert_not duplicate.valid?
+    assert duplicate.errors[:uid].present?
+  end
+
   test "from_omniauth returns existing user by provider and uid" do
     auth = OmniAuth::AuthHash.new(provider: "twitter2", uid: "uid_x_only_12345", info: {})
     result = User.from_omniauth(auth)
