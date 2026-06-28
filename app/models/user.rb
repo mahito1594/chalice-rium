@@ -1,9 +1,7 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable
+         :confirmable, :omniauthable, omniauth_providers: [ :twitter2 ]
 
   has_many :dungeons, dependent: :destroy
 
@@ -29,6 +27,27 @@ class User < ApplicationRecord
     else
       where(username: conditions[:username]).first
     end
+  end
+
+  def self.from_omniauth(auth)
+    find_by(provider: auth.provider.to_s, uid: auth.uid.to_s)
+  end
+
+  def x_only?
+    provider.present? && encrypted_password.blank?
+  end
+
+  def email_required?
+    !x_only?
+  end
+
+  def password_required?
+    return false if x_only?
+    super
+  end
+
+  def can_unlink_x?
+    email.present? && encrypted_password.present?
   end
 
   private

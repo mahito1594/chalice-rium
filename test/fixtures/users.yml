@@ -12,3 +12,22 @@ laurence:
   email: laurence@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
   confirmed_at: <%= Time.new(2015, 3, 26) %>
+
+# X のみユーザー（email・password なし）
+x_only_user:
+  username: "@xonly"
+  display_name: X Only User
+  provider: twitter2
+  uid: "uid_x_only_12345"
+  encrypted_password: ""
+  confirmed_at: <%= Time.new(2015, 3, 26) %>
+
+# email・password と X の両方を持つユーザー（連携済み）
+x_linked_user:
+  username: "@xlinked"
+  display_name: X Linked User
+  email: xlinked@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  provider: twitter2
+  uid: "uid_x_linked_67890"
+  confirmed_at: <%= Time.new(2015, 3, 26) %>

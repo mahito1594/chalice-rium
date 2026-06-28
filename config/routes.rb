@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks",
+    registrations: "users/registrations"
+  }
+
+  # Username setup form after X OAuth (new user registration)
+  get "users/omniauth/setup", to: "users/omniauth_setups#new", as: :new_omniauth_setup
+  post "users/omniauth/setup", to: "users/omniauth_setups#create", as: :omniauth_setup
+
+  # X connection management (IDOR 対策で URL に :username を含めない)
+  namespace :settings do
+    resource :x_connection, only: [ :destroy ]
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
