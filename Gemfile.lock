@@ -496,8 +496,8 @@ DEPENDENCIES
   letter_opener_web (~> 3.0)
   minitest (~> 6.0)
   minitest-reporters (~> 1.8)
-  omniauth-rails_csrf_protection
-  omniauth-twitter2
+  omniauth-rails_csrf_protection (>= 2.0.1)
+  omniauth-twitter2 (>= 1.2)
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)
