@@ -48,12 +48,12 @@ mise run setup   # 依存関係インストール + DB 準備
 
 ### 開発サーバーの起動
 ```bash
-mise run dev     # DB コンテナ起動 + Rails サーバー + Tailwind CSS watch
+mise run dev     # Rails サーバー + Tailwind CSS watch
 ```
 
 ### テスト
 ```bash
-mise run test    # DB コンテナ起動 + テスト実行（カバレッジ付き）
+mise run test    # テスト実行（カバレッジ付き）
 ```
 
 ## その他
