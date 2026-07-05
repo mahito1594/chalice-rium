@@ -32,6 +32,35 @@
   --radius-lg: 0.5rem;
 }
 
+/* button semantic colors — light (defaults) */
+:root {
+  --btn-primary:        #1e293b;   /* slate-800 : primary fill */
+  --btn-primary-text:   #ffffff;   /* primary text */
+  --btn-primary-hover:  #334155;   /* slate-700 */
+  --btn-outline:        #f1f5f9;   /* slate-100 */
+  --btn-outline-hover:  #e2e8f0;   /* slate-200 */
+}
+
+/* dark overrides (primary inverts, outline one step lighter) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --btn-primary:        #f1f5f9;   /* slate-100 : inverted */
+    --btn-primary-text:   #0f172a;   /* slate-900 */
+    --btn-primary-hover:  #e2e8f0;   /* slate-200 */
+    --btn-outline:        #475569;   /* slate-600 */
+    --btn-outline-hover:  #64748b;   /* slate-500 */
+  }
+}
+
+/* expose button colors as utilities that follow the vars above */
+@theme inline {
+  --color-btn-primary:        var(--btn-primary);
+  --color-btn-primary-text:   var(--btn-primary-text);
+  --color-btn-primary-hover:  var(--btn-primary-hover);
+  --color-btn-outline:        var(--btn-outline);
+  --color-btn-outline-hover:  var(--btn-outline-hover);
+}
+
 /* preserve the v3 behaviour */
 @layer base {
   *, ::after, ::before, ::backdrop, ::file-selector-button {

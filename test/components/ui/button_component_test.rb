@@ -7,7 +7,7 @@ module Ui
     test "renders primary button by default" do
       render_inline(ButtonComponent.new) { "Click me" }
 
-      assert_selector "button.bg-slate-800", text: "Click me"
+      assert_selector "button.bg-btn-primary", text: "Click me"
       assert_selector "button[type='button']"
     end
 
@@ -26,7 +26,7 @@ module Ui
     test "renders outline button variant" do
       render_inline(ButtonComponent.new(variant: :outline)) { "Cancel" }
 
-      assert_selector "button.bg-slate-100", text: "Cancel"
+      assert_selector "button.bg-btn-outline", text: "Cancel"
     end
 
     test "renders full width button" do
