@@ -137,7 +137,7 @@ GEM
       activesupport (>= 6.1)
     hashie (5.1.0)
       logger
-    httparty (0.24.2)
+    httparty (0.24.3)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -350,7 +350,7 @@ GEM
     regexp_parser (2.11.3)
     reline (0.7.0)
       io-console (~> 0.5)
-    resend (1.17.0)
+    resend (1.18.0)
       base64
       httparty (>= 0.22.0)
     responders (3.2.0)
@@ -495,7 +495,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.4)
-  resend (~> 1.17.0)
+  resend (~> 1.18.0)
   rubocop-rails-omakase
   selenium-webdriver
   simplecov
