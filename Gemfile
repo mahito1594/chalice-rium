@@ -50,7 +50,7 @@ gem "omniauth-twitter2", ">= 1.2"
 gem "resend", "~> 1.17.0"
 
 # Use kaminari for pagination
-gem "kaminari", "~> 1.2", ">= 1.2.2"
+gem "kaminari", "~> 1.3"
 
 # Use ViewComponent for building reusable view components
 gem "view_component", "~> 4.15"
