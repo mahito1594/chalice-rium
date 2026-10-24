@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
-SimpleCov.start "rails" do
+# Configuration only. Coverage tracking is started in config/boot.rb.
+SimpleCov.configure do
+  load_profile "rails"
+
   # Enable coverage tracking for parallel test workers
-  enable_for_subprocesses true
+  merge_subprocesses true
 
   # Enable branch coverage (Ruby 2.5+)
   enable_coverage :branch
@@ -14,14 +17,14 @@ SimpleCov.start "rails" do
   minimum_coverage line: 80, branch: 75
 
   # Exclude non-application code from coverage
-  add_filter "/test/"
-  add_filter "/config/"
-  add_filter "/db/"
-  add_filter "/vendor/"
+  skip "/test/"
+  skip "/config/"
+  skip "/db/"
+  skip "/vendor/"
 
   # Exclude files with no meaningful logic to test
-  add_filter "app/controllers/static_pages_controller.rb"
+  skip "app/controllers/static_pages_controller.rb"
 
   # Custom groups for ViewComponents
-  add_group "ViewComponents", "app/components"
+  group "ViewComponents", "app/components"
 end
