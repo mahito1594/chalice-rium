@@ -5,4 +5,7 @@ require "bootsnap/setup" # Speed up boot time by caching expensive operations.
 
 # Load SimpleCov early for accurate coverage measurement (Rails 7.1+ compatibility)
 # See: https://github.com/simplecov-ruby/simplecov/issues/1082
-require "simplecov" if ENV["RAILS_ENV"] == "test" && (ENV["COVERAGE"] || ENV["CI"])
+if ENV["RAILS_ENV"] == "test" && (ENV["COVERAGE"] || ENV["CI"])
+  require "simplecov" # Loads configuration from .simplecov
+  SimpleCov.start
+end
