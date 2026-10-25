@@ -82,6 +82,43 @@ module Form
       end
     end
 
+    test "includes hidden field so that unchecking all can be submitted" do
+      with_controller_class(DungeonsController) do
+        render_inline(CollectionCheckboxesComponent.new(
+          form: form_for(@dungeon), attribute: :rite_ids, collection: @rites,
+          value_method: :id, text_method: :translated_name,
+          label: "Rites"
+        ))
+
+        assert_selector "input[type='hidden'][name='dungeon[rite_ids][]'][value='']", visible: :hidden
+        assert_no_selector "input[type='checkbox'][checked]"
+      end
+    end
+
+    test "excludes hidden field when disabled" do
+      with_controller_class(DungeonsController) do
+        render_inline(CollectionCheckboxesComponent.new(
+          form: form_for(@dungeon), attribute: :rite_ids, collection: @rites,
+          value_method: :id, text_method: :translated_name,
+          label: "Rites", disabled: true
+        ))
+
+        assert_no_selector "input[type='hidden']", visible: :hidden
+      end
+    end
+
+    test "renders translated rite names as labels" do
+      with_controller_class(DungeonsController) do
+        render_inline(CollectionCheckboxesComponent.new(
+          form: form_for(@dungeon), attribute: :rite_ids, collection: @rites,
+          value_method: :id, text_method: :translated_name,
+          label: "Rites"
+        ))
+
+        @rites.each { |rite| assert_selector "label", text: rite.translated_name }
+      end
+    end
+
     private
 
     def form_for(object)

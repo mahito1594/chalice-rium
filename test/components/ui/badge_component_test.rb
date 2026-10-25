@@ -35,19 +35,18 @@ module Ui
       assert_selector "span[data-controller='badge']"
     end
 
-    test "includes base styling classes" do
-      render_inline(BadgeComponent.new) { "Base" }
 
-      assert_selector "span.px-3"
-      assert_selector "span.py-1"
-      assert_selector "span.text-sm"
+    test "appends custom class" do
+      render_inline(BadgeComponent.new(class: "ml-2")) { "Custom" }
+
+      assert_selector "span.rounded-full.bg-slate-100.ml-2"
     end
 
-    test "includes dark mode classes for default variant" do
-      render_inline(BadgeComponent.new) { "Dark" }
+    test "renders without variant classes for unknown variant" do
+      render_inline(BadgeComponent.new(variant: :unknown)) { "Unknown" }
 
-      assert_includes rendered_content, "dark:bg-slate-700"
-      assert_includes rendered_content, "dark:text-slate-200"
+      assert_selector "span.rounded-full", text: "Unknown"
+      assert_no_selector "span.bg-slate-100"
     end
   end
 end

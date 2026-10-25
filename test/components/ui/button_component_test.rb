@@ -62,12 +62,36 @@ module Ui
       assert_selector "button.text-base"
     end
 
-    test "includes base styling classes" do
-      render_inline(ButtonComponent.new) { "Base" }
 
-      assert_selector "button.font-medium"
-      assert_selector "button.rounded-lg"
-      assert_selector "button.transition-colors"
+    test "renders medium size by default" do
+      render_inline(ButtonComponent.new) { "Medium" }
+
+      assert_selector "button.text-sm.px-6"
+    end
+
+    test "renders disabled button" do
+      render_inline(ButtonComponent.new(disabled: true)) { "Disabled" }
+
+      assert_selector "button[disabled].cursor-not-allowed.opacity-60"
+    end
+
+    test "does not render disabled attribute by default" do
+      render_inline(ButtonComponent.new) { "Enabled" }
+
+      assert_no_selector "button[disabled]"
+    end
+
+    test "renders full width link as block element" do
+      render_inline(ButtonComponent.new(href: "/path", full_width: true)) { "Link" }
+
+      assert_selector "a.w-full.block.text-center[href='/path']"
+    end
+
+    test "applies variant and custom HTML options to link" do
+      render_inline(ButtonComponent.new(href: "/path", variant: :danger, class: "ml-2",
+                                        data: { turbo_method: :delete })) { "Delete" }
+
+      assert_selector "a.bg-red-600.ml-2[data-turbo-method='delete']"
     end
   end
 end

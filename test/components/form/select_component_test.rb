@@ -48,17 +48,6 @@ module Form
       assert_selector "option[value='']", text: "All"
     end
 
-    test "includes proper styling classes" do
-      render_inline(SelectComponent.new(
-        name: "filter[area]",
-        options: [ [ "Pthumeru", "pthumeru" ] ]
-      ))
-
-      assert_includes rendered_content, "rounded-lg"
-      assert_includes rendered_content, "dark:bg-slate-800"
-      assert_includes rendered_content, "border-slate-300"
-    end
-
     test "applies wrapper_class" do
       render_inline(SelectComponent.new(
         name: "filter[area]",
@@ -78,6 +67,39 @@ module Form
       ))
 
       assert_selector "select#my-select[data-controller='custom']"
+    end
+
+    test "derives label id from name" do
+      render_inline(SelectComponent.new(
+        name: "filter[area]",
+        options: [ [ "Pthumeru", "pthumeru" ] ],
+        label: "Area"
+      ))
+
+      assert_selector "label[for='filter_area']"
+      assert_selector "select#filter_area"
+    end
+
+    test "prefers html id over label_id" do
+      render_inline(SelectComponent.new(
+        name: "filter[area]",
+        options: [ [ "Pthumeru", "pthumeru" ] ],
+        label: "Area",
+        label_id: :filter_area,
+        id: "custom-id"
+      ))
+
+      assert_selector "label[for='custom-id']"
+      assert_selector "select#custom-id"
+    end
+
+    test "does not include blank option by default" do
+      render_inline(SelectComponent.new(
+        name: "filter[area]",
+        options: [ [ "Pthumeru", "pthumeru" ] ]
+      ))
+
+      assert_no_selector "option[value='']"
     end
   end
 end

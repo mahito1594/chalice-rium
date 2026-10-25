@@ -64,16 +64,6 @@ module Form
       end
     end
 
-    test "includes proper styling classes" do
-      with_controller_class(DungeonsController) do
-        render_inline(CheckboxComponent.new(form: form_for(@dungeon), attribute: :is_open))
-
-        assert_includes rendered_content, "size-4"
-        assert_includes rendered_content, "rounded-sm"
-        assert_includes rendered_content, "dark:bg-slate-800"
-      end
-    end
-
     test "applies custom class to checkbox" do
       with_controller_class(DungeonsController) do
         render_inline(CheckboxComponent.new(
@@ -97,6 +87,15 @@ module Form
         # When checked is nil, the checked attribute should not be explicitly set
         assert_selector "input[type='checkbox']"
         assert_no_selector "input[checked]"
+      end
+    end
+
+    test "renders unchecked by default" do
+      with_controller_class(DungeonsController) do
+        render_inline(CheckboxComponent.new(form: form_for(@dungeon), attribute: :is_open))
+
+        assert_no_selector "input[checked]"
+        assert_no_selector "input[disabled]"
       end
     end
 

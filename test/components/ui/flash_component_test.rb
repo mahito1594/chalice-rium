@@ -60,10 +60,11 @@ module Ui
       assert_selector "div.bg-blue-500"
     end
 
-    def test_renders_base_classes
-      render_inline(FlashComponent.new(type: :notice, message: "Test"))
 
-      assert_selector "div.w-full.text-white"
+    def test_accepts_string_type
+      render_inline(FlashComponent.new(type: "alert", message: "Error!"))
+
+      assert_selector "div.bg-red-500"
     end
   end
 end

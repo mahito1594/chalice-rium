@@ -1,14 +1,20 @@
 require "test_helper"
 
 class DeviseMailerTest < ActionMailer::TestCase
+  # unlock_instructions is not tested because :lockable is not enabled (no unlock route)
+
+  test "devise sends mails via DeviseMailer" do
+    assert_equal DeviseMailer, Devise.mailer
+  end
+
   test "all devise mails are sent from the authorized domain" do
     user = users(:willem)
 
     [
-      Devise::Mailer.confirmation_instructions(user, "token"),
-      Devise::Mailer.reset_password_instructions(user, "token"),
-      Devise::Mailer.password_change(user),
-      Devise::Mailer.email_changed(user)
+      DeviseMailer.confirmation_instructions(user, "token"),
+      DeviseMailer.reset_password_instructions(user, "token"),
+      DeviseMailer.password_change(user),
+      DeviseMailer.email_changed(user)
     ].each do |mail|
       assert_equal [ "noreply@byrgenwerth.college" ], mail.from,
         "#{mail.subject.inspect} must be sent from the Resend-authorized domain"
@@ -18,7 +24,7 @@ class DeviseMailerTest < ActionMailer::TestCase
   test "confirmation instructions renders styled html email" do
     user = users(:willem)
 
-    mail = Devise::Mailer.confirmation_instructions(user, "confirmation-token")
+    mail = DeviseMailer.confirmation_instructions(user, "confirmation-token")
     body = html_body(mail)
 
     assert_equal [ user.email ], mail.to
@@ -34,7 +40,7 @@ class DeviseMailerTest < ActionMailer::TestCase
   test "reset password instructions renders styled call to action" do
     user = users(:willem)
 
-    mail = Devise::Mailer.reset_password_instructions(user, "reset-token")
+    mail = DeviseMailer.reset_password_instructions(user, "reset-token")
     body = html_body(mail)
 
     assert_includes body, "Hello #{user.username}!"
@@ -46,7 +52,7 @@ class DeviseMailerTest < ActionMailer::TestCase
   test "password change renders styled notification email" do
     user = users(:willem)
 
-    mail = Devise::Mailer.password_change(user)
+    mail = DeviseMailer.password_change(user)
     body = html_body(mail)
 
     assert_includes body, "<div class=\"email-shell\">"
@@ -59,7 +65,7 @@ class DeviseMailerTest < ActionMailer::TestCase
     user = users(:willem)
     user.unconfirmed_email = "updated@example.com"
 
-    mail = Devise::Mailer.email_changed(user)
+    mail = DeviseMailer.email_changed(user)
     body = html_body(mail)
 
     assert_includes body, "メールアドレスの変更がリクエストされました。"
