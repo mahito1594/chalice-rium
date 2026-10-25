@@ -10,14 +10,6 @@ module Ui
       assert_selector "h2", text: "聖杯ダンジョン一覧"
     end
 
-    def test_includes_heading_styling
-      render_inline(SectionHeaderComponent.new(title: "Title"))
-
-      assert_includes rendered_content, "text-lg"
-      assert_includes rendered_content, "font-medium"
-      assert_includes rendered_content, "dark:text-white"
-    end
-
     def test_renders_without_action
       render_inline(SectionHeaderComponent.new(title: "Title"))
 

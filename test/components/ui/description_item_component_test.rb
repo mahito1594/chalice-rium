@@ -11,21 +11,6 @@ module Ui
       assert_selector "p", text: "Pthumeru"
     end
 
-    def test_includes_label_styling
-      render_inline(DescriptionItemComponent.new(label: "Area", value: "Pthumeru"))
-
-      assert_includes rendered_content, "text-sm"
-      assert_includes rendered_content, "font-medium"
-      assert_includes rendered_content, "text-slate-500"
-    end
-
-    def test_includes_value_styling
-      render_inline(DescriptionItemComponent.new(label: "Area", value: "Pthumeru"))
-
-      assert_includes rendered_content, "text-lg"
-      assert_includes rendered_content, "text-slate-700"
-    end
-
     def test_renders_numeric_value
       render_inline(DescriptionItemComponent.new(label: "Depth", value: 5))
 

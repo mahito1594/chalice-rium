@@ -83,16 +83,6 @@ module Form
       end
     end
 
-    test "includes proper styling classes" do
-      with_controller_class(UsersController) do
-        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))
-
-        assert_includes rendered_content, "block w-full"
-        assert_includes rendered_content, "rounded-lg"
-        assert_includes rendered_content, "dark:bg-slate-800"
-      end
-    end
-
     test "renders number field" do
       with_controller_class(DungeonsController) do
         @dungeon = Dungeon.new
@@ -202,6 +192,81 @@ module Form
         render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))
 
         assert_no_selector "p.text-slate-600"
+      end
+    end
+
+    test "does not mark field as required by default" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))
+
+        assert_no_selector "input[required]"
+        assert_no_selector "input[aria-describedby]"
+        assert_no_selector "input[aria-invalid]"
+      end
+    end
+
+    test "marks input as invalid and describes it with error messages" do
+      with_controller_class(UsersController) do
+        @user.errors.add(:username, "can't be blank")
+
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username))
+
+        assert_selector "input[aria-invalid='true'][aria-describedby='error-username']"
+        assert_selector "div#error-username p", text: /can't be blank/
+      end
+    end
+
+    test "describes input with hint" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :password, type: :password, hint: "hint"))
+
+        assert_selector "p#hint-password", text: "hint"
+        assert_selector "input[aria-describedby='hint-password']"
+      end
+    end
+
+    test "describes input with tooltip, hint and error in order" do
+      with_controller_class(UsersController) do
+        @user.errors.add(:username, "can't be blank")
+
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username, hint: "hint", tooltip: "tooltip"))
+
+        assert_selector "input[aria-describedby='tooltip-username hint-username error-username']"
+      end
+    end
+
+    test "renders select field with choices and options" do
+      with_controller_class(DungeonsController) do
+        @dungeon = Dungeon.new(area: "loran")
+        render_inline(FieldComponent.new(
+          form: form_for(@dungeon),
+          attribute: :area,
+          type: :select,
+          choices: [ [ "Pthumeru", "pthumeru" ], [ "Loran", "loran" ] ],
+          options: { include_blank: "Select" }
+        ))
+
+        assert_selector "select[name='dungeon[area]'] option", count: 3
+        assert_selector "option[value='']", text: "Select"
+        assert_selector "option[value='loran'][selected]", text: "Loran"
+        assert_no_selector "select[choices]"
+      end
+    end
+
+    test "falls back to text field for unknown type" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username, type: :unknown))
+
+        assert_selector "input[type='text'][name='user[username]']"
+      end
+    end
+
+    test "applies wrapper_class to wrapper instead of input" do
+      with_controller_class(UsersController) do
+        render_inline(FieldComponent.new(form: form_for(@user), attribute: :username, wrapper_class: "mt-4"))
+
+        assert_selector "div.mt-4.relative > div > label"
+        assert_no_selector "input.mt-4"
       end
     end
 

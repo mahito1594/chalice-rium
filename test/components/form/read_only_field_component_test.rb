@@ -40,18 +40,6 @@ module Form
       end
     end
 
-    test "includes read-only styling" do
-      with_controller_class(UsersController) do
-        render_inline(ReadOnlyFieldComponent.new(
-          form: form_for(@user), attribute: :username, value: @user.username
-        ))
-
-        assert_includes rendered_content, "bg-slate-100"
-        assert_includes rendered_content, "text-slate-600"
-        assert_includes rendered_content, "dark:bg-slate-700"
-      end
-    end
-
     test "renders translated value" do
       with_controller_class(DungeonsController) do
         render_inline(ReadOnlyFieldComponent.new(

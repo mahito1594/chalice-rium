@@ -65,8 +65,54 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
       user: { username: "@emailxuser", display_name: "Email User" }
     }
 
-    assert_equal "xwithmail@example.com",
-                 User.last.unconfirmed_email.presence || User.last.email
+    # skip_confirmation! is applied, so the email is stored as confirmed
+    user = User.find_by!(username: "@emailxuser")
+    assert_equal "xwithmail@example.com", user.email
+    assert user.confirmed?
+  end
+
+  test "username setup form is prefilled with display_name from X" do
+    post user_twitter2_omniauth_authorize_path
+    follow_redirect!
+    follow_redirect!
+
+    assert_response :success
+    assert_select "input[name='user[display_name]'][value=?]", "New X User"
+    assert_select "input[name='user[username]']"
+  end
+
+  test "omniauth session is cleared after completing signup" do
+    post user_twitter2_omniauth_authorize_path
+    follow_redirect!
+    post omniauth_setup_path, params: {
+      user: { username: "@newxuser", display_name: "New X User" }
+    }
+    sign_out :user
+
+    get new_omniauth_setup_path
+    assert_redirected_to new_user_registration_path
+  end
+
+  test "signed-in user is redirected to root from username setup" do
+    post user_twitter2_omniauth_authorize_path
+    follow_redirect!
+    sign_in users(:willem)
+
+    get new_omniauth_setup_path
+    assert_redirected_to root_path
+  end
+
+  test "username setup rejects username already taken" do
+    post user_twitter2_omniauth_authorize_path
+    follow_redirect!
+
+    assert_no_difference "User.count" do
+      post omniauth_setup_path, params: {
+        user: { username: users(:willem).username, display_name: "New X User" }
+      }
+    end
+
+    assert_response :unprocessable_content
   end
 
   test "username setup form shows validation errors for invalid input" do
@@ -84,6 +130,9 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
 
   test "accessing username setup without session redirects to registration" do
     get new_omniauth_setup_path
+    assert_redirected_to new_user_registration_path
+
+    post omniauth_setup_path, params: { user: { username: "@newxuser", display_name: "New X User" } }
     assert_redirected_to new_user_registration_path
   end
 
@@ -118,6 +167,8 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to new_user_session_path
+    assert_match "すでに別のアカウントに登録されています", flash[:alert].to_s
+    assert_nil users(:willem).reload.provider
   end
 
   # ==> UC2: 既存ユーザーへの X 連携
@@ -150,6 +201,8 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
     post user_twitter2_omniauth_authorize_path
     follow_redirect!
 
+    assert_redirected_to edit_user_path(users(:willem))
+    assert_equal "X アカウントを連携しました。", flash[:notice]
     users(:willem).reload
     assert_equal "twitter2", users(:willem).provider
     assert_equal "uid_new_link_111", users(:willem).uid
@@ -170,6 +223,7 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
     users(:willem).reload
     assert_nil users(:willem).provider
     assert_redirected_to edit_user_path(users(:willem))
+    assert_match "すでに別のアカウントに連携されています", flash[:notice].to_s
   end
 
   # ==> UC3: X-only ユーザーが email/password を設定する
@@ -186,9 +240,25 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
       }
     }
 
+    # reconfirmable is enabled, so the email waits for confirmation in unconfirmed_email
     users(:x_only_user).reload
-    assert_equal "xonly_new@example.com",
-                 users(:x_only_user).unconfirmed_email.presence || users(:x_only_user).email
+    assert_nil users(:x_only_user).email
+    assert_equal "xonly_new@example.com", users(:x_only_user).unconfirmed_email
+  end
+
+  test "x-only user cannot set password with mismatched confirmation" do
+    sign_in users(:x_only_user)
+
+    patch user_registration_path, params: {
+      user: {
+        email: "xonly_new@example.com",
+        password: "newpassword123",
+        password_confirmation: "different"
+      }
+    }
+
+    assert_response :unprocessable_content
+    assert users(:x_only_user).reload.x_only?
   end
 
   test "x-only user is no longer x_only after setting password" do
@@ -217,7 +287,22 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_equal "willem@example.com", users(:willem).reload.email
+    assert_response :unprocessable_content
+    assert_nil users(:willem).reload.unconfirmed_email
+  end
+
+  test "regular user can update account with current_password" do
+    sign_in users(:willem)
+
+    patch user_registration_path, params: {
+      user: {
+        email: "new_willem@example.com",
+        current_password: "password"
+      }
+    }
+
+    assert_redirected_to root_path
+    assert_equal "new_willem@example.com", users(:willem).reload.unconfirmed_email
   end
 
   # ==> UC4: X 連携解除
@@ -230,6 +315,18 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to edit_user_path(users(:x_linked_user))
+    assert_equal "X 連携を解除しました。", flash[:notice]
+    assert_nil users(:x_linked_user).uid
+  end
+
+  test "user without X link can still request unlink (no-op)" do
+    # can_unlink_x? only checks fallback credentials, so this succeeds with the same notice
+    sign_in users(:willem)
+
+    delete settings_x_connection_path
+
+    assert_redirected_to edit_user_path(users(:willem))
+    assert_equal "X 連携を解除しました。", flash[:notice]
   end
 
   test "X-only user cannot unlink X (no fallback login method)" do
@@ -240,6 +337,7 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to edit_user_path(users(:x_only_user))
+    assert_match "メールアドレスとパスワードの両方", flash[:alert].to_s
   end
 
   test "unauthenticated user cannot delete X connection" do
@@ -256,5 +354,6 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     assert_redirected_to new_user_session_path
+    assert_equal "X 認証に失敗しました。もう一度お試しください。", flash[:alert]
   end
 end

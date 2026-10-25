@@ -39,14 +39,15 @@ module Form
       end
     end
 
-    test "includes proper input styling" do
-      layer = Layer.new(level: 1, dungeon: @dungeon)
+    test "renders existing boss_name as value" do
+      layer = Layer.new(level: 4, boss_name: "Ebrietas", dungeon: @dungeon)
 
       with_controller_class(DungeonsController) do
         render_inline(LayerFieldComponent.new(form: layer_form_for(layer)))
 
-        assert_includes rendered_content, "rounded-lg"
-        assert_includes rendered_content, "dark:bg-slate-800"
+        assert_selector "label", text: I18n.t("label.dungeon.attributes.boss_name", level: 4)
+        assert_selector "input[name='dungeon[layers_attributes][0][boss_name]'][value='Ebrietas']"
+        assert_selector "input[name='dungeon[layers_attributes][0][level]'][value='4']", visible: :hidden
       end
     end
 

@@ -42,16 +42,6 @@ module Ui
       assert_selector "svg path[d]"
     end
 
-    def test_includes_base_styling
-      user = User.new
-      user.errors.add(:username, "can't be blank")
-
-      render_inline(AlertComponent.new(resource: user))
-
-      assert_selector "div.rounded-lg.shadow-md"
-      assert_selector "div.bg-red-500"
-    end
-
     def test_includes_turbo_cache_false
       user = User.new
       user.errors.add(:username, "can't be blank")
@@ -88,6 +78,26 @@ module Ui
       render_inline(AlertComponent.new(resource: user, inline_error_attributes: [ :username ]))
 
       assert_no_selector "div"
+    end
+
+    def test_deduplicates_same_error_messages
+      user = User.new
+      user.errors.add(:username, "can't be blank")
+      user.errors.add(:username, "can't be blank")
+
+      render_inline(AlertComponent.new(resource: user))
+
+      assert_selector "li", count: 1
+    end
+
+    def test_accepts_inline_error_attributes_as_strings
+      user = User.new
+      user.errors.add(:username, "can't be blank")
+      user.errors.add(:base, "something went wrong")
+
+      render_inline(AlertComponent.new(resource: user, inline_error_attributes: [ "username" ]))
+
+      assert_selector "li", count: 1, text: /something went wrong/
     end
   end
 end

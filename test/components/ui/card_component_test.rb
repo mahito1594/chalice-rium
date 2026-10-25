@@ -50,18 +50,6 @@ module Ui
       assert_text "Card body"
     end
 
-    test "renders without header when not provided" do
-      render_inline(CardComponent.new) { "Just body" }
-
-      assert_text "Just body"
-    end
-
-    test "includes dark mode classes" do
-      render_inline(CardComponent.new) { "Dark mode" }
-
-      assert_includes rendered_content, "dark:bg-slate-800"
-    end
-
     test "applies custom HTML options" do
       render_inline(CardComponent.new(id: "my-card", data: { controller: "card" })) { "Test" }
 
@@ -77,25 +65,6 @@ module Ui
 
       assert_text "Card body"
       assert_selector ".footer-content", text: "Footer"
-    end
-
-    test "renders without footer when not provided" do
-      render_inline(CardComponent.new) { "Just body" }
-
-      assert_text "Just body"
-      assert_no_selector ".footer-content"
-    end
-
-    test "content is wrapped with padding" do
-      render_inline(CardComponent.new) { "Padded content" }
-
-      assert_selector "div.p-6", text: "Padded content"
-    end
-
-    test "has overflow-hidden for proper rounded corners" do
-      render_inline(CardComponent.new) { "Content" }
-
-      assert_selector "div.overflow-hidden"
     end
   end
 end

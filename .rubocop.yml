@@ -51,6 +51,9 @@ Metrics/MethodLength:
 Metrics/ClassLength:
   Enabled: true
   Max: 200
+  Exclude:
+    # Test classes grow with decision-table cases; keep them in one class per subject
+    - "test/**/*"
 
 Naming/PredicatePrefix:
   Enabled: true
