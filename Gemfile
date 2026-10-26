@@ -53,7 +53,7 @@ gem "resend", "~> 1.18.0"
 gem "kaminari", "~> 1.3"
 
 # Use ViewComponent for building reusable view components
-gem "view_component", "~> 4.16"
+gem "view_component", "~> 4.19"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
