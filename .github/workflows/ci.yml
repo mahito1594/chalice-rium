@@ -6,6 +6,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  BUNDLE_PATH: vendor/bundle
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -21,10 +24,19 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          install_args: ruby
+
+      - name: Cache gems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: vendor/bundle
+          key: bundle-${{ runner.os }}-${{ hashFiles('.ruby-version', 'Gemfile.lock') }}
+          restore-keys: bundle-${{ runner.os }}-
+
+      - name: Install gems
+        run: bundle install --jobs 4
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
@@ -39,10 +51,19 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          install_args: ruby
+
+      - name: Cache gems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: vendor/bundle
+          key: bundle-${{ runner.os }}-${{ hashFiles('.ruby-version', 'Gemfile.lock') }}
+          restore-keys: bundle-${{ runner.os }}-
+
+      - name: Install gems
+        run: bundle install --jobs 4
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
@@ -57,10 +78,19 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          install_args: ruby
+
+      - name: Cache gems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: vendor/bundle
+          key: bundle-${{ runner.os }}-${{ hashFiles('.ruby-version', 'Gemfile.lock') }}
+          restore-keys: bundle-${{ runner.os }}-
+
+      - name: Install gems
+        run: bundle install --jobs 4
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -81,10 +111,19 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          install_args: ruby
+
+      - name: Cache gems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: vendor/bundle
+          key: bundle-${{ runner.os }}-${{ hashFiles('.ruby-version', 'Gemfile.lock') }}
+          restore-keys: bundle-${{ runner.os }}-
+
+      - name: Install gems
+        run: bundle install --jobs 4
 
       - name: Run tests
         env:
