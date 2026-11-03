@@ -26,7 +26,7 @@ class Dungeon < ApplicationRecord
     loran: 1,
     isz: 2,
     hintertomb: 3
-  }
+  }, validate: { allow_nil: true }
 
   # Filter scopes
   scope :with_area, ->(area) {

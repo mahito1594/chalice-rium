@@ -23,8 +23,7 @@
       type: :select,
       required: true,
       wrapper_class: "mt-4",
-      choices: Dungeon.areas.keys.map { |area| [t("enums.dungeon.area.#{area}"), area] },
-      options: { selected: "pthumeru" }
+      choices: Dungeon.areas.keys.map { |area| [t("enums.dungeon.area.#{area}"), area] }
     ) %>
 
     <%= render Form::FieldComponent.new(
@@ -33,15 +32,14 @@
       type: :select,
       required: true,
       wrapper_class: "mt-4",
-      choices: (1..5).to_a.reverse,
-      options: { selected: 5 }
+      choices: (1..5).to_a.reverse
     ) %>
 
     <%= render Form::CollectionCheckboxesComponent.new(
       form: f, attribute: :rite_ids, collection: @rites,
       value_method: :id, text_method: :translated_name,
       label: t("label.dungeon.attributes.additional_rites"),
-      checked: @rites.filter { |x| x.name != "sinister" }.map(&:id),
+      checked: @dungeon.rites.map(&:id),
       wrapper_class: "mt-4"
     ) %>
 
@@ -52,7 +50,7 @@
     <%= render Form::CheckboxComponent.new(
       form: f,
       attribute: :is_open,
-      checked: true,
+      checked: nil,
       wrapper_class: "mt-4"
     ) %>
 

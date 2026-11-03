@@ -55,6 +55,15 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", dungeon_path(dungeons("2r8ghidm"))
   end
 
+  test "should ignore filter param that is not a hash" do
+    [ "x", [ "x" ], [ { area: "x" } ] ].each do |filter|
+      get root_path, params: { filter: filter }
+      assert_response :success
+      assert_select "a[href=?]", dungeon_path(@dungeon)
+      assert_select "a[href=?]", dungeon_path(dungeons("2r8ghidm"))
+    end
+  end
+
   test "should paginate index by 25 in descending order of created_at" do
     25.times do |i|
       @user.dungeons.create!(glyph: format("page%04d", i), depth: 1, area: "pthumeru",
@@ -110,6 +119,12 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "input[name^='dungeon[layers_attributes]'][name$='[boss_name]']", count: 4
     assert_select "input[type=checkbox][name='dungeon[rite_ids][]']", count: Rite.count
+    # defaults: every rite except sinister, Pthumeru, depth 5, open
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][checked]", count: Rite.count - 1
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][value=?][checked]", rites(:sinister).id.to_s, count: 0
+    assert_select "select[name='dungeon[area]'] option[selected][value=?]", "pthumeru"
+    assert_select "select[name='dungeon[depth]'] option[selected][value=?]", "5"
+    assert_select "input[type=checkbox][name='dungeon[is_open]'][checked]"
   end
 
   # ==> create
@@ -186,6 +201,39 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
       post dungeons_path, params: { dungeon: { glyph: nil } }
     end
     assert_response :unprocessable_content
+  end
+
+  test "should not create dungeon with unknown area" do
+    sign_in @user
+
+    assert_no_difference "Dungeon.count" do
+      post dungeons_path, params: { dungeon: { glyph: "newglyph", depth: 3, area: "bogus" } }
+    end
+    assert_response :unprocessable_content
+    assert_includes response.body, "は一覧にありません"
+  end
+
+  test "should answer 400 when dungeon param is not a hash" do
+    sign_in @user
+
+    assert_no_difference "Dungeon.count" do
+      post dungeons_path, params: { dungeon: "x" }
+    end
+    assert_response :bad_request
+  end
+
+  test "should restore submitted values on the form after a failed create" do
+    sign_in @user
+
+    post dungeons_path, params: { dungeon: { glyph: "newglyph", depth: 3, area: "loran", is_open: "0",
+                                             comment: "a" * 256,
+                                             rite_ids: [ "", rites(:cursed).id.to_s ] } }
+    assert_response :unprocessable_content
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][checked]", count: 1
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][value=?][checked]", rites(:cursed).id.to_s
+    assert_select "select[name='dungeon[area]'] option[selected][value=?]", "loran"
+    assert_select "select[name='dungeon[depth]'] option[selected][value=?]", "3"
+    assert_select "input[type=checkbox][name='dungeon[is_open]'][checked]", count: 0
   end
 
   test "should not create dungeon with sinister and other rites" do
