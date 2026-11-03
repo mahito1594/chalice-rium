@@ -197,6 +197,16 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_content
   end
 
+  test "should not create dungeon with unknown area" do
+    sign_in @user
+
+    assert_no_difference "Dungeon.count" do
+      post dungeons_path, params: { dungeon: { glyph: "newglyph", depth: 3, area: "bogus" } }
+    end
+    assert_response :unprocessable_content
+    assert_includes response.body, "は一覧にありません"
+  end
+
   test "should not create dungeon with sinister and other rites" do
     sign_in @user
 
