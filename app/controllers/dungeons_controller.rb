@@ -23,7 +23,11 @@ class DungeonsController < ApplicationController
   end
 
   def new
-    @dungeon = current_user.dungeons.build.prepare_for_form
+    # Form defaults live here (not in the view) so that a re-rendered form after
+    # a failed create shows what the user submitted instead of these defaults.
+    @dungeon = current_user.dungeons.build(area: :pthumeru, depth: 5, is_open: true)
+    @dungeon.rites = Rite.where.not(name: :sinister)
+    @dungeon.prepare_for_form
   end
 
   def create

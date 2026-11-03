@@ -119,6 +119,12 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "input[name^='dungeon[layers_attributes]'][name$='[boss_name]']", count: 4
     assert_select "input[type=checkbox][name='dungeon[rite_ids][]']", count: Rite.count
+    # defaults: every rite except sinister, Pthumeru, depth 5, open
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][checked]", count: Rite.count - 1
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][value=?][checked]", rites(:sinister).id.to_s, count: 0
+    assert_select "select[name='dungeon[area]'] option[selected][value=?]", "pthumeru"
+    assert_select "select[name='dungeon[depth]'] option[selected][value=?]", "5"
+    assert_select "input[type=checkbox][name='dungeon[is_open]'][checked]"
   end
 
   # ==> create
@@ -205,6 +211,20 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_content
     assert_includes response.body, "は一覧にありません"
+  end
+
+  test "should restore submitted values on the form after a failed create" do
+    sign_in @user
+
+    post dungeons_path, params: { dungeon: { glyph: "newglyph", depth: 3, area: "loran", is_open: "0",
+                                             comment: "a" * 256,
+                                             rite_ids: [ "", rites(:cursed).id.to_s ] } }
+    assert_response :unprocessable_content
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][checked]", count: 1
+    assert_select "input[type=checkbox][name='dungeon[rite_ids][]'][value=?][checked]", rites(:cursed).id.to_s
+    assert_select "select[name='dungeon[area]'] option[selected][value=?]", "loran"
+    assert_select "select[name='dungeon[depth]'] option[selected][value=?]", "3"
+    assert_select "input[type=checkbox][name='dungeon[is_open]'][checked]", count: 0
   end
 
   test "should not create dungeon with sinister and other rites" do
