@@ -4,10 +4,11 @@ class DungeonsController < ApplicationController
   before_action :set_rites, only: %i[new create edit update index]
 
   def index
+    @filter = filter_params
     @dungeons = Dungeon.all
-                       .with_area(filter_params[:area])
-                       .with_depth(filter_params[:depth])
-                       .with_all_rites(filter_params[:rite_ids])
+                       .with_area(@filter[:area])
+                       .with_depth(@filter[:depth])
+                       .with_all_rites(@filter[:rite_ids])
                        .preload(:rites)
                        .order(created_at: :desc)
                        .page(params[:page])
@@ -66,7 +67,11 @@ class DungeonsController < ApplicationController
   end
 
   def filter_params
-    params.fetch(:filter, {}).permit(:area, :depth, rite_ids: [])
+    # `filter` may arrive as a string or an array (e.g. `/?filter=x`, `/?filter[]=x`); treat it as no filter.
+    filter = params[:filter]
+    return {} unless filter.is_a?(ActionController::Parameters)
+
+    filter.permit(:area, :depth, rite_ids: [])
   end
 
   def dungeon_params

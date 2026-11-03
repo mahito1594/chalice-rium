@@ -25,7 +25,7 @@
         <%= render Form::SelectComponent.new(
           name: "filter[area]",
           options: @area_options,
-          selected: params.dig(:filter, :area),
+          selected: @filter[:area],
           label: t("activerecord.attributes.dungeon.area"),
           label_id: :filter_area,
           include_blank: t("label.dungeon.filter_all")
@@ -35,7 +35,7 @@
         <%= render Form::SelectComponent.new(
           name: "filter[depth]",
           options: @depth_options,
-          selected: params.dig(:filter, :depth)&.to_i,
+          selected: @filter[:depth]&.to_i,
           label: t("activerecord.attributes.dungeon.depth"),
           label_id: :filter_depth,
           include_blank: t("label.dungeon.filter_all")
@@ -52,7 +52,7 @@
             <div class="flex items-center">
               <%= check_box_tag "filter[rite_ids][]",
                                 rite.id,
-                                params.dig(:filter, :rite_ids)&.include?(rite.id.to_s),
+                                @filter[:rite_ids]&.include?(rite.id.to_s),
                                 id: "rite_#{rite.id}",
                                 class: "size-4 border border-slate-300 rounded dark:bg-slate-800 dark:border-slate-600 focus:ring-blue-300/40 focus:outline-hidden focus:ring-3 text-blue-600" %>
               <%= label_tag "rite_#{rite.id}", rite.translated_name,

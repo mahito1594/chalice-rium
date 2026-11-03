@@ -55,6 +55,15 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", dungeon_path(dungeons("2r8ghidm"))
   end
 
+  test "should ignore filter param that is not a hash" do
+    [ "x", [ "x" ], [ { area: "x" } ] ].each do |filter|
+      get root_path, params: { filter: filter }
+      assert_response :success
+      assert_select "a[href=?]", dungeon_path(@dungeon)
+      assert_select "a[href=?]", dungeon_path(dungeons("2r8ghidm"))
+    end
+  end
+
   test "should paginate index by 25 in descending order of created_at" do
     25.times do |i|
       @user.dungeons.create!(glyph: format("page%04d", i), depth: 1, area: "pthumeru",
