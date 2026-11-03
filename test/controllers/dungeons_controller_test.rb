@@ -213,6 +213,15 @@ class DungeonsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "は一覧にありません"
   end
 
+  test "should answer 400 when dungeon param is not a hash" do
+    sign_in @user
+
+    assert_no_difference "Dungeon.count" do
+      post dungeons_path, params: { dungeon: "x" }
+    end
+    assert_response :bad_request
+  end
+
   test "should restore submitted values on the form after a failed create" do
     sign_in @user
 

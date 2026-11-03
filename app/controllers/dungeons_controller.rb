@@ -79,17 +79,17 @@ class DungeonsController < ApplicationController
   end
 
   def dungeon_params
-    params.require(:dungeon).permit(:glyph,
-                                    :area,
-                                    :depth,
-                                    :is_open,
-                                    :comment,
-                                    rite_ids: [],
-                                    layers_attributes: [ :level, :boss_name ])
+    params.expect(dungeon: [ :glyph,
+                             :area,
+                             :depth,
+                             :is_open,
+                             :comment,
+                             rite_ids: [],
+                             layers_attributes: [ [ :level, :boss_name ] ] ])
   end
 
   def update_dungeon_params
-    params.require(:dungeon).permit(:comment,
-                                    layers_attributes: [ :level, :boss_name, :id ])
+    params.expect(dungeon: [ :comment,
+                             layers_attributes: [ [ :level, :boss_name, :id ] ] ])
   end
 end
