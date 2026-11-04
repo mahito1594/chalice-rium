@@ -95,6 +95,27 @@ class UserTest < ActiveSupport::TestCase
     assert duplicate_user.errors[:email].any?
   end
 
+  test "should be invalid with a duplicate email in different case" do
+    duplicate_user = @user.dup
+    duplicate_user.username = "@other"
+    duplicate_user.email = @user.email.upcase
+    assert_not duplicate_user.valid?
+    assert duplicate_user.errors[:email].any?
+  end
+
+  test "email should be saved as lower-case with surrounding whitespace stripped" do
+    @user.update!(email: "  Foo@ExAMPle.CoM  ")
+    # reconfirmable is enabled, so the new email waits in unconfirmed_email
+    assert_equal "foo@example.com", @user.reload.unconfirmed_email
+  end
+
+  test "email should be normalized on sign up" do
+    user = User.create!(username: "@newbie", display_name: "Newbie",
+                        email: " NewBie@Example.com ", password: "password",
+                        password_confirmation: "password")
+    assert_equal "newbie@example.com", user.reload.email
+  end
+
   test "should be invalid without email for standard user" do
     @user.email = nil
     assert_not @user.valid?
