@@ -13,18 +13,16 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", user_path(@user)
   end
 
-  # NOTE: username is listed in case_insensitive_keys / strip_whitespace_keys in config/initializers/devise.rb,
-  # but User.find_first_by_auth_conditions overrides Devise's implementation without applying
-  # devise_parameter_filter. So the username must exactly match the stored (downcased) value.
-  # These tests pin the current behavior; flip them if the override is fixed.
-  test "login with username in different case fails" do
+  # username is listed in case_insensitive_keys / strip_whitespace_keys in config/initializers/devise.rb,
+  # so Devise normalizes it before lookup (issue #425).
+  test "login with username in different case succeeds" do
     post user_session_path, params: { user: { username: "@WILLEM", password: "password" } }
-    assert_response :unprocessable_content
+    assert_redirected_to root_path
   end
 
-  test "login with username with surrounding whitespace fails" do
+  test "login with username with surrounding whitespace succeeds" do
     post user_session_path, params: { user: { username: " @willem ", password: "password" } }
-    assert_response :unprocessable_content
+    assert_redirected_to root_path
   end
 
   test "login with wrong password" do
