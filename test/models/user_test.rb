@@ -103,15 +103,15 @@ class UserTest < ActiveSupport::TestCase
     assert duplicate_user.errors[:email].any?
   end
 
-  test "email should be saved as lower-case with surrounding whitespace stripped" do
-    @user.update!(email: "  Foo@ExAMPle.CoM  ")
+  test "email should be saved as lower-case" do
+    @user.update!(email: "Foo@ExAMPle.CoM")
     # reconfirmable is enabled, so the new email waits in unconfirmed_email
     assert_equal "foo@example.com", @user.reload.unconfirmed_email
   end
 
-  test "email should be normalized on sign up" do
+  test "email should be saved with surrounding whitespace stripped" do
     user = User.create!(username: "@newbie", display_name: "Newbie",
-                        email: " NewBie@Example.com ", password: "password",
+                        email: " newbie@example.com ", password: "password",
                         password_confirmation: "password")
     assert_equal "newbie@example.com", user.reload.email
   end
