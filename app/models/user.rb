@@ -14,7 +14,13 @@ class User < ApplicationRecord
             format: { with: /\A[a-zA-Z0-9_]+\z/, message: "は有効な値を入力して下さい" }
   validates :uid, uniqueness: { scope: :provider }, allow_nil: true
 
+  # Also applied to query values, so where/find_by/exists?(email: ...) match regardless of case/whitespace.
+  normalizes :email, with: ->(email) { email.strip.downcase }
+
   before_validation { self.bio = bio&.strip }
+  # The unique index on email allows many NULLs but only one "" (X-only users may have no email).
+  # Not done in normalizes: that would also turn where(email: "") into "email IS NULL" and match X-only users.
+  before_validation { self.email = email.presence }
   before_save :downcase_username
 
   def to_param

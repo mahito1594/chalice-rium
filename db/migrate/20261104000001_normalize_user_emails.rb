@@ -15,17 +15,18 @@ class NormalizeUserEmails < ActiveRecord::Migration[8.1]
   def up
     users = MigrationUser.where.not(email: nil).pluck(:id, :email)
     groups = users.group_by { |_id, email| normalize(email) }
-    collisions = groups.select { |_email, rows| rows.size > 1 }
+    # Blank emails become NULL, which the unique index allows any number of times.
+    collisions = groups.select { |email, rows| email && rows.size > 1 }
     if collisions.any?
-      details = collisions.map { |email, rows| "#{email} (user ids: #{rows.map(&:first).join(', ')})" }
+      # User ids only: this message reaches deploy/boot logs, so it must not contain email addresses.
+      details = collisions.values.map { |rows| "user ids: #{rows.map(&:first).join(', ')}" }
       raise "Cannot normalize emails: multiple users share the same email ignoring case/whitespace. " \
             "Resolve these manually and re-run the migration: #{details.join('; ')}"
     end
 
     %i[email unconfirmed_email].each do |column|
       MigrationUser.where.not(column => nil).pluck(:id, column).each do |id, value|
-        normalized = normalize(value)
-        MigrationUser.where(id: id).update_all(column => normalized) if normalized != value
+        MigrationUser.where(id: id).update_all(column => normalize(value))
       end
     end
   end
@@ -36,7 +37,8 @@ class NormalizeUserEmails < ActiveRecord::Migration[8.1]
 
   private
 
+  # Blank becomes NULL: the unique index allows many NULLs but only one "".
   def normalize(value)
-    value.strip.downcase
+    value.strip.downcase.presence
   end
 end

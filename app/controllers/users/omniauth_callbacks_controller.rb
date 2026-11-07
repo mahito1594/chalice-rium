@@ -26,8 +26,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect user, event: :authentication
     else
       # email 衝突チェック（自動マージはアカウント乗っ取りリスクがあるため行わない）
-      # email は Devise の case_insensitive_keys / strip_whitespace_keys で正規化して保存されるため、検索側も揃える
-      if auth.info.email.present? && User.exists?(email: auth.info.email.strip.downcase)
+      # 大文字小文字・前後空白の違いは User の normalizes :email が検索条件側でも吸収する
+      if auth.info.email.present? && User.exists?(email: auth.info.email)
         redirect_to new_user_session_path,
                     alert: "このメールアドレスはすでに別のアカウントに登録されています。" \
                            "そのアカウントでログイン後、プロフィール設定から X 連携を行ってください。"
