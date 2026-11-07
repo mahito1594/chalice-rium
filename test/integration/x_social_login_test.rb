@@ -171,6 +171,23 @@ class XSocialLoginTest < ActionDispatch::IntegrationTest
     assert_nil users(:willem).reload.provider
   end
 
+  test "X login with email matching existing user in different case shows error and does not auto-merge" do
+    OmniAuth.config.mock_auth[:twitter2] = OmniAuth::AuthHash.new(
+      provider: "twitter2",
+      uid: "uid_collision_case_test",
+      info: { name: "Collision User", email: " #{users(:willem).email.upcase} " }
+    )
+
+    assert_no_difference "User.count" do
+      post user_twitter2_omniauth_authorize_path
+      follow_redirect!
+    end
+
+    assert_redirected_to new_user_session_path
+    assert_match "すでに別のアカウントに登録されています", flash[:alert].to_s
+    assert_nil session[:omniauth_auth]
+  end
+
   # ==> UC2: 既存ユーザーへの X 連携
 
   test "re-linking already-connected own X account shows already-linked notice" do

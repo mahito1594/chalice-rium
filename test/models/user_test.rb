@@ -95,6 +95,37 @@ class UserTest < ActiveSupport::TestCase
     assert duplicate_user.errors[:email].any?
   end
 
+  test "should be invalid with a duplicate email in different case" do
+    duplicate_user = @user.dup
+    duplicate_user.username = "@other"
+    duplicate_user.email = @user.email.upcase
+    assert_not duplicate_user.valid?
+    assert duplicate_user.errors[:email].any?
+  end
+
+  test "email should be saved as lower-case" do
+    @user.update!(email: "Foo@ExAMPle.CoM")
+    # reconfirmable is enabled, so the new email waits in unconfirmed_email
+    assert_equal "foo@example.com", @user.reload.unconfirmed_email
+  end
+
+  test "email should be saved with surrounding whitespace stripped" do
+    user = User.create!(username: "@newbie", display_name: "Newbie",
+                        email: " newbie@example.com ", password: "password",
+                        password_confirmation: "password")
+    assert_equal "newbie@example.com", user.reload.email
+  end
+
+  test "find_by email matches regardless of case and surrounding whitespace" do
+    assert_equal @user, User.find_by(email: " #{@user.email.upcase} ")
+  end
+
+  test "blank email is saved as nil" do
+    user = users(:x_only_user)
+    user.update!(email: "  ")
+    assert_nil user.reload.email
+  end
+
   test "should be invalid without email for standard user" do
     @user.email = nil
     assert_not @user.valid?
@@ -167,22 +198,6 @@ class UserTest < ActiveSupport::TestCase
 
     assert_not Dungeon.exists?(own_dungeon_id)
     assert Dungeon.exists?(other_dungeon_id)
-  end
-
-  # ==> Devise authentication helper
-
-  test "should find user by email when username is nil" do
-    result = User.find_first_by_auth_conditions(email: @user.email)
-    assert_equal @user, result
-  end
-
-  test "should find user by username when provided" do
-    result = User.find_first_by_auth_conditions(username: @user.username)
-    assert_equal @user, result
-  end
-
-  test "should return nil when no user matches auth conditions" do
-    assert_nil User.find_first_by_auth_conditions(username: "@nobody")
   end
 
   # ==> X (Twitter) OmniAuth
