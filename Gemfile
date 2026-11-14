@@ -41,7 +41,7 @@ gem "omniauth-rails_csrf_protection", ">= 2.0.1"
 gem "omniauth-twitter2", ">= 1.2"
 
 # Send emails via resend.com
-gem "resend", "~> 1.18.0"
+gem "resend", "~> 1.19.0"
 
 # Use kaminari for pagination
 gem "kaminari", "~> 1.3"
