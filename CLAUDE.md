@@ -1,80 +1,36 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Bloodborne の聖杯ダンジョン用メモアプリ。Rails 8.1 + SQLite3 で、fly.io にデプロイしている。DB はファイルで完結するため、ローカル開発に外部サービスは要らない。
 
-## プロジェクト概要
+## ドメイン用語
 
-Bloodborne の聖杯ダンジョン用メモアプリ（Ruby on Rails 8.1 + SQLite3、fly.io でホスティング）
+- **glyph**: 聖杯ダンジョンを共有する 8 文字の英数字コード。小文字に正規化して保存する
+- **area**: pthumeru / loran / isz / hintertomb。area ごとに取り得る depth（1–5）が決まっている（例: Isz は depth 5 のみ）
+- **Layer**: ダンジョンの階層。1 ダンジョンに 3–4 層あり、各層のボス名を記録する
+- **Rite**: 追加儀法（オプション）。sinister は他の rite と併用できない
+- **username**: `@` から始まる識別子。表示名（display_name）とは別
 
 ## 開発コマンド
 
-### 開発サーバーの起動
-```bash
-bin/dev  # foreman で Rails サーバー + Tailwind CSS watch を同時起動
-```
+- `mise run setup` / `mise run dev`: 初回セットアップ / 開発サーバー（Rails + Tailwind watcher）
+- `bin/rails test [path[:line]]`: テスト。system test は含まれないので、UI を変えたら `bin/rails test:system` も実行する（CI は両方を実行する）
+- `mise run test`: カバレッジ付きの全テスト（`coverage/index.html`）
+- `bin/rubocop` / `bin/brakeman`: CI と同じ lint とセキュリティチェック。コミット前に通す
 
-### テストの実行
-```bash
-bin/rails test                              # 全テスト実行
-bin/rails test test/models/user_test.rb     # 単一ファイル実行
-bin/rails test test/models/user_test.rb:10  # 特定行のテスト実行
-RAILS_ENV=test COVERAGE=1 bin/rails test    # カバレッジ取得（coverage/index.html に出力）
-```
+## バグ修正は TDD で
 
-### バグ修正の方針
-バグ修正の際は TDD の流儀に従うこと：
-1. バグを再現するリグレッションテストを書く
-2. **修正を適用する前に** テストが失敗（red）することを確認
-3. 修正を適用してテストが通る（green）ことを確認
-4. テストと修正を同一コミットに含める
+リグレッションテストが本当にそのバグを捉えていることを確かめるため、次の順で進める。
 
-### Lint とセキュリティチェック
-```bash
-bin/rubocop           # RuboCop（rubocop-rails-omakase スタイル）
-bin/brakeman          # セキュリティ脆弱性チェック
-```
+1. バグを再現するテストを書く
+2. 修正を適用する前に、そのテストが失敗することを確認する
+3. 修正を適用し、テストが通ることを確認する
+4. テストと修正を同じコミットに含める
 
-### データベース
-```bash
-bin/rails db:prepare  # DB作成とマイグレーション
-bin/rails db:seed     # シードデータ投入
-```
+## コミットと PR
 
-### セットアップ
-```bash
-bin/setup             # 依存関係インストール + DB準備 + サーバー起動
-bin/setup --skip-server  # サーバー起動なしでセットアップ
-```
+- Conventional Commits 形式（`feat:` / `fix:` / `chore:` など）。1 コミットには 1 つの変更
+- PR には利用者から見た影響と、ローカルで実行した検証手順を書く。UI の変更にはスクリーンショットを添え、DB・認証・設定の変更は明記する
 
-## アーキテクチャ
+## ハマりどころ
 
-### ドメインモデル
-- **User**: Devise による認証。username（@から始まる識別子）と display_name を持つ
-- **Dungeon**: 聖杯ダンジョン。glyph（8文字のコード）、depth（1-5）、area（pthumeru/loran/isz/hintertomb）
-- **Layer**: ダンジョンの階層（3-4層）。各階層にボス名を記録
-- **Rite**: 追加儀法（オプショナルな修飾子）
-- **DungeonRite**: Dungeon と Rite の多対多中間テーブル
-
-### 主要な関係性
-```
-User has_many Dungeons
-Dungeon has_many Layers (3-4層、レベル順)
-Dungeon has_many Rites through DungeonRites
-```
-
-### バリデーションルール
-- Dungeon の area と depth には組み合わせ制約がある（例: Isz は depth 5 のみ）
-- sinister rite は他の rite と併用不可
-- ユーザー名は `@[a-zA-Z0-9_]+` 形式
-
-### フロントエンド
-- Tailwind CSS 4.x + Hotwire (Turbo/Stimulus)
-- ビューテンプレートは ERB
-- ViewComponent でフォーム・UI要素をコンポーネント化（詳細は `app/components/` を参照）
-
-### 開発環境
-- mise でツールバージョン管理（Ruby は `.ruby-version` を参照）
-- DB は SQLite3（`db/development.sqlite3`）。外部サービス不要
-- `mise run setup` でセットアップ、`mise run dev` で開発サーバー起動
-- ポート 3000 が Rails サーバー
-- Devise の `:confirmable` が有効なため、登録後にメール確認が必要。開発環境では http://localhost:3000/letter_opener で確認メールを閲覧できる
+- Devise の `:confirmable` が有効なので、ユーザー登録後にメール確認が要る。開発環境では http://localhost:3000/letter_opener で確認メールを読める
